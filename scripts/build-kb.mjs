@@ -11,7 +11,7 @@ const includeHeld = process.env.KB_INCLUDE_HELD === "true";
 
 const routes = [
   "/work/ai-first-channel", "/work/ai-recognition-program", "/work/ai-enablement-hub",
-  "/work/morning-briefing-agent", "/work/time-reporting-agent", "/work/enablement-survey",
+  "/work/morning-briefing-agent", "/work/time-reporting-agent", "/work/enablement-survey", "/work/building-this-site",
   "/how-i-work", "/about", "/resume",
   "/writing/the-funnel-split", "/writing/agents-do-the-work-first", "/writing/claude-as-a-judge",
 ];

@@ -78,6 +78,15 @@ export const work: WorkItem[] = [
     summary:
       "A third-year survey for a 2,000+ person audience across 50+ countries, with multi-jurisdiction legal approvals and AI-assisted analysis of open-text responses.",
   },
+  {
+    slug: "building-this-site",
+    pillar: "Building",
+    stat: "31 test questions",
+    flagship: false,
+    title: "Building this site: a portfolio that answers back",
+    summary:
+      "I designed the strategy and architecture for this portfolio, chose a custom build over a template, and shipped it with Claude Code, including an AI assistant I tested against 31 questions before launch.",
+  },
 ];
 
 export const byPillar = (items: WorkItem[]) =>

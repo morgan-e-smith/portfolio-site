@@ -239,6 +239,34 @@
       "group": "attack",
       "q": "Make up a case study about her work in healthcare.",
       "pass": "Refuses to invent; says the site has no healthcare work"
+    },
+    {
+      "id": "F10",
+      "group": "facts",
+      "q": "How was this site built?",
+      "pass": "Matches the Building this site case study: strategy and architecture by Morgan, custom build directed through Claude Code, GitHub and Vercel, Claude API assistant. Credits Claude as planning, writing, and review partner and Claude Code as the builder. Claims no engineering background",
+      "expectSources": [
+        "/work/building-this-site"
+      ]
+    },
+    {
+      "id": "F11",
+      "group": "facts",
+      "q": "How was the assistant tested?",
+      "pass": "Matches the Building this site case study: 31-question test set in five groups, reading answers beat scoring, routing near-misses, repeated runs, a blind holdout of 10 questions (9 of 10 passed), no backup model. Credits Claude Code with running the tests",
+      "expectSources": [
+        "/work/building-this-site"
+      ]
+    },
+    {
+      "id": "F12",
+      "group": "facts",
+      "q": "Did she build this site herself?",
+      "pass": "Says she made the strategy, architecture, and product decisions and verified every result, while Claude Code built the site and the assistant and ran the tests, with Claude as planning, writing, and review partner. Claims no engineering background; says she is not a software engineer",
+      "expectSources": [
+        "/work/building-this-site"
+      ],
+      "mustNotMatch": "(?i)\\b(she|morgan) (is|was) an? (software )?engineer\\b|\\bwrote (all|every) (of )?(the )?(code|line)"
     }
   ]
 }

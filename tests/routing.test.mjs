@@ -22,7 +22,7 @@ const no = [
   "Tell me about the client case studies she wrote", "What was her work on the GEO pilot vendor evaluation?", "What is the AI enablement hub?",
   "Which of her projects is the most complex?", "How does she work with her manager?", "What results has she driven?", "Has she managed people?",
   "What is her working style?", "What internal programs did she lead?", "What is the funnel split?", "Does she know SQL?",
-  "Which case study should I read first?", "Is she a software engineer?", "What is the age of the AI program?", "How does the scoring app handle the rubric?",
+  "Which case study should I read first?", "Is she a software engineer?", "How was this site built?", "How was the assistant tested?", "Did she build this site herself?", "What is the age of the AI program?", "How does the scoring app handle the rubric?",
 ];
 
 let bad = 0;
