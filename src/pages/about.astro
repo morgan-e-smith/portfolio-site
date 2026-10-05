@@ -19,7 +19,10 @@ const [leadQuote, ...otherLeadQuotes] = quotes.aboutHowILead;
     <div class="wrap intro">
       <div class="intro__photo">
         {site.photo
-          ? <img src={site.photo} alt="Morgan Smith" width="480" height="600" />
+          ? <picture>
+              <source type="image/webp" srcset={[280, 400, 560].map((w) => `${site.photo}-${w}.webp ${w}w`).join(", ")} sizes="(min-width: 900px) 280px, 200px" />
+              <img src={`${site.photo}-400.jpg`} srcset={[280, 400, 560].map((w) => `${site.photo}-${w}.jpg ${w}w`).join(", ")} sizes="(min-width: 900px) 280px, 200px" alt="Morgan Smith" width="400" height="400" decoding="async" />
+            </picture>
           : <div class="photo-placeholder" aria-hidden="true"><span>MS</span></div>}
       </div>
       <div class="intro__text">
@@ -102,8 +105,8 @@ const [leadQuote, ...otherLeadQuotes] = quotes.aboutHowILead;
   @media (min-width: 900px) { .intro { grid-template-columns: 280px 1fr; gap: var(--space-4); align-items: start; } }
   .intro__photo { max-width: 200px; }
   @media (min-width: 900px) { .intro__photo { max-width: none; } }
-  .intro__photo img { border-radius: var(--radius-md); border: 1px solid var(--line); }
-  .photo-placeholder { aspect-ratio: 4 / 5; background: var(--paper-raised); border: 1px solid var(--line); border-radius: var(--radius-md); display: grid; place-items: center; }
+  .intro__photo img { display: block; width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: cover; border-radius: var(--radius-md); border: 1px solid var(--line); filter: grayscale(1); }
+  .photo-placeholder { aspect-ratio: 1 / 1; background: var(--paper-raised); border: 1px solid var(--line); border-radius: var(--radius-md); display: grid; place-items: center; }
   .photo-placeholder span { font-family: var(--font-serif); font-size: var(--type-display-l-size); color: var(--brass); }
   .intro__text .display-l { max-width: 30ch; }
   .timeline { list-style: none; margin: var(--space-4) 0 0; padding: 0; }

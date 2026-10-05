@@ -17,8 +17,9 @@ export const site = {
   // e.g. "/morgan-smith-resume.pdf". Empty = resume buttons link to /resume.
   resumePdf: "/morgan-smith-resume.pdf",
 
-  // Headshot for About. Put the file in /public and set the path. Empty = placeholder.
-  photo: "",
+  // Headshot for About. Files in /public are named <photo>-280, -400, and -560 (.webp and .jpg).
+  // Set this to the shared name without a size or extension. Empty = placeholder.
+  photo: "/morgan-smith-headshot",
 
   // The "Ask my portfolio" assistant (build step 5). Off until it is built and
   // its test set passes. On Vercel, set PUBLIC_ASSISTANT_ENABLED=true to turn it on.
