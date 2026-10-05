@@ -2,9 +2,11 @@
 import Base from "../../layouts/Base.astro";
 import Card from "../../components/Card.astro";
 import { work, byPillar, pillars } from "../../data/work";
+import { getEssays, readTime } from "../../lib/writing";
 
 const flagships = byPillar(work.filter((w) => w.flagship && !w.draft));
 const more = work.filter((w) => !w.flagship && !w.draft);
+const essays = await getEssays();
 ---
 <Base title="Work" description="Strategy, building, and enablement, usually all three at once.">
   <section class="section">
@@ -31,6 +33,20 @@ const more = work.filter((w) => !w.flagship && !w.draft);
           <Card pillar={w.pillar} title={w.title} summary={w.summary} stat={w.stat} status={w.status} href={`/work/${w.slug}`} />
         ))}
       </div>
+      <h2 class="ms-tag ms-tag--eyebrow eyebrow group-label">Writing</h2>
+      <div class="grid grid--3 filterable essays">
+        {essays.map((e) => (
+          <a class="ms-card essay" href={`/writing/${e.id}`} data-pillar={e.data.pillar}>
+            <div class="ms-card__top">
+              <span class="ms-tag ms-tag--pillar" data-pillar={e.data.pillar}>{e.data.pillar}</span>
+              <span class="essay__kind"><span class="ms-tag ms-tag--eyebrow">Essay</span> · {readTime(e.body)}</span>
+            </div>
+            <h3 class="essay__title">{e.data.title}</h3>
+            <p class="ms-card__body">{e.data.teaser}</p>
+            <span class="ms-card__cta">Read essay <span aria-hidden="true">&rarr;</span></span>
+          </a>
+        ))}
+      </div>
       <p class="empty body-s muted" hidden>Nothing here for this pillar yet.</p>
     </div>
   </section>
@@ -47,6 +63,12 @@ const more = work.filter((w) => !w.flagship && !w.draft);
   .filter[aria-pressed="true"][data-filter="Building"] { background: var(--turquoise-tint); border-color: var(--turquoise-ink); color: var(--turquoise-ink); }
   .filter[aria-pressed="true"][data-filter="Enablement"] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
   .group-label { margin-top: var(--space-4); }
+  /* Essays: no fill, smaller type, and an "Essay" label, so they don't read as projects. */
+  .essay { background: transparent; border-style: dashed; padding: var(--space-2) var(--space-3); gap: var(--space-1); }
+  .essay:hover { background: var(--paper-raised); }
+  .essay__kind { display: inline-flex; gap: 6px; align-items: center; font-size: var(--type-body-s-size); line-height: 20px; color: var(--ink-muted); }
+  .essay__title { font-family: var(--font-serif); font-weight: 500; font-size: var(--type-body-size); line-height: var(--type-body-line); margin: 0; }
+  .essay :global(.ms-card__body) { font-size: var(--type-body-s-size); line-height: var(--type-body-s-line); }
   .more :global(.ms-card__title) { font-size: var(--type-body-size); line-height: var(--type-body-line); }
 </style>
 
