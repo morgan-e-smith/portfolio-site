@@ -29,7 +29,7 @@ export const work: WorkItem[] = [
     homeSummary:
       "The funnel didn't shrink. It split. Buyers now start their research with AI, and most brands aren't in the answer. I'm leading the strategy, the generative engine optimization (GEO) pilot, and the personalization design to change that.",
     summary:
-      "Buyers now start their research with AI. I'm leading the CMO pitch, a generative engine optimization pilot, and a personalization framework to make sure the brand shows up in the answer.",
+      "Buyers now start their research with AI. I'm leading the strategy, a generative engine optimization pilot, and a personalization framework to make sure the brand shows up in the answer.",
   },
   {
     slug: "ai-recognition-program",

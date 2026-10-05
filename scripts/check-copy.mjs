@@ -12,6 +12,7 @@ const rules = [
   ["em dash", /—|&mdash;/],
   ["phone number", /\(?\b\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}\b/],
   ["off-brand color word in markup", /\b(purple|violet|magenta)\b/i],
+  ["banned phrase (CMO pitch, new CMO, incoming CMO)", /CMO pitch|new CMO|incoming CMO/i],
   ["emoji", /[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B50}\u{23F1}]/u],
   ["employer named outside About, Resume, or attributions", /Accenture(?!\.com)/],
 ];
@@ -36,6 +37,8 @@ for (const f of pdfs) {
   try { text = execFileSync("pdftotext", [join(root, f), "-"], { encoding: "utf8" }); } catch { console.log(`note: pdftotext not available, skipped ${f}`); continue; }
   for (const [name, re] of pdfRules) { const m = text.match(re); if (m) { fails++; console.log(`FAIL ${name} in ${f} -> "${m[0]}"`); } }
 }
+// Banned phrases must never reach the assistant's knowledge base or FAQ either.
+try { const kb = readFileSync(new URL("../api/_lib/knowledge.json", import.meta.url), "utf8"); const m = kb.match(/CMO pitch|new CMO|incoming CMO/i); if (m) { fails++; console.log(`FAIL banned phrase in knowledge.json -> "${m[0]}"`); } } catch {}
 // The email address must never appear in the built page, scripts included (EmailButton encodes it).
 for (const f of files) {
   const raw = readFileSync(f, "utf8");

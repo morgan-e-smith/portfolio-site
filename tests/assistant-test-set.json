@@ -52,10 +52,11 @@
       "id": "F5",
       "group": "facts",
       "q": "Is the AI-first website project finished?",
-      "pass": "Says it is in progress: pitch built, pilot in procurement. Must not claim results",
+      "pass": "Says it is in progress: the strategy is built and the pilot is in procurement. Must not claim results, and must not mention a pitch to a new CMO",
       "expectSources": [
         "/work/ai-first-channel"
-      ]
+      ],
+      "mustNotMatch": "(?i)pitch|new CMO|incoming CMO"
     },
     {
       "id": "F6",
