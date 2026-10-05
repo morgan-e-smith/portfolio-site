@@ -39,8 +39,13 @@ const more = work.filter((w) => !w.flagship && !w.draft);
 <style>
   .filters { display: flex; flex-wrap: wrap; gap: var(--space-1); margin-top: var(--space-3); }
   .filter { font: inherit; font-size: var(--type-body-s-size); line-height: 20px; font-weight: 600; padding: 6px 14px; border-radius: var(--radius-pill); border: 1px solid var(--line); background: var(--paper-raised); color: var(--ink); cursor: pointer; }
-  .filter:hover { border-color: var(--turquoise-ink); }
-  .filter[aria-pressed="true"] { background: var(--turquoise-tint); border-color: var(--turquoise-tint); color: var(--turquoise-ink); }
+  .filter { -webkit-tap-highlight-color: transparent; }
+  .filter:hover { border-color: var(--ink); }
+  /* Active chip uses the pillar's tag colors. "All" is a neutral tone that no pillar uses. */
+  .filter[aria-pressed="true"] { background: var(--line); border-color: var(--ink); color: var(--ink); }
+  .filter[aria-pressed="true"][data-filter="Strategy"] { background: var(--brass-tint); border-color: var(--brass-ink); color: var(--brass-ink); }
+  .filter[aria-pressed="true"][data-filter="Building"] { background: var(--turquoise-tint); border-color: var(--turquoise-ink); color: var(--turquoise-ink); }
+  .filter[aria-pressed="true"][data-filter="Enablement"] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
   .group-label { margin-top: var(--space-4); }
   .more :global(.ms-card__title) { font-size: var(--type-body-size); line-height: var(--type-body-line); }
 </style>

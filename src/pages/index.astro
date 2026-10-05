@@ -52,7 +52,7 @@ const pillarCopy = [
       <div class="grid grid--3 pillars">
         {pillarCopy.map(([name, line, body]) => (
           <div class="pillar">
-            <span class="ms-tag ms-tag--pillar">{name}</span>
+            <span class="ms-tag ms-tag--pillar" data-pillar={name}>{name}</span>
             <h3 class="card-title">{line}</h3>
             <p class="body-s muted">{body}</p>
           </div>

@@ -21,6 +21,10 @@ body {
 img { max-width: 100%; height: auto; display: block; }
 a { color: var(--turquoise-ink); text-underline-offset: 3px; }
 a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--turquoise-ink); outline-offset: 2px; }
+/* Light brass tint for the Strategy pillar: 15% brass over paper-raised. brass-ink on it is 4.55:1. */
+:root { --brass-tint: color-mix(in srgb, var(--brass) 15%, var(--paper-raised)); }
+/* Components set their own display, which would otherwise override the hidden attribute (broke the Work filters). */
+[hidden] { display: none !important; }
 ::selection { background: var(--turquoise-tint); color: var(--ink); }
 
 .skip-link { position: absolute; left: var(--space-2); top: -100px; background: var(--paper-raised); color: var(--ink); padding: var(--space-1) var(--space-2); border: 1px solid var(--line); border-radius: var(--radius-md); z-index: 10; }

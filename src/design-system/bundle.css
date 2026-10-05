@@ -14,6 +14,8 @@
 /* Tag */
 .ms-tag{display:inline-flex;align-items:center;font-family:var(--font-sans);font-size:12px;line-height:16px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
 .ms-tag--pillar{background:var(--turquoise-tint);color:var(--turquoise-ink);padding:4px 10px;border-radius:var(--radius-pill)}
+.ms-tag--pillar[data-pillar="Strategy"]{background:var(--brass-tint);color:var(--brass-ink)}
+.ms-tag--pillar[data-pillar="Enablement"]{background:var(--ink);color:var(--paper)}
 .ms-tag--status{background:var(--paper-raised);color:var(--brass-ink);border:1px solid var(--brass);padding:3px 9px;border-radius:var(--radius-sm)}
 .ms-tag--eyebrow{color:var(--brass-ink);padding:0}
 

@@ -16,7 +16,7 @@ const rest = essays.filter((e) => e !== featured);
       {featured && (
         <a class="ms-card featured" href={`/writing/${featured.id}`}>
           <div class="ms-card__top">
-            <span class="ms-tag ms-tag--pillar">{featured.data.pillar}</span>
+            <span class="ms-tag ms-tag--pillar" data-pillar={featured.data.pillar}>{featured.data.pillar}</span>
             <span class="ms-card__stat">{readTime(featured.body)}{featured.data.draft && " · Held"}</span>
           </div>
           <h2 class="display-l featured__title">{featured.data.title}</h2>
