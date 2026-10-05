@@ -1,0 +1,64 @@
+/* Site styles. Colors, type, spacing, and radii come only from tokens.css
+   (generated from the design system). Component styles come from
+   ds-components.css (the design system's own CSS). */
+
+@font-face { font-family: "Fraunces"; font-style: normal; font-weight: 100 900; font-display: swap; src: url("/fonts/fraunces-latin.woff2") format("woff2"); }
+@font-face { font-family: "Fraunces"; font-style: italic; font-weight: 100 900; font-display: swap; src: url("/fonts/fraunces-latin-italic.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-style: normal; font-weight: 100 900; font-display: swap; src: url("/fonts/inter-latin.woff2") format("woff2"); }
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line);
+  font-weight: var(--type-body-weight);
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; height: auto; display: block; }
+a { color: var(--turquoise-ink); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--turquoise-ink); outline-offset: 2px; }
+::selection { background: var(--turquoise-tint); color: var(--ink); }
+
+.skip-link { position: absolute; left: var(--space-2); top: -100px; background: var(--paper-raised); color: var(--ink); padding: var(--space-1) var(--space-2); border: 1px solid var(--line); border-radius: var(--radius-md); z-index: 10; }
+.skip-link:focus { top: var(--space-2); }
+
+/* Layout */
+.wrap { width: 100%; max-width: 1120px; margin: 0 auto; padding: 0 var(--space-2); }
+@media (min-width: 720px) { .wrap { padding: 0 var(--space-3); } }
+.measure { max-width: 68ch; }
+.section { padding: var(--space-4) 0; }
+@media (min-width: 900px) { .section { padding: var(--space-5) 0; } }
+.section + .section { border-top: 1px solid var(--line); }
+.stack > * + * { margin-top: var(--space-2); }
+
+/* Type */
+.display-xl, .display-l, .heading, .card-title { font-family: var(--font-serif); font-weight: 500; margin: 0; letter-spacing: -0.01em; text-wrap: balance; }
+.display-xl { font-size: var(--type-display-l-size); line-height: var(--type-display-l-line); }
+@media (min-width: 720px) { .display-xl { font-size: var(--type-display-xl-size); line-height: var(--type-display-xl-line); } }
+.display-l { font-size: var(--type-heading-size); line-height: var(--type-heading-line); }
+@media (min-width: 720px) { .display-l { font-size: var(--type-display-l-size); line-height: var(--type-display-l-line); } }
+.heading { font-size: var(--type-heading-size); line-height: var(--type-heading-line); }
+.card-title { font-size: var(--type-card-title-size); line-height: var(--type-card-title-line); }
+.accent { font-style: italic; color: var(--turquoise-ink); }
+.body-s { font-size: var(--type-body-s-size); line-height: var(--type-body-s-line); }
+.muted { color: var(--ink-muted); }
+.lede { font-size: var(--type-body-size); line-height: var(--type-body-line); color: var(--ink-muted); margin: 0; }
+.eyebrow { display: block; margin-bottom: var(--space-2); }
+p { margin: 0; }
+p + p { margin-top: var(--space-2); }
+
+/* Grids: one column on mobile, two or three on desktop */
+.grid { display: grid; gap: var(--space-3); grid-template-columns: 1fr; }
+@media (min-width: 900px) { .grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } .grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+.actions { display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center; margin-top: var(--space-3); }
+
+/* Contour lines: placeholder until the asset is made (brief section 5). */
+.contour-placeholder { display: none; }
+
+/* Draft banner, shown only on local and preview builds */
+.draft-banner { background: var(--paper-raised); border-bottom: 1px solid var(--brass); color: var(--brass-ink); font-size: var(--type-body-s-size); line-height: var(--type-body-s-line); padding: var(--space-1) 0; }

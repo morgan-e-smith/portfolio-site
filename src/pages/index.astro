@@ -1,0 +1,113 @@
+---
+import Base from "../layouts/Base.astro";
+import Button from "../components/Button.astro";
+import Card from "../components/Card.astro";
+import Quote from "../components/Quote.astro";
+import AskPortfolio from "../components/AskPortfolio.astro";
+import Contact from "../components/Contact.astro";
+import { site, resumeHref } from "../data/site";
+import { work, byPillar } from "../data/work";
+import { quotes } from "../data/testimonials";
+
+const flagships = byPillar(work.filter((w) => w.flagship && !w.draft));
+const proof = [
+  ["2,000+", "marketers in the AI program I lead"],
+  ["100%", "onboarded to the enterprise AI platform"],
+  ["30", "digital strategists trained and led"],
+  ["14", "AI agents in production, built with engineering"],
+];
+const pillarCopy = [
+  ["Strategy", "Where AI reshapes the marketing function.", "I find the places where AI changes how marketing works, and I build the business case to act on them."],
+  ["Building", "Prototyping myself, partnering with engineering to scale.", "I prototype tools and agents myself, then work with product and engineering teams to take the right ones to production."],
+  ["Enablement", "Driving the change so adoption actually sticks.", "Training, champion networks, governance, and measurement, so people actually use the tools and keep using them."],
+];
+---
+<Base description="8+ years in B2B marketing strategy. Today I lead AI adoption across a 2,000-person marketing function, from roadmap to rollout to results.">
+  <section class="hero" aria-labelledby="hero-heading">
+    <div class="contour-placeholder" aria-hidden="true" data-asset="contour-lines"></div>
+    <div class="wrap">
+      <span class="ms-tag ms-tag--eyebrow eyebrow">AI and marketing transformation</span>
+      <h1 class="display-xl hero__title" id="hero-heading">I get AI from pilot to <em class="accent">practice</em>, and I help build the tools that get it there.</h1>
+      <p class="lede hero__sub">8+ years in B2B marketing strategy. Today I lead AI adoption across a 2,000-person marketing function, from roadmap to rollout to results.</p>
+      <div class="actions">
+        <Button label="View work" href="/work" />
+        <Button label="Download resume" href={resumeHref()} variant="secondary" download={!!site.resumePdf} />
+      </div>
+    </div>
+  </section>
+
+  <section class="proof" aria-label="Results">
+    <div class="wrap">
+      <dl class="proof__grid">
+        {proof.map(([n, label]) => (
+          <div class="proof__item"><dt class="proof__num">{n}</dt><dd class="body-s muted">{label}</dd></div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="pillars-heading">
+    <div class="wrap">
+      <h2 class="heading measure" id="pillars-heading">How I work: set the direction, build the tools, drive the change.</h2>
+      <div class="grid grid--3 pillars">
+        {pillarCopy.map(([name, line, body]) => (
+          <div class="pillar">
+            <span class="ms-tag ms-tag--pillar">{name}</span>
+            <h3 class="card-title">{line}</h3>
+            <p class="body-s muted">{body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="work-heading">
+    <div class="wrap">
+      <h2 class="ms-tag ms-tag--eyebrow eyebrow" id="work-heading">Selected work</h2>
+      <div class="grid grid--3">
+        {flagships.map((w) => (
+          <Card pillar={w.pillar} title={w.title} summary={w.homeSummary!} stat={w.stat} status={w.status} href={`/work/${w.slug}`} />
+        ))}
+      </div>
+      <p style="margin-top: var(--space-3)"><a class="ms-btn ms-btn--text" href="/work">See all work</a></p>
+    </div>
+  </section>
+
+  {site.assistantEnabled && <AskPortfolio />}
+
+  <section class="section" aria-labelledby="quotes-heading">
+    <div class="wrap">
+      <h2 class="heading" id="quotes-heading">What colleagues say</h2>
+      <div class="grid grid--2" style="margin-top: var(--space-3)">
+        {quotes.home.map((q) => <Quote {...q} />)}
+      </div>
+    </div>
+  </section>
+
+  <Contact />
+</Base>
+
+<style>
+  .hero { position: relative; padding: var(--space-4) 0; }
+  @media (min-width: 900px) { .hero { padding: var(--space-5) 0; } }
+  .hero__title { max-width: 18ch; }
+  @media (min-width: 720px) { .hero__title { max-width: 20ch; } }
+  .hero__sub { margin-top: var(--space-3); max-width: 60ch; }
+  .proof { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--paper-raised); }
+  .proof__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 0; }
+  @media (min-width: 900px) { .proof__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .proof__item { padding: var(--space-3) var(--space-2); border-left: 1px solid var(--line); }
+  .proof__item:nth-child(odd) { border-left: 0; padding-left: 0; }
+  .proof__item:nth-child(n+3) { border-top: 1px solid var(--line); }
+  @media (min-width: 900px) {
+    .proof__item:nth-child(odd) { border-left: 1px solid var(--line); padding-left: var(--space-2); }
+    .proof__item:first-child { border-left: 0; padding-left: 0; }
+    .proof__item:nth-child(n+3) { border-top: 0; }
+  }
+  .proof__num { font-family: var(--font-serif); font-weight: 500; font-size: var(--type-heading-size); line-height: var(--type-heading-line); }
+  @media (min-width: 720px) { .proof__num { font-size: var(--type-display-l-size); line-height: var(--type-display-l-line); } }
+  .proof dd { margin: var(--space-1) 0 0; }
+  .pillars { margin-top: var(--space-4); }
+  .pillar { display: flex; flex-direction: column; gap: var(--space-1); align-items: flex-start; padding-top: var(--space-2); border-top: 1px solid var(--brass); }
+  .pillar .card-title { margin-top: var(--space-1); }
+</style>

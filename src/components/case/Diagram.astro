@@ -1,0 +1,36 @@
+---
+// Redrawn diagram. SVG shapes use the .d-* classes below, which map to design tokens.
+interface Props { label?: string; caption?: string; minWidth?: number }
+const { label, caption, minWidth = 680 } = Astro.props;
+---
+<figure class="diagram">
+  {label && <span class="ms-tag ms-tag--eyebrow diagram__label">{label}</span>}
+  <div class="diagram__frame" tabindex="0" role="group" aria-label={label ?? caption ?? "Diagram"}>
+    <div style={`min-width:${minWidth}px`}><slot /></div>
+  </div>
+  {caption && <figcaption class="body-s muted">{caption}</figcaption>}
+</figure>
+
+<style>
+  .diagram { margin-left: 0; margin-right: 0; margin-bottom: 0; }
+  .diagram__label { display: block; margin-bottom: var(--space-1); }
+  .diagram__frame { background: var(--paper-raised); border: 1px solid var(--line); border-radius: var(--radius-md); padding: var(--space-3); overflow-x: auto; }
+  .diagram figcaption { margin-top: var(--space-1); max-width: 68ch; }
+  .diagram :global(svg) { width: 100%; height: auto; display: block; font-family: var(--font-sans); }
+  .diagram :global(.f-ink) { fill: var(--ink); }
+  .diagram :global(.f-muted) { fill: var(--ink-muted); }
+  .diagram :global(.f-accent) { fill: var(--turquoise-ink); }
+  .diagram :global(.f-bright) { fill: var(--turquoise); }
+  .diagram :global(.f-tint) { fill: var(--turquoise-tint); }
+  .diagram :global(.f-paper) { fill: var(--paper); }
+  .diagram :global(.f-raised) { fill: var(--paper-raised); }
+  .diagram :global(.f-line) { fill: var(--line); }
+  .diagram :global(.f-silver) { fill: var(--silver); }
+  .diagram :global(.f-brass) { fill: var(--brass); }
+  .diagram :global(.f-brassink) { fill: var(--brass-ink); }
+  .diagram :global(.s-ink) { stroke: var(--ink); }
+  .diagram :global(.s-accent) { stroke: var(--turquoise-ink); }
+  .diagram :global(.s-line) { stroke: var(--line); }
+  .diagram :global(.s-brass) { stroke: var(--brass); }
+  .diagram :global(.s-muted) { stroke: var(--ink-muted); }
+</style>

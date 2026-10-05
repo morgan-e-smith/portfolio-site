@@ -1,0 +1,21 @@
+---
+// Email button with light obfuscation: site.emailEncoded (the address reversed and
+// base64-encoded) is the only form in the page source or the repo, never text or a
+// mailto: link. A click decodes it and opens the visitor's email app.
+import { site } from "../data/site";
+interface Props { label?: string; variant?: "primary" | "secondary" | "text" }
+const { label = "Email", variant = "primary" } = Astro.props;
+const encoded = site.emailEncoded;
+---
+{encoded
+  ? <button class={`ms-btn ms-btn--${variant} email-btn`} type="button" data-e={encoded} aria-label={`${label} Morgan (opens your email app)`}>{label}</button>
+  : <button class={`ms-btn ms-btn--${variant}`} type="button" disabled aria-disabled="true">{label}</button>}
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>(".email-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const addr = [...atob(btn.dataset.e || "")].reverse().join("");
+      window.location.href = "mai" + "lto:" + addr;
+    });
+  });
+</script>

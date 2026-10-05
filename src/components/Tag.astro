@@ -1,0 +1,6 @@
+---
+// Design system Tag: pillar, status, or eyebrow.
+interface Props { label: string; variant?: "pillar" | "status" | "eyebrow"; class?: string }
+const { label, variant = "pillar", class: cls = "" } = Astro.props;
+---
+<span class={`ms-tag ms-tag--${variant} ${cls}`.trim()}>{label}</span>

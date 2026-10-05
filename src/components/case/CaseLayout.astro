@@ -1,0 +1,89 @@
+---
+// Shared frame for every case study: hero, three-line summary, body, quotes, next/back.
+import Base from "../../layouts/Base.astro";
+import Tag from "../Tag.astro";
+import Quote from "../Quote.astro";
+import Button from "../Button.astro";
+import { work, publishedWork, type WorkItem } from "../../data/work";
+import type { Quote as Q } from "../../data/testimonials";
+
+interface Meta { label: string; value: string }
+interface Props {
+  slug: string;
+  eyebrow: string;
+  headline: string;
+  sub: string;
+  meta?: Meta[];
+  summary: { problem: string; did: string; result: string };
+  quotes?: Q[];
+  draftNote?: string;
+}
+const { slug, eyebrow, headline, sub, meta = [], summary, quotes = [], draftNote } = Astro.props;
+const w = work.find((x) => x.slug === slug) as WorkItem;
+const order = publishedWork.map((x) => x.slug);
+const i = order.indexOf(slug);
+const next = i >= 0 ? publishedWork[(i + 1) % publishedWork.length] : undefined;
+---
+<Base title={w.title} description={w.summary || sub} draft={!!w.draft || !!draftNote} draftNote={draftNote}>
+  <header class="case-hero">
+    <div class="wrap">
+      <div class="tags">
+        <Tag label={w.pillar} />
+        {w.status && <Tag label={w.status} variant="status" />}
+      </div>
+      <span class="ms-tag ms-tag--eyebrow eyebrow case-eyebrow">{eyebrow}</span>
+      <h1 class="display-xl case-title">{headline}</h1>
+      <p class="lede case-sub">{sub}</p>
+      {meta.length > 0 && (
+        <dl class="case-meta">
+          {meta.map((m) => <div><dt class="ms-tag ms-tag--eyebrow">{m.label}</dt><dd class="body-s">{m.value}</dd></div>)}
+        </dl>
+      )}
+    </div>
+  </header>
+
+  <section class="summary" aria-label="Summary">
+    <div class="wrap">
+      <dl class="summary__grid">
+        <div><dt class="ms-tag ms-tag--eyebrow">The problem</dt><dd>{summary.problem}</dd></div>
+        <div><dt class="ms-tag ms-tag--eyebrow">What I did</dt><dd>{summary.did}</dd></div>
+        <div><dt class="ms-tag ms-tag--eyebrow">The result</dt><dd>{summary.result}</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <slot />
+
+  {quotes.length > 0 && (
+    <section class="section" aria-labelledby="case-quotes">
+      <div class="wrap">
+        <h2 class="ms-tag ms-tag--eyebrow eyebrow" id="case-quotes">What colleagues say</h2>
+        <div class={`grid ${quotes.length > 1 ? "grid--2" : ""}`}>
+          {quotes.map((q) => <Quote {...q} size={quotes.length === 1 ? "l" : "m"} />)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="section case-next">
+    <div class="wrap actions" style="margin-top:0">
+      <Button label="Back to all work" href="/work" variant="secondary" />
+      {next && !w.draft && <a class="ms-btn ms-btn--text" href={`/work/${next.slug}`}>Next: {next.title}</a>}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .case-hero { padding: var(--space-4) 0; }
+  @media (min-width: 900px) { .case-hero { padding: var(--space-5) 0 var(--space-4); } }
+  .tags { display: flex; gap: var(--space-1); flex-wrap: wrap; margin-bottom: var(--space-3); }
+  .case-title { max-width: 22ch; }
+  .case-sub { margin-top: var(--space-3); max-width: 62ch; }
+  .case-meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: var(--space-2) var(--space-3); margin: var(--space-4) 0 0; padding-top: var(--space-3); border-top: 1px solid var(--line); }
+  .case-meta dd { margin: var(--space-1) 0 0; color: var(--ink); }
+  .summary { background: var(--paper-raised); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .summary__grid { display: grid; gap: var(--space-3); margin: 0; padding: var(--space-4) 0; }
+  @media (min-width: 900px) { .summary__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .summary__grid dd { margin: var(--space-1) 0 0; font-family: var(--font-serif); font-size: var(--type-card-title-size); line-height: var(--type-card-title-line); }
+  .case-next { border-top: 1px solid var(--line); }
+</style>

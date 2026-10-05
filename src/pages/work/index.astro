@@ -1,0 +1,67 @@
+---
+import Base from "../../layouts/Base.astro";
+import Card from "../../components/Card.astro";
+import { work, byPillar, pillars } from "../../data/work";
+
+const flagships = byPillar(work.filter((w) => w.flagship && !w.draft));
+const more = work.filter((w) => !w.flagship && !w.draft);
+---
+<Base title="Work" description="Strategy, building, and enablement, usually all three at once.">
+  <section class="section">
+    <div class="wrap">
+      <h1 class="display-xl">Work</h1>
+      <p class="lede measure" style="margin-top: var(--space-2)">Strategy, building, and enablement, usually all three at once.</p>
+
+      <div class="filters" role="group" aria-label="Filter by pillar" hidden>
+        {["All", ...pillars].map((p, i) => (
+          <button type="button" class="filter" data-filter={p} aria-pressed={i === 0 ? "true" : "false"}>{p}</button>
+        ))}
+      </div>
+
+      <h2 class="ms-tag ms-tag--eyebrow eyebrow group-label">Flagships</h2>
+      <div class="grid grid--3 filterable">
+        {flagships.map((w) => (
+          <Card pillar={w.pillar} title={w.title} summary={w.summary} stat={w.stat} status={w.status} href={`/work/${w.slug}`} />
+        ))}
+      </div>
+
+      <h2 class="ms-tag ms-tag--eyebrow eyebrow group-label">More work</h2>
+      <div class="grid grid--3 filterable more">
+        {more.map((w) => (
+          <Card pillar={w.pillar} title={w.title} summary={w.summary} stat={w.stat} status={w.status} href={`/work/${w.slug}`} />
+        ))}
+      </div>
+      <p class="empty body-s muted" hidden>Nothing here for this pillar yet.</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .filters { display: flex; flex-wrap: wrap; gap: var(--space-1); margin-top: var(--space-3); }
+  .filter { font: inherit; font-size: var(--type-body-s-size); line-height: 20px; font-weight: 600; padding: 6px 14px; border-radius: var(--radius-pill); border: 1px solid var(--line); background: var(--paper-raised); color: var(--ink); cursor: pointer; }
+  .filter:hover { border-color: var(--turquoise-ink); }
+  .filter[aria-pressed="true"] { background: var(--turquoise-tint); border-color: var(--turquoise-tint); color: var(--turquoise-ink); }
+  .group-label { margin-top: var(--space-4); }
+  .more :global(.ms-card__title) { font-size: var(--type-body-size); line-height: var(--type-body-line); }
+</style>
+
+<script>
+  const bar = document.querySelector<HTMLElement>(".filters");
+  if (bar) {
+    bar.hidden = false; // chips only appear when JavaScript can run them
+    const buttons = bar.querySelectorAll<HTMLButtonElement>(".filter");
+    buttons.forEach((b) => b.addEventListener("click", () => {
+      const f = b.dataset.filter;
+      buttons.forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+      document.querySelectorAll<HTMLElement>(".filterable").forEach((grid) => {
+        let shown = 0;
+        grid.querySelectorAll<HTMLElement>(".ms-card").forEach((c) => {
+          const on = f === "All" || c.dataset.pillar === f;
+          c.hidden = !on; if (on) shown++;
+        });
+        const label = grid.previousElementSibling as HTMLElement | null;
+        grid.hidden = shown === 0; if (label) label.hidden = shown === 0;
+      });
+    }));
+  }
+</script>

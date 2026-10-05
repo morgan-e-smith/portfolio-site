@@ -1,0 +1,45 @@
+---
+import "../styles/tokens.css";
+import "../styles/ds-components.css";
+import "../styles/global.css";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import { site } from "../data/site";
+
+interface Props { title?: string; description: string; draft?: boolean; draftNote?: string }
+const { title, description, draft = false, draftNote = "Draft. Not published or linked until Morgan approves." } = Astro.props;
+// Canonical and og:url use the production domain (astro.config.mjs "site"). With build.format "file"
+// Astro reports paths like /about.html, so strip the extension and the index suffix.
+const path = Astro.url.pathname.replace(/\.html$/, "").replace(/\/index$/, "") || "/";
+const canonical = new URL(path, Astro.site).href;
+const fullTitle = title ? `${title} | ${site.name}` : `${site.name} | ${site.title}`;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    {draft ? <meta name="robots" content="noindex, nofollow" /> : <link rel="canonical" href={canonical} />}
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    {!draft && <meta property="og:url" content={canonical} />}
+    <meta name="twitter:card" content="summary" />
+    <meta name="theme-color" content="#F7F3EC" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href="/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    {draft && <div class="draft-banner" role="note"><div class="wrap">{draftNote}</div></div>}
+    <Nav />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

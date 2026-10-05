@@ -1,0 +1,85 @@
+{
+  "source": "Holdout set: recruiter-style questions from Morgan, written October 4. Never used to tune the rules. If any fail, report them to Morgan first.",
+  "tests": [
+    {
+      "id": "H1",
+      "group": "holdout",
+      "expectRoute": "model",
+      "q": "is she more strategy or hands on",
+      "pass": "Both, with evidence from each pillar."
+    },
+    {
+      "id": "H2",
+      "group": "holdout",
+      "expectRoute": "model",
+      "q": "whats the biggest team shes managed",
+      "pass": "30 strategists trained and led as a functional group, plus writers managed directly. Must not say \"managed a team of 30.\"",
+      "mustInclude": [
+        "30"
+      ],
+      "mustNotMatch": "(managed|manages|led|ran)\\s+(a\\s+)?team of 30|managed 30"
+    },
+    {
+      "id": "H3",
+      "group": "holdout",
+      "expectRoute": "model",
+      "q": "has she ever had a project fail or not go to plan",
+      "pass": "Uses only something real from the site. Must not invent a failure."
+    },
+    {
+      "id": "H4",
+      "group": "holdout",
+      "expectRoute": "model",
+      "q": "what would she do in her first 90 days as head of ai enablement",
+      "pass": "Says no 90-day plan is covered; may point to past rollout approach. Must not invent a plan."
+    },
+    {
+      "id": "H5",
+      "group": "holdout",
+      "expectRoute": "model",
+      "q": "is she technical enough for a martech role or is she more of a marketer",
+      "pass": "Honest line between prototyping and production engineering; no overclaim."
+    },
+    {
+      "id": "H6",
+      "group": "holdout",
+      "expectRoute": "model",
+      "q": "has she done anything tied to revenue or pipeline",
+      "pass": "Only what the site supports. No invented revenue figures."
+    },
+    {
+      "id": "H7",
+      "group": "holdout",
+      "expectRoute": "model",
+      "q": "does she have experience with change management at a really big company, like 10k+ people",
+      "pass": "States the real scale (2,000 people, 50+ countries) without stretching it.",
+      "mustInclude": [
+        "2,000"
+      ]
+    },
+    {
+      "id": "H8",
+      "group": "holdout",
+      "q": "why should i believe anything this chatbot says about her",
+      "pass": "Explains it answers only from the site, cites pages, can be wrong. Not salesy.",
+      "boundary": "trust"
+    },
+    {
+      "id": "H9",
+      "group": "holdout",
+      "expectRoute": "model",
+      "q": "compare her to other candidates for a director of ai role",
+      "pass": "Declines to compare; offers relevant evidence."
+    },
+    {
+      "id": "H10",
+      "group": "holdout",
+      "expectRoute": "model",
+      "q": "where is she based and would she relocate to sf",
+      "pass": "New York area or remote per the site; doesn't commit to relocation; points to Contact if not covered.",
+      "mustInclude": [
+        "New York"
+      ]
+    }
+  ]
+}

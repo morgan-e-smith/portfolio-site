@@ -1,0 +1,110 @@
+---
+import Base from "../layouts/Base.astro";
+
+const loop = [
+  ["Define the requirement.", "I turn a business need into a precise brief in plain language."],
+  ["Generate and review.", "I check the output against specs, brand rules, and copy rules. Nothing ships unread."],
+  ["Test in the real environment.", "I verify it live, in SharePoint, Copilot, or the browser, then feed the results back."],
+  ["Document what I learned.", "Confirmed behaviors go into guides and maintenance docs so nobody has to rediscover them."],
+];
+const iOwn = ["what to build and why", "strategy and prioritization", "stakeholder and legal decisions", "final copy and sign-off", "anything with a person's name on it"];
+const aiAccelerates = ["first drafts", "code and scripts", "data cleanup", "consistency checks across documents", "pressure-testing my thinking"];
+const guardrails = [
+  ["I verify every number.", "AI drafts. I check the facts before anything goes out."],
+  ["I use approved tools for sensitive data.", "Employee and client information only goes through enterprise-approved platforms."],
+  ["I build accuracy rules into agents.", "For example, my briefing agent is told never to infer ownership from attendance and never to invent deadlines."],
+  ["I say how a thing was made.", "When AI helped, I'll tell you how."],
+];
+const tools = ["Claude", "Claude Code", "Microsoft Copilot (including custom agents)", "ChatGPT", "enterprise AI platforms"];
+---
+<Base title="How I work with AI" description="AI is in almost everything I make. Here's exactly how, and where it isn't.">
+  <section class="section">
+    <div class="wrap">
+      <span class="ms-tag ms-tag--eyebrow eyebrow">How I work with AI</span>
+      <h1 class="display-xl measure">AI is in almost everything I make. Here's exactly how, and where it isn't.</h1>
+      <p class="lede measure" style="margin-top: var(--space-3)">Most people who list "AI" on a resume can't tell you where their judgment ends and the model's begins. I can, because I designed it that way on purpose.</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="two-ways">
+    <div class="wrap">
+      <h2 class="heading" id="two-ways">Two ways I build</h2>
+      <div class="grid grid--2" style="margin-top: var(--space-3)">
+        <div class="panel">
+          <h3 class="card-title">Build it myself.</h3>
+          <p class="body-s muted">When speed matters more than scale, I prototype directly: custom HTML apps, Copilot agents, project hubs, and this site, built with Claude Code. If I can show a stakeholder a working thing on Tuesday, we skip three weeks of debating a slide.</p>
+        </div>
+        <div class="panel">
+          <h3 class="card-title">Partner to scale.</h3>
+          <p class="body-s muted">When something needs to run for thousands of people, I work with product and engineering. I bring the use case, the requirements, and the user testing. They bring the architecture. That's how 14 agents made it into production.</p>
+        </div>
+      </div>
+      <p class="choose"><span class="ms-tag ms-tag--eyebrow">How I choose</span> If it's a test, I build it. If it needs to last, we build it.</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="loop">
+    <div class="wrap">
+      <h2 class="heading" id="loop">My build loop</h2>
+      <ol class="loop" role="list">
+        {loop.map(([title, body], i) => (
+          <li class="loop__step">
+            <span class="loop__num" aria-hidden="true">{i + 1}</span>
+            <div><h3 class="card-title">{title}</h3><p class="body-s muted">{body}</p></div>
+          </li>
+        ))}
+      </ol>
+      <p class="measure" style="margin-top: var(--space-3)">Then I repeat until it works. The AI recognition program's scoring app took 55+ versions, and that's not a failure rate. That's the method.</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="who">
+    <div class="wrap">
+      <h2 class="heading" id="who">Who does what</h2>
+      <div class="grid grid--2" style="margin-top: var(--space-3)">
+        <div class="panel">
+          <span class="ms-tag ms-tag--eyebrow">I own</span>
+          <ul class="ticks">{iOwn.map((x) => <li>{x}</li>)}</ul>
+        </div>
+        <div class="panel">
+          <span class="ms-tag ms-tag--eyebrow">AI accelerates</span>
+          <ul class="ticks">{aiAccelerates.map((x) => <li>{x}</li>)}</ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="guardrails">
+    <div class="wrap">
+      <h2 class="heading" id="guardrails">Guardrails I keep</h2>
+      <div class="grid grid--2" style="margin-top: var(--space-3)">
+        {guardrails.map(([title, body]) => (
+          <div class="rule"><h3 class="card-title">{title}</h3><p class="body-s muted">{body}</p></div>
+        ))}
+      </div>
+      <p class="tools"><span class="ms-tag ms-tag--eyebrow">Tools</span> <span class="body-s">{tools.join(" · ")}</span></p>
+    </div>
+  </section>
+
+  <section class="section closing">
+    <div class="wrap">
+      <p class="display-xl measure">AI didn't run these programs. I did, using AI.</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .panel { background: var(--paper-raised); border: 1px solid var(--line); border-radius: var(--radius-md); padding: var(--space-3); display: flex; flex-direction: column; gap: var(--space-1); }
+  .choose, .tools { margin-top: var(--space-3); display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-2); align-items: baseline; }
+  .loop { list-style: none; margin: var(--space-3) 0 0; padding: 0; display: grid; gap: var(--space-3); }
+  @media (min-width: 900px) { .loop { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .loop__step { display: flex; gap: var(--space-2); align-items: flex-start; }
+  @media (min-width: 900px) { .loop__step { flex-direction: column; } }
+  .loop__num { flex: none; width: 40px; height: 40px; border: 1px solid var(--brass); border-radius: var(--radius-pill); display: grid; place-items: center; font-family: var(--font-serif); font-size: var(--type-card-title-size); color: var(--brass-ink); }
+  .loop__step .card-title { margin-bottom: var(--space-1); }
+  .ticks { margin: var(--space-1) 0 0; padding: 0; list-style: none; }
+  .ticks li { padding: var(--space-1) 0; border-bottom: 1px solid var(--line); }
+  .ticks li:last-child { border-bottom: 0; }
+  .ticks li::first-letter { text-transform: uppercase; }
+  .rule { padding-top: var(--space-2); border-top: 1px solid var(--brass); display: flex; flex-direction: column; gap: var(--space-1); }
+</style>

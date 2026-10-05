@@ -1,0 +1,18 @@
+---
+// Pull quote with level-only attribution (title and company, never a name).
+interface Props { text: string; attribution: string; size?: "l" | "m" }
+const { text, attribution, size = "m" } = Astro.props;
+---
+<figure class={`quote quote--${size}`}>
+  <blockquote><p>&ldquo;{text}&rdquo;</p></blockquote>
+  <figcaption class="ms-tag ms-tag--eyebrow">{attribution}</figcaption>
+</figure>
+
+<style>
+  .quote { margin: 0; padding-top: var(--space-2); border-top: 1px solid var(--brass); }
+  .quote blockquote { margin: 0 0 var(--space-2); }
+  .quote p { font-family: var(--font-serif); font-weight: 500; color: var(--ink); }
+  .quote--m p { font-size: var(--type-card-title-size); line-height: var(--type-card-title-line); }
+  .quote--l p { font-size: var(--type-heading-size); line-height: var(--type-heading-line); }
+  figcaption { line-height: 1.5; }
+</style>

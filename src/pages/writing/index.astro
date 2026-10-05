@@ -1,0 +1,53 @@
+---
+import Base from "../../layouts/Base.astro";
+import Tag from "../../components/Tag.astro";
+import { getEssays, readTime } from "../../lib/writing";
+
+const essays = await getEssays();
+const featured = essays.find((e) => e.data.featured);
+const rest = essays.filter((e) => e !== featured);
+---
+<Base title="Point of view" description="What I've learned putting AI to work in marketing.">
+  <section class="section">
+    <div class="wrap">
+      <h1 class="display-xl">Point of view</h1>
+      <p class="lede measure" style="margin-top: var(--space-2)">What I've learned putting AI to work in marketing.</p>
+
+      {featured && (
+        <a class="ms-card featured" href={`/writing/${featured.id}`}>
+          <div class="ms-card__top">
+            <span class="ms-tag ms-tag--pillar">{featured.data.pillar}</span>
+            <span class="ms-card__stat">{readTime(featured.body)}{featured.data.draft && " · Held"}</span>
+          </div>
+          <h2 class="display-l featured__title">{featured.data.title}</h2>
+          <p class="ms-card__body featured__teaser">{featured.data.teaser}</p>
+          <span class="ms-card__cta">Read essay <span aria-hidden="true">&rarr;</span></span>
+        </a>
+      )}
+
+      <ul class="list" role="list">
+        {rest.map((e) => (
+          <li>
+            <a class="row" href={`/writing/${e.id}`}>
+              <div class="row__meta"><Tag label={e.data.pillar} /><span class="body-s muted">{readTime(e.body)}{e.data.draft && " · Held"}</span></div>
+              <h2 class="card-title row__title">{e.data.title}</h2>
+              <p class="body-s muted">{e.data.teaser}</p>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .featured { margin-top: var(--space-4); }
+  @media (min-width: 900px) { .featured { padding: var(--space-4); } }
+  .featured__title { margin-top: var(--space-1); max-width: 22ch; }
+  .featured__teaser { font-size: var(--type-body-size); line-height: var(--type-body-line); max-width: 60ch; }
+  .list { list-style: none; margin: var(--space-3) 0 0; padding: 0; }
+  .row { display: flex; flex-direction: column; gap: var(--space-1); padding: var(--space-3) 0; border-bottom: 1px solid var(--line); color: var(--ink); text-decoration: none; }
+  .list li:first-child .row { border-top: 1px solid var(--line); }
+  .row:hover .row__title { color: var(--turquoise-ink); }
+  .row__meta { display: flex; gap: var(--space-2); align-items: center; flex-wrap: wrap; }
+</style>

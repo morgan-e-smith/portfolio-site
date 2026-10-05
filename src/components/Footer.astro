@@ -1,0 +1,18 @@
+---
+import { site } from "../data/site";
+---
+<footer class="site-footer">
+  <div class="wrap footer-row body-s">
+    <span class="footer-name">{site.name}</span>
+    <span aria-hidden="true">&middot;</span>
+    <span>Built with Claude Code</span>
+    <span aria-hidden="true">&middot;</span>
+    {site.github ? <a href={site.github}>View source on GitHub</a> : <span>View source on GitHub</span>}
+  </div>
+</footer>
+
+<style>
+  .site-footer { border-top: 1px solid var(--line); padding: var(--space-3) 0; color: var(--ink-muted); }
+  .footer-row { display: flex; flex-wrap: wrap; gap: var(--space-1); align-items: center; }
+  .footer-name { font-family: var(--font-serif); color: var(--ink); }
+</style>

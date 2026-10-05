@@ -1,0 +1,40 @@
+---
+import Base from "../../layouts/Base.astro";
+import Tag from "../../components/Tag.astro";
+import { render } from "astro:content";
+import { getEssays, readTime } from "../../lib/writing";
+
+export async function getStaticPaths() {
+  const essays = await getEssays();
+  return essays.map((e) => ({ params: { slug: e.id }, props: { e } }));
+}
+const { e } = Astro.props;
+const { Content } = await render(e);
+---
+<Base title={e.data.title} description={e.data.teaser} draft={e.data.draft} draftNote={`Held. ${e.data.holdReason ?? ""} Not on the live site until Morgan says go.`}>
+  <article class="section">
+    <div class="wrap">
+      <header class="article__head">
+        <div class="article__meta"><Tag label={e.data.pillar} /><span class="body-s muted">{readTime(e.body)}</span></div>
+        <h1 class="display-xl">{e.data.title}</h1>
+      </header>
+      <div class="prose">
+        <Content />
+      </div>
+      <p class="back"><a class="ms-btn ms-btn--text" href="/writing">All writing</a></p>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .article__head { max-width: 68ch; }
+  .article__meta { display: flex; gap: var(--space-2); align-items: center; margin-bottom: var(--space-2); }
+  .prose { max-width: 68ch; margin-top: var(--space-4); }
+  .prose :global(h2) { font-family: var(--font-serif); font-weight: 500; font-size: var(--type-heading-size); line-height: var(--type-heading-line); margin: var(--space-4) 0 var(--space-2); }
+  .prose :global(p), .prose :global(ul), .prose :global(ol) { margin: 0 0 var(--space-2); }
+  .prose :global(p + p) { margin-top: 0; }
+  .prose :global(li) { margin-bottom: var(--space-1); padding-left: 4px; }
+  .prose :global(li::marker) { color: var(--brass-ink); }
+  .prose :global(strong) { font-weight: 600; }
+  .back { margin-top: var(--space-4); max-width: 68ch; }
+</style>

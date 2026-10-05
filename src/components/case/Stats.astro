@@ -1,0 +1,15 @@
+---
+interface Props { items: [string, string][] }
+const { items } = Astro.props;
+---
+<dl class="stats">
+  {items.map(([n, l]) => <div class="stat"><dt class="stat__num">{n}</dt><dd class="body-s muted">{l}</dd></div>)}
+</dl>
+
+<style>
+  .stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); margin: 0; }
+  @media (min-width: 900px) { .stats { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); } }
+  .stat { padding-top: var(--space-2); border-top: 1px solid var(--brass); }
+  .stat__num { font-family: var(--font-serif); font-weight: 500; font-size: var(--type-display-l-size); line-height: var(--type-display-l-line); }
+  .stat dd { margin: var(--space-1) 0 0; }
+</style>

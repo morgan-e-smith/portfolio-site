@@ -1,0 +1,21 @@
+---
+// One case study section: eyebrow label, heading, optional intro, then content.
+interface Props { label: string; heading: string; id?: string }
+const { label, heading, id } = Astro.props;
+---
+<section class="section cs" id={id}>
+  <div class="wrap">
+    <span class="ms-tag ms-tag--eyebrow eyebrow">{label}</span>
+    <h2 class="display-l cs__heading">{heading}</h2>
+    <div class="cs__body"><slot /></div>
+  </div>
+</section>
+
+<style>
+  .cs__heading { max-width: 24ch; }
+  .cs__body { margin-top: var(--space-3); }
+  .cs__body > :global(p) { max-width: 68ch; }
+  .cs__body > :global(* + *) { margin-top: var(--space-3); }
+  .cs__body > :global(p + p) { margin-top: var(--space-2); }
+  .cs__body :global(code) { font-size: 0.9em; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 0 4px; }
+</style>

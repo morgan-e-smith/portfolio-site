@@ -1,0 +1,116 @@
+---
+import CaseLayout from "../../components/case/CaseLayout.astro";
+import Section from "../../components/case/Section.astro";
+import Decisions from "../../components/case/Decisions.astro";
+import DataTable from "../../components/case/DataTable.astro";
+import Skills from "../../components/case/Skills.astro";
+import Bullets from "../../components/case/Bullets.astro";
+
+const onePagerPdf = "/time-reporting-agent-one-pager.pdf";
+
+const steps = [
+  ["Profile check", "Confirm the user profile is current before starting."],
+  ["Scan", "Review the past week's signals using batched windowing and deduplication."],
+  ["Draft", "Produce a categorized time report in a structured format."],
+  ["Interpret and validate", "Surface interpretation calls and flag uncertainty before review."],
+  ["Review", "Present the draft with a confidence column; the user confirms or corrects."],
+  ["Finalize", "Produce submission-ready output."],
+];
+const profile = [
+  ["Work hierarchy", "Role, portfolio, programs, projects, and recurring activities"],
+  ["Ownership level", "Own, Lead, Contribute, Advise, or Monitor, set per program and project"],
+  ["Stakeholder tiers", "Core, Strategic, and Emerging contacts"],
+  ["Invisible work", "Effort that never shows up on a calendar"],
+  ["Known distinctions and exclusions", "Negative knowledge: what something is not, so the agent stops miscategorizing look-alikes"],
+  ["Profile change log", "A dated record of what changed and why"],
+];
+---
+<CaseLayout
+  slug="time-reporting-agent"
+  eyebrow="AI agent design"
+  headline="A custom Copilot agent that does the categorizing, so people don't have to"
+  sub="Designing and deploying a Microsoft Copilot agent to help a Marketing and Communications (M&C) team meet a new weekly time-reporting requirement accurately, with less effort."
+  meta={[
+    { label: "Role", value: "AI and Marketing Transformation Manager" },
+    { label: "Platform", value: "Microsoft Copilot (custom agent)" },
+    { label: "Timeline", value: "September 2026" },
+    { label: "Deliverables", value: "6 documents + 1 calendar automation" },
+    { label: "Status", value: "Deployed to team" },
+  ]}
+  summary={{
+    problem: "A new mandate asked the team to log weekly hours against 10 activity categories, with no mapping and no tooling.",
+    did: "I adapted a colleague's agent into a scan-first Copilot agent with a multi-layer user profile, plus six deliverables for the team.",
+    result: "The agent is deployed to the team, with a calendar automation so the weekly run doesn't depend on memory.",
+  }}
+>
+  <Section label="The problem" heading="A new reporting mandate, and no way to meet it easily">
+    <p>The organization introduced a requirement for the M&amp;C team to log weekly hours against 10 official activity categories in a project tracking platform. There was no standard mapping between people's actual work and those categories, and no tooling to help.</p>
+    <Bullets cols={2} items={[
+      "No clear mapping between daily work and the 10 activity categories",
+      "Weekly reporting depended on manual recall, which invites inaccuracy and inconsistency",
+      "Work varied widely across individuals, functions, and ownership levels, so one-size-fits-all would fail",
+      "A colleague's existing agent, built for a CRM context, was a useful baseline but couldn't be applied as-is",
+    ]} />
+  </Section>
+
+  <Section label="Approach" heading="Adapt what works, build what's missing">
+    <p>I started from a colleague's existing agent: its system prompt structure, categorization logic, and setup method. I mapped what could be adapted versus what had to be designed new, and documented that line throughout the build. The agent was designed, built, and packaged for the team within a single extended working session.</p>
+    <p>The agent runs on a six-step weekly cadence:</p>
+    <Decisions cols={3} items={steps.map(([title, body]) => ({ title, body }))} />
+  </Section>
+
+  <Section label="Profile architecture" heading="The agent is only as good as what it knows about you">
+    <p>I designed a multi-layer user profile so the agent can categorize work the way the person actually experiences it.</p>
+    <dl class="profile">
+      {profile.map(([k, v], i) => <div class={i === 4 ? "is-key" : ""}><dt>{k}</dt><dd class="body-s">{v}</dd></div>)}
+    </dl>
+  </Section>
+
+  <Section label="Design decisions" heading="The product calls behind the agent">
+    <Decisions items={[
+      { title: "Scan first, not interview first", body: "I rejected a five-question onboarding interview. The agent scans available signals, drafts a profile, and the user corrects it. People should do less work up front, not more. That's the difference between a tool people try once and one they keep using." },
+      { title: "Negative knowledge as a first-class field", body: "Miscategorization usually comes from things that look like one category but belong to another. A dedicated \"known distinctions and exclusions\" field fixes that once, instead of making users re-explain it every week." },
+      { title: "Specific update suggestions, not generic prompts", body: "After each weekly draft, the agent proposes concrete profile updates based on what it observed. \"Anything to update?\" gets a shrug. \"You spent 6 hours on X, which isn't in your profile. Add it?\" gets an answer." },
+      { title: "Ownership hierarchy over flat lists", body: "Owning a program and advising on it are different kinds of hours. A flat list of programs loses that signal; an ownership level tells the agent how to weight the work." },
+    ]} />
+  </Section>
+
+  <Section label="Deliverables" heading="Built for distribution, not just for me">
+    <DataTable headers={["Deliverable", "Format", "Purpose"]} rows={[
+      ["Team guide and system prompt", ".docx, v1.1", "Everything a teammate needs to set up and run the agent"],
+      ["Categorization guide", ".docx, v1.0", "Two-axis mapping of function buckets to activity categories"],
+      ["Setup scan method", ".pdf, v1.0", "Batched windowing logic, deduplication rules, and a cap tripwire"],
+      ["Recurring Friday reminder", ".ics, v1.1", "Calendar automation that prompts the weekly run"],
+      ["Reminder setup guide", ".docx, v1.1", "Plain-language install steps"],
+      ["New features summary", ".docx, v1.0", "For the original agent's author: what's genuinely new versus adapted"],
+    ]} />
+  </Section>
+
+  <Section label="Outcomes" heading="What shipped">
+    <Bullets cols={2} items={[
+      "Agent deployed and available to the team, built and packaged in a single extended session",
+      "Six versioned deliverables, each written for a specific audience",
+      "Calendar automation plus setup guide, so adoption doesn't depend on remembering",
+      "Collaborator feedback gathered and follow-on improvements scoped; design decisions documented for handoff",
+    ]} />
+    <p>Quality control was part of the build, not an afterthought: I caught and corrected inaccurate time-increment language across every deliverable before release, and rebuilt one structurally flawed document rather than patching it.</p>
+    {onePagerPdf && <p><a class="ms-btn ms-btn--text" href={onePagerPdf} download>Download the one-page summary (PDF)</a></p>}
+    <p class="body-s"><a href="/writing/agents-do-the-work-first">Read the essay: Build agents that do the work first</a></p>
+  </Section>
+
+  <Section label="Skills demonstrated" heading="What this project required">
+    <Skills groups={[["Core", ["AI agent design", "Product thinking", "Prompt engineering", "Adoption design"]], ["Supporting", ["Technical writing", "Stakeholder communication", "Building on a colleague's work", "Quality control"]]]} />
+  </Section>
+</CaseLayout>
+
+<style>
+  .profile { margin: 0; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--paper-raised); overflow: hidden; max-width: 900px; }
+  .profile > div { display: grid; border-top: 1px solid var(--line); }
+  .profile > div:first-child { border-top: 0; }
+  @media (min-width: 720px) { .profile > div { grid-template-columns: 260px 1fr; } }
+  .profile dt { font-weight: 600; font-size: var(--type-body-s-size); padding: 12px 16px 0; }
+  .profile dd { margin: 0; padding: 4px 16px 12px; color: var(--ink-muted); }
+  @media (min-width: 720px) { .profile dt, .profile dd { padding: 12px 16px; } }
+  .profile .is-key { background: var(--turquoise-tint); }
+  .profile .is-key dt, .profile .is-key dd { color: var(--ink); }
+</style>

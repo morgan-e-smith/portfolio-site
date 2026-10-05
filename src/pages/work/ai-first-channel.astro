@@ -1,0 +1,140 @@
+---
+import CaseLayout from "../../components/case/CaseLayout.astro";
+import Section from "../../components/case/Section.astro";
+import Decisions from "../../components/case/Decisions.astro";
+import DataTable from "../../components/case/DataTable.astro";
+import Callout from "../../components/case/Callout.astro";
+import Diagram from "../../components/case/Diagram.astro";
+import Skills from "../../components/case/Skills.astro";
+import Architecture from "../../components/diagrams/AiFirstArchitecture.astro";
+import { quotes } from "../../data/testimonials";
+
+const decisions = [
+  { title: "Lead with opportunity, not dysfunction", body: "An incoming CMO has no reason to defend a site they never owned. Opening with what's broken would have created defensiveness before any trust was built. The pitch is framed around what's being missed in the AI discovery layer, not what's wrong with what exists. That shift changes the entire emotional register of the business case, from \"fix this\" to \"capture this.\"" },
+  { title: "Reframe the problem as a split funnel, not a traffic problem", body: "The instinct was to lead with site traffic or engagement metrics. That framing makes the problem feel like an SEO or UX issue. The more accurate, and more urgent, framing is that large language models (LLMs) have created a new upstream discovery layer that most brands aren't present in at all. \"The funnel didn't shrink. It split.\" That one sentence changed how the entire narrative was organized." },
+  { title: "Keep the vendor out of the CMO deck entirely", body: "There was a temptation to include the GEO vendor as proof of seriousness. The decision was to exclude it deliberately. Mixing a mandate conversation with a vendor selection conversation would have muddied both. The sequencing: secure the mandate first, then bring in the vendor. It also means the business case stands on its own logic rather than being contingent on one vendor's claims." },
+  { title: "Reject vendor-self-reported statistics", body: "When building the business case, several compelling data points came from vendors and their marketing materials. All of them were cut. The credibility of the pitch depends on the rigor of its sourcing, so Forrester, Gartner, 6sense, and Adobe Digital Insights became the standard. A new executive audience will scrutinize the data, and weak sourcing would undermine the whole argument." },
+  { title: "Order the five strategic bets by buyer impact, not internal logic", body: "The five bets (Experience, Content, Channel, Intelligence, Technology) could have been ordered any number of ways: by cost, by complexity, by team ownership. The deliberate choice was buyer-first ordering: start with what the buyer experiences, end with the infrastructure that enables it. That sequencing makes the chapter read as a coherent experience design argument rather than a list of capability investments." },
+  { title: "Scope the pilot to the smallest version that proves value", body: "The GEO pilot could have started with the full corporate domain. The deliberate choice was to scope it to a single business unit as the test environment, with clear criteria for what it needs to prove before expanding. That decision keeps the pilot achievable, the governance manageable, and the success criteria clean. It also makes the procurement conversation simpler: a bounded pilot is easier to approve than an open-ended platform commitment." },
+  { title: "Separate deliverables for separate audiences", body: "Three distinct audiences needed three distinct artifacts: the CMO needs a narrative pitch deck, procurement and legal need a business case document, and the executive sponsor needs a use case deck for a working conversation. Combining any two of these would have made all of them worse. The discipline was to build each artifact for the specific decision it needs to enable, then link them rather than merge them." },
+  { title: "Design the variable matrix around buyer state, not page type", body: "The personalization framework could have been organized around content categories or site sections. Instead, it was designed around the buyer's state: their mode, their moment, their segment. That choice means the system can flex across any page rather than being locked to a specific template. It also makes the design team's job clearer: they aren't designing pages, they're designing responses to buyer states." },
+];
+const chapters = [
+  ["Chapter 1", "The Rules Changed", "LLMs split the funnel. Upstream AI territory vs. downstream human validation."],
+  ["Chapter 2", "What We Stand to Gain", "Business case anchored in AI-referred buyer conversion quality and dark funnel visibility."],
+  ["Chapter 3", "Five Strategic Bets", "Experience, Content, Channel, Intelligence, Technology: ordered buyer-first."],
+  ["Chapter 4", "What It Looks Like", "Variable matrix system, interactive wireframe, mid-market use case, Figma prototype."],
+  ["Chapter 5", "How We Get It Done", "Tech requirements, vendor assessment, crawl/walk/run roadmap."],
+];
+const dHead = ["Deliverable", "Format", "Audience", "Purpose"];
+---
+<CaseLayout
+  slug="ai-first-channel"
+  eyebrow="Program leadership"
+  headline="Building the case to turn a corporate website into an AI-first revenue channel"
+  sub="Strategy, program management, and execution for a multi-workstream initiative to redesign how a global professional services firm shows up for buyers, human and AI alike."
+  meta={[
+    { label: "Role", value: "AI and Marketing Transformation Manager" },
+    { label: "Timeline", value: "May 2026 to present" },
+    { label: "Workstreams", value: "3 concurrent" },
+    { label: "Status", value: "Pitch ready; pilot in procurement" },
+  ]}
+  summary={{
+    problem: "Buyers now start their research with AI, and the firm's website wasn't built to show up in those answers.",
+    did: "I'm leading the strategy across three workstreams: the CMO pitch, a generative engine optimization pilot, and a personalization framework.",
+    result: "In progress. The pitch is built and ready, and the pilot is scoped and in procurement.",
+  }}
+  quotes={quotes.aiFirstChannel}
+>
+  <Section label="Program overview" heading="The channel hadn't changed. Buyer behavior had." id="overview">
+    <p>Large professional services firms invest heavily in their websites, but those sites are built for a world where buyers navigate directly to them. In 2026, a growing share of B2B buyers start with AI. They query. They get answers. And the brands that aren't structured to appear in those answers don't exist in that moment.</p>
+    <p>This initiative is built around that recognition. The goal: redesign how a global firm's primary web channel works, including its architecture, its content, its intelligence layer, and its AI-facing infrastructure, and build the business case and operational machinery to make that transformation real.</p>
+    <div class="grid grid--2 blocks">
+      <div><h3 class="card-title">The problem</h3><p class="body-s muted">The site was organized around internal capability structure, not buyer challenges. It wasn't designed to be cited by AI. It wasn't personalized. It didn't connect content to commercial outcomes. The result was an invisible channel: present for direct traffic, absent in the upstream AI discovery layer where buyers now form their shortlists.</p></div>
+      <div><h3 class="card-title">The audience</h3><p class="body-s muted">Mid-market to enterprise B2B buyers researching complex technology and transformation services. Distinct audience segments include C-suite decision-makers, technical evaluators, and operations and procurement stakeholders, each with different triggers, different queries, and different content needs at each stage.</p></div>
+      <div><h3 class="card-title">My role</h3><p class="body-s muted">Strategy and program management lead. Responsible for narrative architecture, workstream design, stakeholder alignment, vendor partnership, and keeping a complex multi-track initiative moving. Operating in close partnership with an executive sponsor who is accountable to the chief marketing officer (CMO).</p></div>
+      <div><h3 class="card-title">The constraints</h3><p class="body-s muted">An incoming CMO with no prior context. A new vendor requiring procurement and legal review. A design team that needed scope to stay focused. No existing generative engine optimization (GEO) infrastructure. And the pressure to build a credible business case for significant investment before a pilot could produce any results.</p></div>
+    </div>
+  </Section>
+
+  <Section label="Program architecture" heading="Three workstreams. One through-line." id="architecture">
+    <p>The initiative isn't a single project. It's a coordinated program with three workstreams on a shared strategic foundation, each designed to reinforce the others. The foundation informs the CMO pitch. The pilot is designed to validate what the pitch promises. Design makes the vision concrete.</p>
+    <Diagram minWidth={760}><Architecture /></Diagram>
+  </Section>
+
+  <Section label="Strategic decisions" heading="The judgment calls that shaped the program." id="decisions">
+    <p>These aren't descriptions of what was built. They're the reasoning behind why it was built this way.</p>
+    <Decisions items={decisions} />
+  </Section>
+
+  <Section label="Workstream 01" heading="The CMO pitch: building a business case from scratch">
+    <p>Designing and writing a full strategic investment narrative for an incoming CMO, with no prior context, a revenue-first orientation, and a 5-chapter structure built around buyer behavior and commercial return.</p>
+    <p><span class="ms-tag ms-tag--status">Status: built and ready; pitch not yet presented</span></p>
+    <Callout><p>The hardest part wasn't writing the chapters. It was deciding what order to tell the story in, and what to leave out. A narrative that's technically complete but politically wrong doesn't work. The structure had to meet the CMO where they are arriving, not where the team has already been.</p></Callout>
+    <p>The presentation is structured across five chapters plus The Ask. Chapter 1 establishes the market shift: LLMs splitting the buyer funnel into an upstream AI discovery layer and a downstream human validation layer. Chapter 2 builds the revenue case around what's being missed. Chapter 3 lays out five strategic bets ordered by buyer impact. Chapter 4 makes it tangible through a variable matrix system, an interactive wireframe, and a real-world mid-market use case. Chapter 5 addresses execution: technology requirements, vendor landscape, and a crawl/walk/run roadmap.</p>
+    <p>The competitive landscape and agent experience detail were moved to an appendix. The logic: the human experience is more tangible for a new CMO. Lead with what they can see and react to. Let the AI infrastructure follow.</p>
+    <DataTable headers={dHead} rows={[
+      ["Full narrative story document", "Word", "Executive sponsor", "Chapter-by-chapter narrative for review and alignment before slide production"],
+      ["Structured slide outline (v12)", "Word / 27-slide table", "Executive sponsor", "Slide-by-slide content map with claims, evidence, and sourcing"],
+      ["Interactive wireframe prototype", "HTML", "CMO + design team", "Make the variable matrix and personalized experience tangible before the Figma build"],
+      ["Variable matrix system", "Framework", "Design team + executive sponsor", "Define the buyer-state variables needed to design a personalized experience"],
+    ]} />
+    <ol class="chapters" role="list">
+      {chapters.map(([n, t, d], i) => (
+        <li class={i === 2 ? "is-key" : ""}><span class="ms-tag ms-tag--eyebrow">{n}</span><h3 class="body-s chapter__title">{t}</h3><p class="body-s muted">{d}</p></li>
+      ))}
+    </ol>
+  </Section>
+
+  <Section label="Workstream 02" heading="The GEO pilot: vendor partnership and proof of concept">
+    <p>Scoping, designing, and mobilizing a generative engine optimization pilot with a net-new technology vendor, from initial vendor evaluation through procurement initiation and working session facilitation.</p>
+    <p><span class="ms-tag ms-tag--status">Status: scoped; in procurement and legal review</span></p>
+    <Callout><p>The vendor's value isn't one-time content creation. It's the ongoing optimization and governance of agent-facing pages as LLM behavior evolves. That distinction, maintenance as the differentiator rather than the build, is the core of the business case argument.</p></Callout>
+    <p>The pilot is designed around one guiding principle: the smallest scope that proves value with minimal governance and technical complexity. That means scoping to a single business unit as the initial test environment, with clear success criteria before any expansion. Keeping the pilot bounded isn't a compromise. It's the argument for why the procurement and legal review is worth initiating now.</p>
+    <p>Two detailed mid-market buyer journey use cases were developed to make the pilot concrete for the executive sponsor: a cybersecurity scenario (Director of IT Security at a manufacturing company, triggered by a peer's ransomware attack) and a finance and ERP scenario (Finance Operations Manager, triggered by a CFO mandate for Series C readiness). Each includes a day-by-day AI query sequence, emotional state annotation, channel behavior mapping, and content gap analysis, making the invisible AI window visible in the channel layer.</p>
+    <DataTable headers={dHead} rows={[
+      ["Vendor business case (v3)", "Word", "Procurement + legal colleague", "Initiate global legal review and procurement for net-new vendor onboarding"],
+      ["Buyer journey use case deck (v6)", "PowerPoint / 10 slides", "Executive sponsor", "Make the pilot scenario concrete; surface content gaps as the evidence for why the pilot is needed"],
+      ["Vendor outreach email", "Email", "Vendor contact", "Reconnect, signal internal momentum, set up the pilot scoping conversation; establish tone-of-voice reference"],
+      ["Working session notes + action log", "Document", "Executive sponsor, platform lead, vendor team", "Capture alignment, open questions, and owner assignments from the cross-functional session"],
+    ]} />
+    <DataTable headers={["Constraint", "How it was handled"]} rows={[
+      ["Net-new vendor (no existing procurement path)", "Built a standalone business case document specifically for procurement and legal, separate from the strategic use case deck. Kept the two documents linked but distinct so each could do its job for the right audience."],
+      ["No GEO infrastructure exists yet", "Designed the pilot to start with content scraping before requiring deeper content delivery network (CDN) or content management system (CMS) integration. The principle: prove the value of the content layer before committing to the technical architecture."],
+      ["Content governance undefined", "Flagged as an open question rather than a blocker. Identified analyst-relations content as the most credible early knowledge base source: already structured, reviewed, and authoritative. Left the broader governance design to the working session."],
+      ["Pilot scope pressure (expand vs. focus)", "Held the line on a bounded scope. The argument: a tightly scoped pilot with clean success criteria is easier to approve, easier to run, and easier to learn from than a sprawling one. Smallest and fastest path to proving value."],
+    ]} />
+  </Section>
+
+  <Section label="Workstream 03" heading="Design and prototyping: making the vision concrete">
+    <p>Scoping and framing a personalization and design system that makes the strategic vision tangible for both executives and the design team, without getting ahead of what the program can actually build.</p>
+    <Callout><p>The design team needed to know what variables mattered before they could design anything. Scoping the variable matrix wasn't a design exercise. It was a strategic one. Deciding what to focus on now, and what to worry about later, was the work.</p></Callout>
+    <p>The personalization framework is built around buyer state rather than page type. Macro signals (mode, flavor, segment) define what the buyer is in the market for. Micro moments (spark, land, explore, act, follow-up) define where they are in the journey. Five GenAI experience archetypes (Adaptive Advisor, Thought Partner, Pre-Sales Assistant, Signal Amplifier, Lead Incubator) define what the site does for them at each moment.</p>
+    <p>The variable matrix system translates this framework into something a design team can work from: a defined set of inputs that determine which version of the experience a buyer sees. The interactive wireframe prototype makes this tangible for the executive sponsor without waiting for the Figma build to be complete.</p>
+    <DataTable headers={dHead} rows={[
+      ["Variable matrix system", "Framework document", "Design team + executive sponsor", "Define the buyer-state variables the personalized experience needs to respond to"],
+      ["Site intelligence personalization framework", "Strategy document + archetypes", "Design team", "Define macro signals, micro moments, and GenAI experience archetypes for the site intelligence layer"],
+      ["Interactive wireframe prototype", "HTML", "CMO deck / executive sponsor", "Make the personalized experience tangible before the full Figma prototype is available"],
+      ["Design team scope brief", "Working session + document", "Design team lead + team", "Define which variables to prioritize now, which to defer, and what the design team needs to solve for first"],
+    ]} />
+  </Section>
+
+  <Section label="Skills demonstrated" heading="What this program requires." id="skills">
+    <Skills groups={[
+      ["Program-level", ["AI strategy for marketing", "Multi-workstream program management", "Executive narrative development", "Business case design", "Stakeholder alignment", "Political sequencing", "Revenue-connected framing", "Vendor partnership and procurement"]],
+      ["Strategy and content", ["Generative engine optimization (GEO)", "B2B buyer journey mapping", "Needs-led site architecture", "Content strategy", "Narrative architecture", "Dark funnel analysis", "Data sourcing and vetting", "AI/LLM behavior applied to marketing"]],
+      ["Design and execution", ["Personalization system design", "Variable matrix frameworks", "Interactive prototype development", "Design team scoping", "Pilot design", "Cross-functional coordination", "AI-assisted production workflows", "Demand generation systems"]],
+    ]} />
+  </Section>
+</CaseLayout>
+
+<style>
+  .blocks > div { padding-top: var(--space-2); border-top: 1px solid var(--brass); display: flex; flex-direction: column; gap: var(--space-1); }
+  .chapters { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--paper-raised); overflow: hidden; }
+  @media (min-width: 900px) { .chapters { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+  .chapters li { padding: var(--space-2); border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 4px; }
+  .chapters li:first-child { border-top: 0; }
+  @media (min-width: 900px) { .chapters li { border-top: 0; border-left: 1px solid var(--line); } .chapters li:first-child { border-left: 0; } }
+  .chapters li.is-key { background: var(--turquoise-tint); }
+  .chapter__title { font-weight: 600; }
+</style>

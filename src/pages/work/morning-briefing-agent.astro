@@ -1,0 +1,115 @@
+---
+import CaseLayout from "../../components/case/CaseLayout.astro";
+import Section from "../../components/case/Section.astro";
+import Decisions from "../../components/case/Decisions.astro";
+import DataTable from "../../components/case/DataTable.astro";
+import Skills from "../../components/case/Skills.astro";
+import Bullets from "../../components/case/Bullets.astro";
+
+const output = [
+  ["Today at a glance", "3 to 5 sentences: key meetings, top priorities, time-sensitive items."],
+  ["Needs my attention", "Responses, decisions, approvals, and reviews, ranked by urgency and stakeholder impact."],
+  ["Decisions required", "Open questions where I'm the decision-maker, and what's blocked until I act."],
+  ["Risks and blockers", "Escalations, overdue items, and missed follow-ups that could derail work in flight."],
+  ["Meeting prep", "For each meeting: the goal, what I need to know, and what I should be ready to decide."],
+  ["Can wait", "FYIs and low-priority threads I can safely deprioritize."],
+];
+const config: [string, string[]][] = [
+  ["Agent configuration", ["Role, responsibilities, and recurring priorities written into the agent description", "Key stakeholders, major projects, and their acronyms named so ownership is attributed correctly", "Knowledge scoped to email, Teams chats, Teams meetings, and relevant SharePoint libraries", "Starter prompts for six use cases, including daily briefing, midweek review, and meeting prep"]],
+  ["Prioritization logic", ["Prioritizes by work state, not project label", "Needs my response, decision, approval, or review", "Someone is blocked or waiting on me", "Deadline is today, overdue, or approaching", "Leadership visibility, escalation, repeated follow-up, or a material change in scope or timing"]],
+  ["Accuracy guardrails", ["Don't infer ownership from participation: attending a meeting isn't owning the action", "Don't invent deadlines or decisions not evidenced in the source", "Don't summarize everything; surface only what needs attention or carries risk", "Consolidate duplicate signals across threads and channels"]],
+  ["Scheduling and automation", ["Runs Monday to Friday before inbox-open time", "Separate Wednesday follow-through review on the same agent", "Email notification so the briefing lands before the inbox is opened", "Validated with a Run Now test before relying on scheduled output"]],
+];
+---
+<CaseLayout
+  slug="morning-briefing-agent"
+  eyebrow="AI agent design"
+  headline="An AI chief of staff for the first 20 minutes of the day"
+  sub="Designing a Microsoft 365 Copilot agent that replaces reactive inbox scanning with a prioritized daily briefing, then piloting it, using it daily, and teaching my team to build their own."
+  meta={[
+    { label: "Role", value: "AI and Marketing Transformation Manager" },
+    { label: "Platform", value: "Microsoft 365 Copilot (custom agent)" },
+    { label: "Status", value: "Pilot complete; in daily use" },
+    { label: "Reach", value: "Presented to team with a build-your-own handout" },
+  ]}
+  summary={{
+    problem: "Mornings started with 20 to 30 minutes of reading to find 5 minutes of real action items.",
+    did: "I designed a Copilot agent that turns the last 24 hours of email, chat, and meetings into a six-part briefing, then piloted it for two weeks against five quality checks.",
+    result: "The agent is in daily use, and a build-your-own handout turned one person's workflow into a team pattern.",
+  }}
+>
+  <Section label="The problem" heading="Inbox tools organize information. They don't organize attention.">
+    <p>Most mornings start reactively: open email, scan threads, and try to reconstruct what actually needs you. The problem isn't volume. It's prioritization.</p>
+    <Bullets items={[
+      "20 to 30 minutes of reading to find 5 minutes of real action items",
+      "Follow-ups buried in long threads, then missed",
+      "Walking into meetings without knowing what decision is needed",
+      "Losing track of where you're blocked, or where someone is waiting on you",
+      "Escalations surfacing late because nothing flagged them early",
+    ]} />
+  </Section>
+
+  <Section label="The output" heading="Six sections, in the order a busy person needs them">
+    <p>The agent runs on a schedule, reviews the previous 24 hours of email, Teams messages, and meeting activity, and delivers a structured briefing before the inbox opens.</p>
+    <Decisions cols={3} items={output.map(([title, body]) => ({ title, body }))} />
+  </Section>
+
+  <Section label="How it was built" heading="Not plug-and-play: four layers of configuration">
+    <div class="grid grid--2 layers">
+      {config.map(([t, items]) => (
+        <div class="layer"><h3 class="ms-tag ms-tag--eyebrow">{t}</h3><Bullets items={items} /></div>
+      ))}
+    </div>
+  </Section>
+
+  <Section label="The prompt" heading="Short, instruction-dense, and explicit about what to leave out">
+    <figure class="prompt">
+      <figcaption class="ms-tag ms-tag--eyebrow">Daily briefing prompt</figcaption>
+      <blockquote>"Generate my Morning Briefing. Review relevant activity from the previous 24 hours, plus unresolved or upcoming items that materially affect today. Prioritize actions requiring my response, decisions requiring my input, risks and dependencies, meaningful project changes, and meetings requiring preparation. <mark>Do not provide a general recap.</mark>"</blockquote>
+    </figure>
+    <p>The last sentence does the most work. Without it, the agent defaults to summarizing everything, which is exactly the problem the agent exists to solve.</p>
+  </Section>
+
+  <Section label="Pilot" heading="Tested before trusted">
+    <p>The agent stayed private during testing. After a validation run, I ran a structured two-week pilot against five quality checks, each with a defined fix if it fell short. The pilot is complete, and the agent is now part of my daily routine.</p>
+    <DataTable headers={["Dimension", "Quality check", "If not working"]} rows={[
+      ["Signal vs. noise", "Did it surface useful, actionable items?", "Add stronger prioritization filters"],
+      ["Accuracy", "Did it correctly identify ownership and source?", "Strengthen evidence and attribution rules"],
+      ["Prioritization", "Were the top items truly the most important?", "Refine the priority logic and signal hierarchy"],
+      ["Meeting prep", "Was the prep specific and actionable?", "Narrow the meeting look-ahead window"],
+      ["Wednesday value", "Did the midweek review catch slipping items?", "Keep, simplify, or remove if redundant"],
+    ]} />
+  </Section>
+
+  <Section label="Why it matters" heading="From personal tool to team practice">
+    <Decisions items={[
+      { label: "System", title: "A system, not a prompt", body: "Inputs, prioritization logic, guardrails, structured output, and a pilot feedback loop." },
+      { label: "Prompting", title: "Prompt engineering", body: "Explicit inclusions, explicit exclusions, and a fixed output structure, written for reliable repeat runs." },
+      { label: "Rollout", title: "Build vs. deploy", body: "Private testing, a validation run, and a structured pilot before relying on it." },
+      { label: "Enablement", title: "Enablement", body: "Presented as an AI segment at a team all-hands, with a handout so colleagues could build their own." },
+    ]} />
+  </Section>
+
+  <Section label="Outcomes" heading="Where it landed">
+    <Bullets cols={2} items={[
+      "Two-week pilot completed against five defined quality checks",
+      "Agent in daily use, plus a separate midweek follow-through review",
+      "Briefed the team on the agent and its capabilities at an all-hands",
+      "Build-your-own handout turned one person's workflow into a repeatable team pattern",
+    ]} />
+    <p class="body-s"><a href="/writing/agents-do-the-work-first">Read the essay: Build agents that do the work first</a></p>
+  </Section>
+
+  <Section label="Skills demonstrated" heading="What this project required">
+    <Skills groups={[["Core", ["AI agent design", "Prompt engineering", "AI enablement", "Pilot design and evaluation"]], ["Supporting", ["Knowledge source scoping", "Accuracy guardrails", "Microsoft 365 Copilot", "Presenting AI to non-technical audiences"]]]} />
+  </Section>
+</CaseLayout>
+
+<style>
+  .layer { background: var(--paper-raised); border: 1px solid var(--line); border-radius: var(--radius-md); padding: var(--space-3); }
+  .layer :global(.bullets) { margin-top: var(--space-1); }
+  .prompt { margin: 0; max-width: 760px; background: var(--ink); color: var(--paper); border-radius: var(--radius-md); padding: var(--space-3); }
+  .prompt figcaption { color: var(--turquoise-tint); }
+  .prompt blockquote { margin: var(--space-1) 0 0; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: var(--type-body-s-size); line-height: var(--type-body-line); }
+  .prompt mark { background: none; color: var(--turquoise-tint); font-weight: 600; }
+</style>

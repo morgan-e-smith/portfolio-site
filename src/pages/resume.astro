@@ -1,0 +1,42 @@
+---
+import Base from "../layouts/Base.astro";
+import EmailButton from "../components/EmailButton.astro";
+import Button from "../components/Button.astro";
+import { site } from "../data/site";
+const glance = ["AI and Marketing Transformation Manager", "8+ years", "AI adoption in marketing", "New York area"];
+---
+<Base title="Resume" description="The one-page version of everything on this site.">
+  <section class="section">
+    <div class="wrap">
+      <h1 class="display-xl">Resume</h1>
+      <p class="lede measure" style="margin-top: var(--space-2)">The one-page version of everything on this site.</p>
+      <div class="actions">
+        <Button label="Download resume (PDF)" href={site.resumePdf || undefined} disabled={!site.resumePdf} download />
+      </div>
+
+      <div class="glance">
+        <span class="ms-tag ms-tag--eyebrow">At a glance</span>
+        <p class="glance__line">{glance.join(" · ")}</p>
+      </div>
+
+      <div class="pdf">
+        {site.resumePdf
+          ? <object data={site.resumePdf} type="application/pdf" aria-label="Resume preview"><p>Your browser can't show the PDF here. <a href={site.resumePdf}>Open the resume PDF</a>.</p></object>
+          : <div class="pdf__placeholder body-s muted">Resume preview appears here once the web PDF is added.</div>}
+      </div>
+
+      <div class="actions">
+        <EmailButton />
+        <Button label="LinkedIn" href={site.linkedin || undefined} variant="secondary" disabled={!site.linkedin} external />
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .glance { margin-top: var(--space-4); padding-top: var(--space-2); border-top: 1px solid var(--brass); }
+  .glance__line { font-family: var(--font-serif); font-size: var(--type-card-title-size); line-height: var(--type-card-title-line); margin-top: var(--space-1); }
+  .pdf { margin-top: var(--space-4); }
+  .pdf object { width: 100%; height: 80vh; min-height: 600px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--paper-raised); }
+  .pdf__placeholder { aspect-ratio: 8.5 / 11; max-width: 640px; border: 1px dashed var(--line); border-radius: var(--radius-md); background: var(--paper-raised); display: grid; place-items: center; padding: var(--space-3); text-align: center; }
+</style>

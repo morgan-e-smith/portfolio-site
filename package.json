@@ -1,0 +1,19 @@
+{
+  "name": "morgan-smith-portfolio",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "tokens": "node scripts/build-tokens.mjs",
+    "dev": "npm run tokens && astro dev",
+    "build": "npm run tokens && astro build && node scripts/build-kb.mjs",
+    "preview": "astro preview",
+    "check:copy": "node scripts/check-copy.mjs",
+    "test:assistant": "node scripts/test-assistant.mjs",
+    "test:assistant:held": "SHOW_DRAFTS=true astro build && KB_INCLUDE_HELD=true node scripts/build-kb.mjs && node scripts/test-assistant.mjs --label held-included; npm run build",
+    "test:routing": "node tests/routing.test.mjs"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.131.0",
+    "astro": "^7.3.5"
+  }
+}

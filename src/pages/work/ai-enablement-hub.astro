@@ -1,0 +1,236 @@
+---
+// Content-rule edits: internal program and page names replaced with plain descriptions.
+import CaseLayout from "../../components/case/CaseLayout.astro";
+import Section from "../../components/case/Section.astro";
+import Decisions from "../../components/case/Decisions.astro";
+import DataTable from "../../components/case/DataTable.astro";
+import Callout from "../../components/case/Callout.astro";
+import Diagram from "../../components/case/Diagram.astro";
+import Skills from "../../components/case/Skills.astro";
+import Stats from "../../components/case/Stats.astro";
+import Bullets from "../../components/case/Bullets.astro";
+import SiteMap from "../../components/diagrams/HubSiteMap.astro";
+import Homepage from "../../components/diagrams/HubHomepage.astro";
+import Recordings from "../../components/diagrams/HubRecordings.astro";
+import ClaudePage from "../../components/diagrams/HubClaudePage.astro";
+import Cards from "../../components/diagrams/HubCards.astro";
+import Winners from "../../components/diagrams/HubWinners.astro";
+import ColorSystem from "../../components/diagrams/HubColorSystem.astro";
+import Library from "../../components/diagrams/HubLibrary.astro";
+import { quotes } from "../../data/testimonials";
+
+const workflow = [
+  ["Define the requirement", "Translate a business or design need into a precise brief in plain language."],
+  ["Generate and review", "Review HTML, CSS, or JSON output against specs, copy rules, and brand guidelines."],
+  ["Test in SharePoint", "Upload, embed, and verify behavior in the live environment. Feed results back."],
+  ["Document findings", "Confirmed behaviors go into the Maintenance Guide and project memory, so nothing gets rediscovered next session."],
+];
+const archDecisions = [
+  { title: "Homepage as router, not content page", body: "The homepage doesn't try to do everything. It orients, surfaces what's new, and routes colleagues to the right place. The \"Where do you want to go?\" 4-panel navigation is the primary wayfinding element, designed to answer the most common first question without requiring any scrolling." },
+  { title: "Task-first, not tool-first", body: "Both the use cases page and the AI Library are organized by what you want to accomplish, not which tool you're using. A colleague asking \"can AI help me write a brief faster?\" should find relevant examples immediately, without knowing the tool landscape first. The tools directory is a separate page for when someone is ready to go deeper on a specific platform." },
+  { title: "Segmented sub-pages for segmented audiences", body: "The Claude Deep Dive page exists because licensed users have a different relationship with that tool than the rest of the function: they need habits, use cases, contributor resources, and platform-specific updates. Putting that content on the main tools page would clutter it for the majority of colleagues who use other tools. A dedicated sub-page keeps the main navigation clean while giving that audience what they need." },
+  { title: "The content flywheel", body: "The \"Share Your Examples\" page and the AI recognition program are not separate initiatives. They're designed to feed the AI Library. A colleague submits work, it enters the library, other colleagues find it, get inspired, and submit their own. Community &amp; Support, Recordings, and the Library are all connected by this loop, turning a static resource into a living record of M&amp;C's AI capability over time." },
+  { title: "Learning designed around the behavior change, not the content", body: "The Learning page is structured around four distinct stages of enablement rather than a flat list of resources. \"Get up to speed\" covers required onboarding. \"Update your skills profile\" gives colleagues a tangible next step with a job aid and FAQs. \"Get better at prompting\" is for those ready to develop real fluency. \"Explore more\" handles ongoing learning without overwhelming early-stage colleagues with advanced content." },
+];
+const recordings = [
+  { label: "Decision", title: "Why topic-based, not chronological", body: "A chronological list works for people who attended the session live and want to go back. It doesn't work for the colleague who missed it and is searching for content on a specific tool or topic six weeks later. Topic-based organization (M&amp;C Regional Calls, AI learning series, Claude, Copilot, firm platforms) maps to how colleagues actually navigate. Tools are embedded within the topic schema rather than as a separate organizational layer, because tool and topic often overlap." },
+  { label: "Decision", title: "Accordion structure for scannability", body: "Sessions accumulate over time, and a flat list would become unwieldy quickly. Accordion sections let a colleague expand only the topic they care about, without scrolling through irrelevant content. The popular-topics quick links at the top surface the most-accessed categories immediately. With accordions now grouping content clearly, those links may be redundant and are worth revisiting as the page matures." },
+  { label: "Decision", title: "Viva Engage right rail: a deliberate cross-promotion", body: "The Viva Engage community feed appears on the right rail across all hub pages. The intent isn't just to surface content. It's to remind colleagues that a live community exists alongside the static resources. A colleague watching a recording is already in an engaged, learning mindset, which is the right moment to prompt them to join the conversation. Consistency across pages also means the feed becomes a recognizable element, not a surprise." },
+];
+const claude = [
+  { label: "Decision", title: "Why a sub-page, not a main nav item", body: "The full function uses nine AI tools. Giving one tool a top-level navigation slot would imply it outranks the broader tool landscape, and would clutter the navigation for the majority of colleagues who primarily use other platforms. A sub-page keeps the main nav clean while giving licensed users a dedicated, rich experience that the tools directory card format can't support." },
+  { label: "Decision", title: "Four habits: grounding people in AI fundamentals, not features", body: "The four habits section (always start in a Project; give Claude a role, audience, and format; paste the real thing; iterate) was a deliberate editorial choice to lead with mindset and behavior rather than feature documentation. The goal was to change how colleagues think about working with AI, not just show them where the buttons are. The note at the bottom, that these tips apply to other AI tools too, was included intentionally: licensed users aren't the only M&amp;C colleagues using AI, and the habits are genuinely transferable." },
+  { label: "Decision", title: "Use cases organized by verb, not role", body: "Use Claude to Write, Analyze, Reason, Create, rather than \"for strategists\" or \"for content teams.\" Every marketer, regardless of role or seniority, will at some point need to write, analyze, reason, and create. Verb-based organization is role-agnostic by design: it meets colleagues where their actual task is, instead of asking them to self-identify their job function before finding relevant content." },
+  { label: "Decision", title: "Right-rail jump nav: necessary for a dense sub-page", body: "The Claude page is significantly denser than any other page in the hub. It carries habits, use cases, session replays, eight resource cards, colleague-contributed guides, and a What's New module. A right-rail jump navigation (Home, Roles &amp; Use Cases, Agents &amp; Platforms, Learning &amp; Events, Community) lets a returning colleague navigate directly to what they need rather than scrolling a long page. It isn't standard across the hub. It was added specifically because this page warrants it." },
+  { label: "Decision", title: "Resources chosen to maximize license ROI", body: "The eight resource cards (onboarding, training, community, prompting, enterprise community, Anthropic's marketing course, Anthropic Academy, and support) were selected to cover the full enablement lifecycle. Onboarding and 101 for new users. Token efficiency and prompting guides for those building fluency. Academy and the marketing course for those going deep. Community and support for ongoing engagement and issue resolution. The aim: a licensed user at any stage of their journey finds something immediately useful." },
+];
+const modules = [
+  { label: "Primary module", title: "What's New Card Module", body: "A responsive CSS grid of content cards tagged by type, with color-coded category labels, inline SVG icons, action-oriented CTAs, and optional closing-date badges. The hub's homepage anchor.<br><span class=\"note\">v1 to v9+ shipped · 6 card types</span>" },
+  { label: "Spotlight", title: "Recognition Program Winners Module", body: "Dark-themed 4-column spotlight recognizing internal AI competition winners. Grayscale headshots, category-matched color labels, hover-state CTA.<br><span class=\"note\">Base64 image embedding · Dark theme</span>" },
+  { label: "Directory", title: "Tools Directory Module", body: "Grid of cards covering nine AI platforms available to M&amp;C colleagues, each with text-style CTAs.<br><span class=\"note\">9 tool cards · Text-style CTAs</span>" },
+  { label: "Promo", title: "Survey Promo Banner", body: "Dark strip banner with a color-coded badge, designed to sit between native SharePoint web parts without visual disconnect.<br><span class=\"note\">Inline placement · On-system styling</span>" },
+  { label: "Sub-page", title: "Claude Page What's New", body: "A separate card module for the Claude tool page, with its own IA: date, headline, description, optional contributor attribution, CTA.<br><span class=\"note\">Scoped to licensed Claude users</span>" },
+  { label: "System", title: "Maintenance Guide", body: "A living internal document (v4) capturing layout rules, iframe sandbox behavior, file naming conventions, known bugs, and module filenames.<br><span class=\"note\">v4 · Ongoing documentation</span>" },
+];
+const cardDesign = [
+  { label: "Card element", title: "Color-coded top bar", body: "Maps to the \"What did you use or create?\" field using nested if() expressions across all eight possible values, each tied to a brand color." },
+  { label: "Card element", title: "Outcome pull quote", body: "Surfaces the Outcome field (falling back to the one-line summary if empty) as the primary card content, in italic. This keeps cards outcome-led rather than tool-led." },
+  { label: "Card element", title: "Impact, tool, and phase metadata", body: "A secondary row shows impact delivered and the AI tool used in truncated single-line format, plus a phase thumbnail icon surfaced from list column images via getThumbnailImage()." },
+];
+---
+<CaseLayout
+  slug="ai-enablement-hub"
+  eyebrow="AI enablement and change management"
+  headline="AI Enablement Hub"
+  sub="Building the infrastructure for AI adoption across a 2,000-person Marketing and Communications (M&C) function, from custom intranet modules to a filterable knowledge library, without waiting on a developer, a budget, or a queue."
+  meta={[
+    { label: "Role", value: "Program Lead, M&C AI Enablement" },
+    { label: "Organization", value: "Marketing & Communications, global professional services firm" },
+    { label: "Platform", value: "SharePoint Online" },
+    { label: "Timeline", value: "April 2026 to present" },
+    { label: "Workstreams", value: "Site Architecture & Strategy · Custom Module Design · AI Library" },
+  ]}
+  summary={{
+    problem: "Colleagues were building real AI work, but there was no single place to get oriented, build skills, or find what others had already made.",
+    did: "I designed, built, and run an AI enablement hub for 2,000 marketers, including custom modules and a filterable library of real colleague examples.",
+    result: "170+ examples in the live library, and roughly twice the unique viewers in the 30 days after relaunch.",
+  }}
+  quotes={quotes.aiEnablementHub}
+>
+  <section class="section" aria-label="Program at a glance">
+    <div class="wrap">
+      <Stats items={[["2,000", "M&C colleagues served"], ["170+", "Live AI examples in the knowledge library"], ["~2x", "Unique viewers in the 30 days after relaunch"], ["1", "person built and runs it"]]} />
+    </div>
+  </section>
+
+  <Section label="Program context" heading="The AI Enablement Hub">
+    <p>The AI Enablement Hub is an internal SharePoint intranet site I built and own. It is the central resource for AI tool updates, enablement content, campaigns, and internal communications across the firm's Marketing and Communications function, serving approximately 2,000 colleagues globally, plus a dedicated sub-audience of licensed users of one AI platform.</p>
+    <p>My role spans the full program: information architecture, UX design, HTML and JSON development, internal communications, content strategy, and stakeholder coordination. Two workstreams sit at the center of this portfolio piece. Each is distinct technically, but both serve the same program goal: making AI adoption real and accessible for M&amp;C colleagues at scale.</p>
+    <Decisions items={[
+      { label: "Workstream 1", title: "Custom module design", body: "Custom HTML module design for the hub: a system of branded, responsive modules embedded in SharePoint via the Embed web part, built without design tools or developer support." },
+      { label: "Workstream 2", title: "The AI Library", body: "A dynamically filtered gallery of 170+ real colleague AI examples, built using SharePoint native capabilities most teams never find, with a full content governance model alongside it." },
+    ]} />
+  </Section>
+
+  <Section label="AI-assisted development" heading="How I used Claude across both workstreams">
+    <p>I used Claude as the primary production tool throughout this program: not as a search engine or writing assistant, but as an iterative build partner for tasks that would otherwise require developer skills. Every structural, design, and content decision was mine.</p>
+    <ol class="steps" role="list">
+      {workflow.map(([t, d], i) => <li><span class="steps__num" aria-hidden="true">{i + 1}</span><h3 class="body-s steps__title">{t}</h3><p class="body-s muted">{d}</p></li>)}
+    </ol>
+    <Callout><p>The skill being demonstrated is not "I can prompt an AI." It's "I can use AI to close the gap between what I can conceptualize and what I can ship, without waiting on a developer, a budget, or a queue."</p></Callout>
+  </Section>
+
+  <Section label="Strategy" heading="Site architecture: what to build and why">
+    <p>Before a single module was built, the site needed a clear information architecture. The central question: what does a 2,000-person M&amp;C function actually need to get enabled on AI, and in what order do they need it?</p>
+    <p>The answer shaped every page. Colleagues fall into three groups: those who need orientation ("what tools do I have access to?"), those who need to build skills ("how do I get better at this?"), and those ready to go deeper ("show me real examples and let me contribute my own"). The hub is structured to serve all three without forcing anyone down a linear path.</p>
+    <Decisions items={[
+      { label: "Principle", title: "Organizing principle", body: "Every page answers a specific question a colleague would actually ask. Not \"here is information about AI,\" but \"where do I start?\", \"what tools do I have?\", \"how do I get better?\", \"what has my team already built?\"" },
+      { label: "Audiences", title: "Audience segmentation", body: "The full hub serves ~2,000 M&amp;C colleagues. A tool-specific page serves the smaller group of licensed users of that platform and carries deeper technical content, use case examples, and session replays scoped to that tool." },
+    ]} />
+  </Section>
+
+  <Section label="Information architecture" heading="Hub structure: 7 pages, one through-line">
+    <p>Each page has a defined job. The homepage routes; the content pages deliver. The architecture is designed so a first-time visitor can orient in under 30 seconds, and a returning colleague can navigate directly to what they need.</p>
+    <Diagram label="Site map: page hierarchy and relationships" caption="Seven pages, each with a defined job. Homepage routes. Content pages deliver. Sub-pages serve segmented audiences without cluttering the primary navigation. Dashed lines indicate sub-page or linked relationships rather than top-level nav items." minWidth={720}><SiteMap /></Diagram>
+    <DataTable headers={["Page", "Job it does", "Audience"]} rows={[
+      ["Homepage", "Orient and route. Hero, survey callout, \"New here?\" quick-start strip, 4-panel navigation, What's New cards, recognition program winners, vision pull quote", "All 2,000 M&amp;C colleagues"],
+      ["Use cases", "Show what AI can actually do for M&amp;C work, organized by task type rather than tool. Five categories: Write &amp; Create, Analyze &amp; Summarize, Research &amp; Find, Automate &amp; Streamline, Build &amp; Present. Links to the AI Library for the full searchable collection", "All colleagues, especially those earlier in their AI journey"],
+      ["Explore Tools", "AI tools available to M&amp;C, organized as firm-built, Microsoft, and third party. Each card has a description, \"best for\" chips, access info, and CTAs. Nine tools total", "All colleagues. Entry point for tool-specific sub-pages"],
+      ["Learning", "Structured enablement in four blocks: Get up to speed (3 required steps), Update your skills profile, Get better at prompting, Explore more. Covers onboarding through skill-building", "All colleagues, prioritized for those newer to AI tools"],
+      ["Community &amp; Support", "Two primary CTAs (join Viva Engage, share AI examples) and a team directory (AI champion network, change network, change management team)", "All colleagues"],
+      ["Recordings &amp; Materials", "Session library organized by topic: M&amp;C regional calls, AI learning series, Claude, Copilot, firm platforms. Viva Engage feed on the right rail", "All colleagues"],
+      ["AI Library", "Filterable, searchable gallery of 170+ real M&amp;C AI examples: agents, prompts, workflows. Filterable by marketing phase across 11 categories. Content flywheel fed by the recognition program and ongoing submissions", "All colleagues. Primary destination for practitioners ready to go deeper"],
+      ["Claude Deep Dive", "Tool-specific deep dive: habits, use cases by verb, session replays, contributor resources, What's New card module. Separate IA from the main hub because the content is scoped to one tool and one audience", "Licensed Claude users"],
+    ]} />
+  </Section>
+
+  <Section label="Design rationale" heading="Key decisions behind the architecture">
+    <Decisions items={archDecisions} />
+  </Section>
+
+  <Section label="Homepage wireframe" heading="Homepage layout: routing over content">
+    <p>The homepage is designed to answer three questions in sequence: what is this? where do I go? what's new? Every section earns its place by advancing one of those questions.</p>
+    <Diagram label="Homepage: section hierarchy and layout" caption="Seven sections, each with one job. The 4-panel navigation sits above the fold on most screens, so a colleague can route themselves without scrolling. What's New cards and the recognition program module surface the most current content. The pull quote and contacts close the page with context and access." minWidth={560}><Homepage /></Diagram>
+  </Section>
+
+  <Section label="Page deep dive: Recordings and Materials" heading="Organized by topic, not date">
+    <p>The Recordings &amp; Materials page houses session replays, tool demos, and supplemental materials from M&amp;C regional calls and an AI learning series. The core IA decision, how to organize it, came down to one insight: colleagues don't remember when they watched something. They remember what it was about.</p>
+    <Decisions items={recordings} cols={3} />
+    <Diagram label="Recordings and Materials: page layout" caption="Accordion sections collapse content that isn't immediately relevant. The first section opens by default. The Viva Engage right rail is a consistent element across all hub pages, using a high-engagement moment (post-session viewing) to cross-promote the live community." minWidth={560}><Recordings /></Diagram>
+  </Section>
+
+  <Section label="Page deep dive: the Claude page" heading="A sub-page designed around ROI and behavior change">
+    <p>The Claude page is not part of the hub's primary navigation. It's a sub-page, accessible from the Explore Tools directory, scoped to the M&amp;C colleagues who hold Claude licenses. Every design decision on this page ties back to one premise: access to this tool is licensed separately, so the page is built to make sure that investment turns into real, everyday use.</p>
+    <Decisions items={claude} />
+    <Diagram label="Claude deep dive page: layout and IA" caption="The Claude page carries more content than any other page in the hub because its audience has dedicated access and needs the full picture. Every section maps to a stage of the enablement journey: orient (habits), discover (use cases), stay current (What's New), learn (session replays), and access (resources)." minWidth={560}><ClaudePage /></Diagram>
+  </Section>
+
+  <Section label="Workstream 01" heading="Custom module design">
+    <p>Building a system of branded, responsive HTML modules for the hub, designed and shipped entirely without a design team or developer.</p>
+    <h3 class="card-title">SharePoint's native web parts weren't enough</h3>
+    <p>SharePoint's built-in content blocks are limited in design flexibility. To deliver a hub that felt modern, on-brand, and genuinely useful, I built custom HTML modules hosted in a SharePoint document library and embedded via the Embed web part. That introduced a real technical constraint: HTML files render inside an iframe sandbox, which blocks most default browser behaviors.</p>
+    <p>There was no existing internal playbook for this approach at the function level. I built one from scratch, documented every constraint as it was discovered, and maintain a Maintenance Guide (currently v4) so the system can be handed off or scaled.</p>
+    <h3 class="card-title">Modules built</h3>
+    <p>Six distinct HTML modules shipped across the project, each solving a specific content and UX need.</p>
+    <Decisions items={modules} cols={3} />
+    <h3 class="card-title">Module wireframes</h3>
+    <p>Each module was designed with a clear information hierarchy before any code was written. The wireframes below reflect the layout, card structure, color system, and content hierarchy developed for the primary modules.</p>
+    <Diagram label="What's New card module: homepage grid" caption="Four-column card grid. Each card type maps to a distinct top-bar and tag color. CTAs align to the card bottom via flexbox. New cards appear first." minWidth={720}><Cards /></Diagram>
+    <Diagram label="Recognition program winners module: dark spotlight layout" caption="Dark-background 4-column layout. A light accent color marks category labels and top borders. Headshots are embedded as grayscale base64. The footer CTA shifts to the primary accent on hover." minWidth={720}><Winners /></Diagram>
+    <Diagram label="Color system and type hierarchy" caption="A seven-color system applied across all modules, with each content type mapped to a dedicated color. Typography uses two weights of the brand typeface, delivered via base64 @font-face so it works inside the iframe sandbox. Swatches shown here are representative only." minWidth={720}><ColorSystem /></Diagram>
+    <h3 class="card-title">Constraints discovered and solved</h3>
+    <p>Every constraint below was confirmed through live testing in SharePoint, not assumed. Each finding was documented in the Maintenance Guide so it wouldn't need to be rediscovered.</p>
+    <DataTable headers={["Constraint", "Discovery", "Resolution"]} rows={[
+      ["Link navigation", "iframe sandbox blocks all same-tab navigation, internal and external", "<code>target=\"_blank\"</code> on all links"],
+      ["File extension", ".aspx files download instead of render in this tenant configuration", "Always save as .html"],
+      ["Font embedding", "Base64 fonts in the style block cause silent render failure at large file sizes", "Separate project fonts file per session"],
+      ["Icon libraries", "CDN-hosted icon sets blocked by iframe sandbox; no external resources load", "All icons as inline SVG"],
+      ["Grid wrapping", "Cards wrap unexpectedly at certain widths because the <code>minmax()</code> minimum was too large", "Adjust <code>minmax()</code>; resize embed container"],
+      ["Card height parity", "<code>height: 100%</code> on individual cards unreliable across grid rows", "<code>grid-auto-rows</code>: fixed px on parent grid"],
+    ]} />
+  </Section>
+
+  <Section label="Workstream 02" heading="The AI Library">
+    <p>A dynamically filtered gallery of real colleague AI examples, built in SharePoint with no developer support, no external dependencies, and a full content governance model alongside it.</p>
+    <h3 class="card-title">Great work was invisible</h3>
+    <p>M&amp;C colleagues were building agents, writing prompt sets, and designing new AI workflows every day. But that work lived in inboxes and slide decks. There was no way for a colleague in a different region or team to discover what had already been built, borrow a prompt that worked, or understand which tools were most useful for their type of work.</p>
+    <p>The AI Library was designed to fix that: a browsable, filterable gallery of real examples, living in SharePoint with no external dependencies and no ongoing developer involvement.</p>
+    <Decisions items={[
+      { label: "Challenge", title: "Technical challenge", body: "SharePoint has no obvious native dynamic filtering between web parts. The standard path was a custom Power App or a developer. I had neither, and found a native SharePoint capability most teams never use." },
+      { label: "Challenge", title: "Change management challenge", body: "A library with outdated or miscategorized content builds distrust faster than no library. Content operations had to be designed alongside the product itself." },
+    ]} />
+    <h3 class="card-title">Organized by task, not tool</h3>
+    <p>The obvious structure was to organize by AI tool. But that's inside-out: it requires the user to already know which tool they want. Instead, the library is organized by what you used or created (agent, prompt set, workflow, accelerator, experiment). Tool and marketing phase work as secondary filters.</p>
+    <p>A colleague asking "how can AI help me speed up content review?" should find relevant examples without knowing which tool was involved. Task-first organizing solves that.</p>
+    <h3 class="card-title">Dynamic filtering, without code</h3>
+    <p>The solution uses two native SharePoint list web parts connected via SharePoint's built-in web part filter connection, a feature most teams never find because it's buried in web part settings. A marketing phase list acts as the filter source; the AI Library gallery receives it. Clicking a phase filters the gallery instantly with no page reload.</p>
+    <Callout label="Critical constraint discovered"><p>Dynamic filtering only works when the source list uses a standard list view, not a gallery view. This is not clearly documented by Microsoft. I'd built the phase filter as a gallery, and the connection option simply didn't appear. Switching the source to a standard list view with column-level JSON formatting unlocked the web part connection that made the whole system work.</p></Callout>
+    <Diagram label="Library layout: filter source connected to gallery" caption="The phase filter list (left, standard list view) connects to the branded gallery (right) via SharePoint's native web part connection. Clicking a phase filters the gallery instantly. Cards use color-coded top bars, outcome pull quotes, impact metadata, tool tags, and phase thumbnail icons, all defined in SharePoint gallery JSON. Card text shown is illustrative, not actual colleague submissions." minWidth={720}><Library /></Diagram>
+    <h3 class="card-title">Designing branded gallery cards in JSON</h3>
+    <p>SharePoint gallery views allow custom JSON formatting, but the tooling isn't visual: you write raw JSON that describes element hierarchy, conditional expressions, and style rules. The card design went through 32 iterations of the gallery JSON before landing on the final layout, each one built with Claude from a plain-language description, tested in the live list, and fed back with what broke or worked.</p>
+    <Decisions items={cardDesign} cols={3} />
+    <h3 class="card-title">Problems found and fixed</h3>
+    <DataTable headers={["Problem", "Discovery", "Resolution"]} rows={[
+      ["Card overflow", "Long outcome text overflowed tile boundaries and overlapped adjacent cards. Standard CSS fixes (overflow: hidden, max-height, line-clamp) behaved inconsistently and sometimes broke the layout. Took 16+ iterations to solve.", "Microsoft's default tile dimensions + default container classes, custom design inside them"],
+      ["Filter source type", "Gallery view as filter source hides the web part connection option entirely", "Standard list view for source only"],
+      ["Column name encoding", "SharePoint encodes special characters in column names (spaces, question marks, parentheses). Display names in JSON silently render nothing, with no error.", "Extract internal names from the List Settings URL; documented the mappings"],
+      ["Color mapping", "Eight card types required nested if() conditional chains in JSON", "Nested conditional JSON across all 8 values"],
+    ]} />
+    <h3 class="card-title">Building the system around the product</h3>
+    <p>A library with no content, or outdated content, is a liability. Content operations were designed in parallel with the technical build.</p>
+    <Bullets cols={2} items={[
+      "<strong>Form-to-library automation</strong>A Microsoft Forms intake workflow auto-populates the SharePoint list from colleague submissions, managed by a project partner.",
+      "<strong>Structured data cleanup brief</strong>Before launch, a brief for two colleagues covered field corrections, deduplication, and tool retirement handling, specific enough to execute without further input from me.",
+      "<strong>Archive vs. delete policy</strong>Retired entries move to a separate archive list rather than being deleted, preserving historical records without cluttering the live library.",
+      "<strong>Tool sunset handling</strong>When a tool was retired, its entries were mapped to equivalent tools or archived, keeping the library accurate without losing the historical record.",
+    ]} />
+  </Section>
+
+  <Section label="Results" heading="What shipped">
+    <Stats items={[["170+", "Unique AI examples in the live library"], ["~2x", "Unique viewers in the 30 days after relaunch"], ["3+ min", "Average time on page: colleagues are browsing, not bouncing"], ["1", "person built and runs it: built on her own"]]} />
+    <Bullets cols={2} items={[
+      "<strong>Dynamic filtering live in SharePoint</strong>No Power App, no developer, no external tools. Built using a native web part connection most teams never find.",
+      "<strong>Branded gallery card design</strong>Eight color-coded categories, outcome-led copy, phase icons, and impact metadata, consistent with the broader hub design system.",
+      "<strong>Content governance model</strong>Form-to-library automation, data cleanup process, archive policy, and onboarding documentation for future maintainers.",
+      "<strong>Replicable pattern documented</strong>The web part connection approach and JSON templates are documented for any M&amp;C team that wants to build something similar.",
+    ]} />
+  </Section>
+
+  <Section label="Skills demonstrated" heading="What this program shows">
+    <p>Across both workstreams, this program required moving between product thinking, UX design, technical execution, content strategy, and stakeholder coordination, often within the same week.</p>
+    <Skills groups={[
+      ["Program-level", ["AI Enablement & Change Management", "Information Architecture", "AI-Assisted Production Workflow", "Content Strategy & Governance", "Internal Communications", "Documentation & Knowledge Management", "Stakeholder Coordination"]],
+      ["Workstream 1: Custom modules", ["HTML / CSS Development", "UX Design", "CSS Grid & Flexbox", "Inline SVG", "Base64 Encoding", "SharePoint Embed Web Part", "iframe Sandbox Troubleshooting"]],
+      ["Workstream 2: AI Library", ["SharePoint JSON Formatting", "Dynamic Filtering (Web Part Connections)", "Gallery View Design", "Conditional JSON Logic", "Microsoft Forms Automation", "Data Cleanup & Governance"]],
+    ]} />
+  </Section>
+</CaseLayout>
+
+<style>
+  .steps { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-3); }
+  @media (min-width: 900px) { .steps { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .steps li { display: flex; flex-direction: column; gap: var(--space-1); }
+  .steps__num { width: 36px; height: 36px; border: 1px solid var(--brass); border-radius: var(--radius-pill); display: grid; place-items: center; font-family: var(--font-serif); color: var(--brass-ink); }
+  .steps__title { font-weight: 600; }
+  :global(.decision .note) { display: inline-block; margin-top: var(--space-1); font-size: 13px; color: var(--brass-ink); }
+</style>

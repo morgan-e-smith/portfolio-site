@@ -1,0 +1,229 @@
+---
+// Question text and options kept;
+// rebuilt in the brand. Non-functional: nothing is collected or sent.
+import Base from "../../../layouts/Base.astro";
+import Tag from "../../../components/Tag.astro";
+
+const DIS = "Your response may be analyzed using AI-assisted tools to identify themes across all submissions. Responses are aggregated and anonymized. Individual responses are never attributed to specific people. Results will not be used in employment decisions or performance reviews.";
+type Q =
+  | { n: number; pillar: string; label: string; sub: string; kind: "radio" | "check"; options: string[]; max?: number; other?: boolean }
+  | { n: number; pillar: string; label: string; sub: string; kind: "slider"; rows: string[] }
+  | { n: number; pillar: string; label: string; sub: string; kind: "scale"; options: string[]; na: string }
+  | { n: number; pillar: string; label: string; sub: string; kind: "matrix"; rows: string[]; cols: string[] }
+  | { n: number; pillar: string; label: string; sub: string; kind: "text"; placeholder: string };
+const P1 = "Pillar 1: AI Usage", P2 = "Pillar 2: Enablement Experience", P3 = "Pillar 3: Engagement", P4 = "Pillar 4: FY27 Priorities";
+const pages: { label: string; qs: Q[] }[] = [
+  { label: "Q1: AI Tools Used", qs: [{ n: 1, pillar: P1, label: "Which of the following AI tools have you used in the past 3 months for work-related tasks?", sub: "Select all that apply.", kind: "check", options: ["Generative writing and summarization tools", "AI image and visual generation tools", "AI coding and development assistants", "AI-powered search and research tools", "AI data analysis and visualization tools", "Internally developed / approved AI tools", "None: I have not used any AI tools", "I'm not sure what qualifies as an AI tool"] }] },
+  { label: "Q2: AI Impact", qs: [{ n: 2, pillar: P1, label: "How has AI impacted your day-to-day work?", sub: "Select one.", kind: "radio", options: ["Significantly improved my productivity and output quality", "Somewhat improved my work", "No noticeable impact", "Somewhat worsened my work: it has created more work or friction", "Significantly worsened my work", "I haven't used AI in my role"] }] },
+  { label: "Q3: Barriers", qs: [{ n: 3, pillar: P1, label: "What is preventing you from using AI more in your role? Rate each barrier on a scale of 1 to 5.", sub: "1 = Not a barrier at all | 5 = Major barrier", kind: "slider", rows: ["Awareness of available tools", "Access to tools / licensing", "Skills or training gaps", "Time to learn and experiment", "Trust or confidence in outputs", "Relevance to my specific role", "Leadership support or encouragement"] }] },
+  { label: "Q4 to Q5: Enablement Rating & Frequency", qs: [
+    { n: 4, pillar: P2, label: "Overall, how would you rate your AI enablement experience so far?", sub: "Select one.", kind: "scale", options: ["Excellent", "Good", "Neutral", "Poor", "Very Poor"], na: "N/A: I have had no exposure to enablement activities" },
+    { n: 5, pillar: P2, label: "How often have you engaged with AI learning and enablement activities in the past year?", sub: "Select one.", kind: "radio", options: ["Weekly", "Biweekly", "Monthly", "Quarterly", "On demand only, when I seek it out", "Rarely: once or twice over the past year", "Never"] },
+  ] },
+  { label: "Q6 to Q7: Confidence & Journey Stage", qs: [
+    { n: 6, pillar: P2, label: "How confident are you in your ability to apply AI tools in your current role?", sub: "Select one.", kind: "radio", options: ["Very confident: I use AI regularly and feel capable", "Somewhat confident: I can use it but I'm still learning", "Neutral: I have some skills but not enough to apply them well", "Not very confident: I know AI exists but don't know where to start", "Not at all confident"] },
+    { n: 7, pillar: P3, label: "Where are you in your AI adoption journey?", sub: "Select one.", kind: "radio", options: ["Exploring: I'm curious but haven't started yet", "Building foundational skills", "Experimenting in my role", "Actively using AI tools in my daily work", "Developing expertise and helping others advance too", "Unsure where I am"] },
+  ] },
+  { label: "Q8 to Q9: Content Preferences", qs: [
+    { n: 8, pillar: P3, label: "What types of enablement content or learning experiences have been most valuable to you?", sub: "Select all that apply.", kind: "check", options: ["Live sessions or webinars", "On-demand learning modules", "Peer showcases and use case examples", "How-to guides and quick reference materials", "Use case libraries", "Leadership spotlights and executive messaging", "None of these have been valuable to me"] },
+    { n: 9, pillar: P3, label: "What is your preferred format for receiving AI enablement content?", sub: "Select all that apply.", kind: "check", options: ["Short video (under 5 minutes)", "Longer video or recorded session (20+ minutes)", "Written guides or articles", "Live, interactive sessions", "Self-paced courses or modules", "Community discussions and peer sharing", "1:1 coaching or office hours"] },
+  ] },
+  { label: "Q10: Forum Frequency", qs: [{ n: 10, pillar: P3, label: "How often would you like to engage with each of the following enablement forums?", sub: "Select one per row.", kind: "matrix", rows: ["AI Skills Learning Series", "Executive AI Briefings", "Peer Showcase Sessions", "Tool Demo & Office Hours", "AI Champion Community", "Function-Specific AI Labs"], cols: ["Weekly", "Biweekly", "Monthly", "Quarterly", "On Demand", "No Preference", "Discontinue"] }] },
+  { label: "Q11 to Q12: FY27 Priorities", qs: [
+    { n: 11, pillar: P4, label: "What should be the top AI enablement priorities for FY27?", sub: "Select up to 3.", kind: "check", max: 3, other: true, options: ["Role-specific use cases and practical examples", "Tool access and licensing support", "Skills training and certification", "Peer learning and community networks", "Executive and leadership engagement", "Recognition and showcasing innovation", "Other (please specify below)"] },
+    { n: 12, pillar: P4, label: "If we could only keep or strengthen TWO things in FY27, what should they be, and what should we stop, reduce, or consolidate?", sub: "Optional. Open response.", kind: "text", placeholder: "Share your thoughts here..." },
+  ] },
+  { label: "Q13: Active Involvement", qs: [{ n: 13, pillar: P4, label: "Where would you like to be actively involved to make AI enablement more relevant, accessible, or useful?", sub: "Optional. Open response. Examples: testing tools, sharing use cases, contributing to pilots, building reusable assets, identifying automation opportunities, serving as an AI champion for your team.", kind: "text", placeholder: "Share your interest here..." }] },
+];
+const total = pages.length + 1;
+---
+<Base title="Survey interactive preview" description="An interactive recreation of the AI enablement survey preview built for stakeholder sign-off before launch.">
+  <section class="section">
+    <div class="wrap">
+      <p class="body-s"><a href="/work/enablement-survey">Back to the survey case study</a></p>
+      <div class="note body-s">
+        <strong>Portfolio asset, redacted.</strong> This is an interactive recreation of the user acceptance testing (UAT) survey preview app built for stakeholder sign-off before launch. Company-identifying details have been anonymized. The question logic, response types, and data-handling disclosures reflect the actual survey instrument.
+      </div>
+
+      <div class="shell" id="survey">
+        <div class="progress" aria-hidden="true">
+          <div class="progress__labels body-s"><span id="p-label">Introduction</span><span id="p-pct">0% complete</span></div>
+          <div class="progress__track"><div class="progress__fill" id="p-fill"></div></div>
+        </div>
+        <p class="visually-hidden" aria-live="polite" id="p-live"></p>
+
+        <div class="page" data-page="0" data-label="Introduction">
+          <div class="page__head">
+            <span class="ms-tag ms-tag--eyebrow">Annual Survey | Year 3</span>
+            <h1 class="heading">AI Enablement Experience Survey</h1>
+            <p class="body-s muted">Global Marketing and Communications (M&amp;C) | FY27 Q1</p>
+          </div>
+          <div class="page__body stack">
+            <p>Thank you for taking the time to complete this survey. Your responses will directly shape how we invest in and deliver AI enablement across M&amp;C in FY27.</p>
+            <p>This survey is <strong>confidential</strong>. Your demographic data has been pre-loaded from our internal systems. Your individual responses will not be attributed to you in any reporting. Results are used solely for enablement planning and will not be used in any employment decisions or performance reviews.</p>
+            <p>Open-text responses may be analyzed using AI-assisted tools to identify themes across submissions. Responses are aggregated and anonymized before reporting. Respondents in certain markets are excluded from AI-assisted text analysis per local Works Council requirements.</p>
+            <p class="facts body-s muted">~7 minutes · Confidential · 13 questions · Closes Oct 9</p>
+          </div>
+          <div class="page__nav"><span class="body-s muted">All questions are required unless marked optional.</span><button class="ms-btn ms-btn--primary" type="button" data-go="1">Start survey</button></div>
+        </div>
+
+        {pages.map((pg, pi) => (
+          <div class="page" data-page={pi + 1} data-label={pg.label} hidden>
+            {pg.qs.map((q) => (
+              <fieldset class="q">
+                <legend class="q__legend">
+                  <Tag label={q.pillar} variant="eyebrow" />
+                  <span class="q__row"><span class="q__n" aria-hidden="true">{q.n}</span><span class="q__label">{q.label}</span></span>
+                  <span class="q__sub body-s muted">{q.sub}</span>
+                </legend>
+                {(q.kind === "radio" || q.kind === "check") && (
+                  <div class="opts" data-max={"max" in q ? q.max : undefined}>
+                    {q.options.map((o, oi) => (
+                      <label class="opt"><input type={q.kind === "radio" ? "radio" : "checkbox"} name={`q${q.n}`} value={oi} data-other={"other" in q && q.other && oi === q.options.length - 1 ? "true" : undefined} /> <span>{o}</span></label>
+                    ))}
+                    {"other" in q && q.other && <input class="text other" type="text" placeholder="Please specify..." aria-label="Please specify" hidden />}
+                  </div>
+                )}
+                {q.kind === "slider" && (
+                  <div class="sliders">
+                    {q.rows.map((r, ri) => (
+                      <div class="slider">
+                        <label class="body-s" for={`s${q.n}-${ri}`}>{r}</label>
+                        <div class="slider__track"><input id={`s${q.n}-${ri}`} type="range" min="1" max="5" value="3" /><div class="slider__scale"><span>1: Not a barrier</span><span>5: Major barrier</span></div></div>
+                        <output class="slider__val" for={`s${q.n}-${ri}`}>3</output>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {q.kind === "scale" && (
+                  <div class="opts">
+                    <div class="scale">{q.options.map((o) => <label class="chip"><input type="radio" name={`q${q.n}`} value={o} /><span>{o}</span></label>)}</div>
+                    <label class="opt"><input type="radio" name={`q${q.n}`} value="na" /> <span>{q.na}</span></label>
+                  </div>
+                )}
+                {q.kind === "matrix" && (
+                  <div class="matrix">
+                    <table>
+                      <thead><tr><th scope="col">Forum</th>{q.cols.map((c) => <th scope="col">{c}</th>)}</tr></thead>
+                      <tbody>{q.rows.map((r, ri) => <tr><th scope="row">{r}</th>{q.cols.map((c) => <td><input type="radio" name={`f${ri}`} value={c} aria-label={`${r}: ${c}`} /></td>)}</tr>)}</tbody>
+                    </table>
+                  </div>
+                )}
+                {q.kind === "text" && (
+                  <div class="stack">
+                    <textarea class="text" rows="4" placeholder={q.placeholder} aria-label={q.label}></textarea>
+                    <p class="disclaimer body-s muted">{DIS}</p>
+                  </div>
+                )}
+              </fieldset>
+            ))}
+            <div class="page__nav">
+              <button class="ms-btn ms-btn--secondary" type="button" data-go={pi}>Back</button>
+              <button class="ms-btn ms-btn--primary" type="button" data-go={pi + 2}>{pi === pages.length - 1 ? "Submit survey" : "Next"}</button>
+            </div>
+          </div>
+        ))}
+
+        <div class="page" data-page={total} data-label="Complete" hidden>
+          <div class="page__body done stack">
+            <h2 class="heading">Thank you for completing the survey.</h2>
+            <p class="muted">Your responses have been recorded. Results will be used to shape AI enablement priorities for M&amp;C in FY27. A summary of findings will be shared after the survey closes on October 9.</p>
+            <div><button class="ms-btn ms-btn--secondary" type="button" data-go="0">Restart preview</button></div>
+            <p class="body-s muted">Portfolio note: This is a non-functional interactive preview. No data was collected or submitted.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .note { margin: var(--space-2) 0 var(--space-3); padding: var(--space-2); background: var(--paper-raised); border: 1px solid var(--line); border-top: 2px solid var(--brass); border-radius: var(--radius-md); max-width: 760px; }
+  .shell { max-width: 760px; }
+  .progress { background: var(--paper-raised); border: 1px solid var(--line); border-radius: var(--radius-md); padding: var(--space-2); margin-bottom: var(--space-2); }
+  .progress__labels { display: flex; justify-content: space-between; gap: var(--space-2); color: var(--ink-muted); margin-bottom: var(--space-1); }
+  .progress__track { height: 6px; background: var(--line); border-radius: var(--radius-pill); overflow: hidden; }
+  .progress__fill { height: 100%; width: 0; background: var(--turquoise-ink); transition: width .3s ease; }
+  .page { background: var(--paper-raised); border: 1px solid var(--line); border-radius: var(--radius-md); }
+  .page__head { padding: var(--space-3); border-bottom: 1px solid var(--line); display: flex; flex-direction: column; gap: var(--space-1); }
+  .page__body { padding: var(--space-3); }
+  .page__nav { display: flex; justify-content: space-between; align-items: center; gap: var(--space-2); flex-wrap: wrap; padding: var(--space-2) var(--space-3); border-top: 1px solid var(--line); background: var(--paper); border-radius: 0 0 var(--radius-md) var(--radius-md); }
+  .q { border: 0; margin: 0; padding: var(--space-3); min-width: 0; }
+  .q + .q { border-top: 1px solid var(--line); }
+  .q__legend { float: left; width: 100%; display: flex; flex-direction: column; gap: var(--space-1); padding: 0; margin-bottom: var(--space-2); }
+  .q__legend + * { clear: both; }
+  .q__row { display: flex; gap: var(--space-2); align-items: flex-start; }
+  .q__n { flex: none; width: 28px; height: 28px; border: 1px solid var(--brass); border-radius: var(--radius-pill); display: grid; place-items: center; font-family: var(--font-serif); font-size: 14px; color: var(--brass-ink); }
+  .q__label { font-weight: 600; font-size: var(--type-body-size); line-height: var(--type-body-s-line); padding-top: 2px; }
+  .opts { display: flex; flex-direction: column; gap: var(--space-1); }
+  .opt { display: flex; gap: 12px; align-items: center; padding: 10px 14px; border: 1px solid var(--line); border-radius: var(--radius-md); cursor: pointer; font-size: var(--type-body-s-size); line-height: 20px; background: var(--paper-raised); }
+  .opt:hover { border-color: var(--turquoise-ink); }
+  .opt:has(input:checked) { border-color: var(--turquoise-ink); background: var(--turquoise-tint); }
+  input[type="radio"], input[type="checkbox"], input[type="range"] { accent-color: var(--turquoise-ink); }
+  .opt input { width: 16px; height: 16px; flex: none; }
+  .scale { display: flex; flex-wrap: wrap; gap: var(--space-1); margin-bottom: var(--space-1); }
+  .chip { position: relative; }
+  .chip input { position: absolute; opacity: 0; }
+  .chip span { display: inline-block; padding: 8px 16px; border: 1px solid var(--line); border-radius: var(--radius-pill); font-size: var(--type-body-s-size); font-weight: 600; cursor: pointer; background: var(--paper-raised); }
+  .chip input:checked + span { background: var(--turquoise-ink); border-color: var(--turquoise-ink); color: #fff; }
+  .chip input:focus-visible + span { outline: 2px solid var(--turquoise-ink); outline-offset: 2px; }
+  .text { width: 100%; font: inherit; font-size: var(--type-body-s-size); padding: 12px 14px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--paper-raised); color: var(--ink); }
+  .text::placeholder { color: var(--ink-muted); }
+  .disclaimer { padding: var(--space-2); background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-md); }
+  .sliders { display: flex; flex-direction: column; }
+  .slider { display: grid; grid-template-columns: 1fr auto; gap: 4px var(--space-2); padding: 12px 0; border-top: 1px solid var(--line); align-items: center; }
+  .slider label { grid-column: 1 / -1; }
+  .slider__track input { width: 100%; }
+  .slider__scale { display: flex; justify-content: space-between; font-size: 11px; color: var(--ink-muted); }
+  .slider__val { font-weight: 600; color: var(--turquoise-ink); min-width: 20px; text-align: center; }
+  @media (min-width: 720px) { .slider { grid-template-columns: 200px 1fr auto; } .slider label { grid-column: auto; } }
+  .matrix { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius-md); }
+  .matrix table { width: 100%; min-width: 600px; border-collapse: collapse; font-size: 13px; }
+  .matrix th { font-weight: 600; padding: 8px; color: var(--brass-ink); font-size: 11px; text-transform: uppercase; letter-spacing: .04em; border-bottom: 1px solid var(--brass); }
+  .matrix tbody th { text-transform: none; letter-spacing: 0; font-size: 13px; color: var(--ink); text-align: left; border-bottom: 1px solid var(--line); }
+  .matrix td { text-align: center; padding: 8px; border-bottom: 1px solid var(--line); }
+  .matrix tr:last-child th, .matrix tr:last-child td { border-bottom: 0; }
+  .done { text-align: left; }
+</style>
+
+<script>
+  const root = document.getElementById("survey")!;
+  const pages = [...root.querySelectorAll<HTMLElement>(".page")];
+  const total = pages.length - 1;
+  const fill = document.getElementById("p-fill")!, label = document.getElementById("p-label")!, pct = document.getElementById("p-pct")!, live = document.getElementById("p-live")!;
+  function go(n: number, move = true) {
+    pages.forEach((p) => (p.hidden = Number(p.dataset.page) !== n));
+    const page = pages.find((p) => Number(p.dataset.page) === n)!;
+    const percent = Math.round((Math.min(n, total - 1) / (total - 1)) * 100);
+    fill.style.width = percent + "%";
+    label.textContent = page.dataset.label || "";
+    pct.textContent = percent + "% complete";
+    live.textContent = `${page.dataset.label}. ${percent}% complete.`;
+    if (move) {
+      root.scrollIntoView({ behavior: "smooth", block: "start" });
+      const h = page.querySelector<HTMLElement>("legend, h1, h2");
+      h?.setAttribute("tabindex", "-1");
+      h?.focus({ preventScroll: true });
+    }
+    if (n === 0) root.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>("input, textarea").forEach((el) => {
+      if (el instanceof HTMLInputElement && (el.type === "radio" || el.type === "checkbox")) el.checked = false;
+      else if (el instanceof HTMLInputElement && el.type === "range") { el.value = "3"; el.dispatchEvent(new Event("input")); }
+      else el.value = "";
+    });
+  }
+  root.querySelectorAll<HTMLButtonElement>("[data-go]").forEach((b) => b.addEventListener("click", () => go(Number(b.dataset.go))));
+  root.querySelectorAll<HTMLInputElement>('input[type="range"]').forEach((r) => r.addEventListener("input", () => {
+    const out = root.querySelector<HTMLOutputElement>(`output[for="${r.id}"]`); if (out) out.value = r.value;
+  }));
+  root.querySelectorAll<HTMLElement>(".opts[data-max]").forEach((group) => {
+    const max = Number(group.dataset.max);
+    const boxes = [...group.querySelectorAll<HTMLInputElement>('input[type="checkbox"]')];
+    const other = group.querySelector<HTMLInputElement>(".other");
+    boxes.forEach((cb) => cb.addEventListener("change", () => {
+      if (boxes.filter((b) => b.checked).length > max) cb.checked = false;
+      if (other) other.hidden = !boxes.find((b) => b.dataset.other)?.checked;
+    }));
+  });
+  go(0, false);
+</script>

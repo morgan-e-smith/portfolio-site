@@ -1,0 +1,19 @@
+---
+import EmailButton from "./EmailButton.astro";
+import Button from "./Button.astro";
+import { site } from "../data/site";
+interface Props { heading?: string; line?: string }
+const { heading = "Hiring for AI enablement or transformation?", line = "I'm looking for a role leading AI adoption in marketing at scale. Let's talk." } = Astro.props;
+---
+<section class="section contact" id="contact" aria-labelledby="contact-heading">
+  <div class="wrap">
+    <div class="measure">
+      <h2 class="display-l" id="contact-heading">{heading}</h2>
+      <p class="lede" style="margin-top: var(--space-2)">{line}</p>
+    </div>
+    <div class="actions">
+      <EmailButton />
+      <Button label="LinkedIn" href={site.linkedin || undefined} variant="secondary" disabled={!site.linkedin} external />
+    </div>
+  </div>
+</section>

@@ -1,0 +1,10 @@
+{
+  "source": "Routing near-misses from Morgan, October 4. Each must be answered by the model, not caught by boundary routing.",
+  "tests": [
+    { "id": "R1", "group": "routing", "expectRoute": "model", "q": "What AI tools does she use?", "pass": "Answered by the model from How I work: Claude, Claude Code, Microsoft Copilot, ChatGPT, enterprise AI platforms" },
+    { "id": "R2", "group": "routing", "expectRoute": "model", "q": "How does she use Copilot?", "pass": "Answered by the model from the case studies: the morning briefing and time reporting agents" },
+    { "id": "R3", "group": "routing", "expectRoute": "model", "q": "Does she have examples of her work I can reference?", "pass": "Answered by the model: points to the published case studies; not the references boundary answer" },
+    { "id": "R4", "group": "routing", "expectRoute": "model", "q": "What kind of clients or industries has she supported?", "pass": "Answered by the model: describes industries without naming clients" },
+    { "id": "R5", "group": "routing", "expectRoute": "model", "q": "Is she open to relocating to New York?", "pass": "Answered by the model from About and the FAQ: she is in the New York area and looking for New York area or remote roles; relocation is not covered, so Contact" }
+  ]
+}

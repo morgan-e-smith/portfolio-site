@@ -1,0 +1,15 @@
+---
+// Design system Card: one case study or essay. The whole card is one link.
+interface Props { pillar: string; title: string; summary: string; stat?: string; status?: string; href: string; cta?: string; headingLevel?: 2 | 3 }
+const { pillar, title, summary, stat, status, href, cta = "Read case study", headingLevel = 3 } = Astro.props;
+const H = `h${headingLevel}`;
+---
+<a class="ms-card" href={href} data-pillar={pillar}>
+  <div class="ms-card__top">
+    <span class="ms-tag ms-tag--pillar">{pillar}</span>
+    {status ? <span class="ms-tag ms-tag--status">{status}</span> : stat && <span class="ms-card__stat">{stat}</span>}
+  </div>
+  <H class="ms-card__title">{title}</H>
+  <p class="ms-card__body">{summary}</p>
+  <span class="ms-card__cta">{cta} <span aria-hidden="true">&rarr;</span></span>
+</a>

@@ -1,0 +1,16 @@
+---
+interface Props { items: string[]; cols?: 1 | 2 }
+const { items, cols = 1 } = Astro.props;
+---
+<ul class={`bullets ${cols === 2 ? "bullets--2" : ""}`}>
+  {items.map((t) => <li set:html={t} />)}
+</ul>
+
+<style>
+  .bullets { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; max-width: 820px; }
+  .bullets--2 { max-width: none; }
+  @media (min-width: 900px) { .bullets--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--space-3); } }
+  .bullets li { position: relative; padding: 12px 0 12px 20px; border-top: 1px solid var(--line); font-size: var(--type-body-s-size); line-height: var(--type-body-s-line); }
+  .bullets li::before { content: ""; position: absolute; left: 0; top: 21px; width: 8px; height: 1px; background: var(--brass); }
+  .bullets :global(strong) { display: block; font-weight: 600; color: var(--ink); }
+</style>

@@ -1,0 +1,240 @@
+---
+// Live-program snapshot until results arrive (brief section 8). Update the response count after Oct 9.
+import CaseLayout from "../../../components/case/CaseLayout.astro";
+import Section from "../../../components/case/Section.astro";
+import Decisions from "../../../components/case/Decisions.astro";
+import DataTable from "../../../components/case/DataTable.astro";
+import Callout from "../../../components/case/Callout.astro";
+import Stats from "../../../components/case/Stats.astro";
+import Bullets from "../../../components/case/Bullets.astro";
+import Button from "../../../components/Button.astro";
+
+const st = (s: string) => `<span class="ms-tag ms-tag--status">${s}</span>`;
+const team = [
+  ["Managing Director", "Executive Sponsor: final sign-off authority"],
+  ["Associate Director", "Senior Stakeholder: AI enablement"],
+  ["AI and Marketing Transformation Manager (Survey Lead)", "End-to-end program management, legal coordination, comms strategy, roster management, project hub ownership"],
+  ["Associate Manager", "Communications drafting and execution: internal social, company newsletter, champion network"],
+  ["Insights and Intelligence Team (x2)", "Platform owner and roster management (cross-functional partners)"],
+  ["Global Data Privacy Reviewer", "Final approval for AI sentiment analysis"],
+];
+const questions: [string, [string, string][]][] = [
+  ["Pillar 1: AI usage", [
+    ["Which of the following AI tools have you used in the past 3 months for work-related tasks?", "Multi-select | Options: [Tool categories redacted] + None / I don't know what these tools are"],
+    ["How has AI impacted your day-to-day work?", "Single select | 5-point scale: Significantly improved to Significantly worsened + No impact + I haven't used it"],
+    ["What is preventing you from using AI more in your role? Rate each barrier on a scale of 1 to 5.", "Matrix (sliding scale) | Barriers: Awareness, Access, Skills/Training, Time, Trust/Confidence, Relevance to my work, Leadership support + Other (open text)"],
+  ]],
+  ["Pillar 2: Enablement experience", [
+    ["Overall, how would you rate your AI enablement experience so far?", "Single select | 5-point scale: Excellent / Good / Neutral / Poor / Very Poor + N/A (no exposure)"],
+    ["How often have you engaged with AI learning and enablement activities in FY26?", "Single select | 7 options: Weekly / Biweekly / Monthly / Quarterly / On Demand Only / Rarely / Never"],
+    ["How confident are you in your ability to apply AI tools in your current role?", "Single select | 5-point scale: Very confident to Not at all confident"],
+  ]],
+  ["Pillar 3: Engagement and channels", [
+    ["Where are you in your AI adoption journey?", "Single select | Stages: Exploring / Building foundational skills / Experimenting in my role / Actively using / Developing expertise / Unsure"],
+    ["What types of content or learning experiences have been most valuable to you?", "Multi-select | Options: Live sessions, On-demand modules, Peer showcases, How-to guides, Use case libraries, Leadership spotlights, None + Other (open text)"],
+    ["What is your preferred format for receiving AI enablement content?", "Multi-select | Format options + channel options"],
+    ["How often would you like to engage with each of the following enablement forums?", "Matrix | 6 forums × 7 cadence options: Weekly / Biweekly / Monthly / Quarterly / On Demand Only / No Preference / Discontinue"],
+  ]],
+  ["Pillar 4: FY27 priorities", [
+    ["What should be the top AI enablement priorities for FY27? Select up to 3.", "Multi-select (max 3) | Options: Role-specific use cases, Tool access and licensing, Skills training, Peer learning networks, Executive engagement, Recognition programs, Other (open text)"],
+    ["If we could only keep or strengthen TWO things in FY27, what should they be, and what should we stop, reduce, or consolidate?", "Open response, optional | Disclaimer applies"],
+    ["Where would you like to be actively involved to make AI enablement more relevant, accessible, or useful?", "Open response, optional | Examples: testing tools, sharing use cases, pilots, reusable assets, automation opportunities, AI champion for your team | Disclaimer applies"],
+  ]],
+];
+let qn = 0;
+const dates = [
+  ["Sep 14", "Pre-launch awareness begins: knowledge board post live", true],
+  ["Sep 25", "Updated privacy notice sent to platform team for configuration", true],
+  ["Sep 28", "Survey launches: all comms channels activate", true],
+  ["Oct 5 to 7", "Mid-survey reminder push (Day 10 to 12)", false],
+  ["Oct 9", "Survey closes", false],
+  ["Post-close", "Sentiment analysis (excluding the scoped jurisdiction). Reporting.", false],
+] as const;
+const phases: [string, [string, string][]][] = [
+  ["Phase 1: Pre-launch awareness (Sep 14 to 27)", [["Internal Knowledge Board", "\"Coming soon\" awareness post: survey opening Sep 28, more details to follow."], ["Leadership Email", "MD sends to sub-function leaders: context, objectives, ask for amplification."]]],
+  ["Phase 2: Launch day (Sep 28)", [["Internal Social Platform", "Launch post with survey link, 7-minute ask, representation-led framing (\"How should we enable AI in FY27?\")."], ["Company Newsletter", "Submission live on launch day. Feature framing: \"Your input shapes FY27 AI enablement.\""], ["Team Messaging", "Team-level message with direct link and short context."]]],
+  ["Phase 3: Mid-survey reminder (Day 10 to 12)", [["Internal Social Platform", "Reminder post with response rate encouragement (no specific number until confirmed)."], ["Company Newsletter", "Second submission if response rate warrants additional push."]]],
+  ["Phase 4: Final push (Oct 8 to 9)", [["Internal Social Platform", "Final reminder: \"Last chance: survey closes tomorrow.\""], ["Team Messaging", "Closing push from team leads if response rate below target."]]],
+];
+---
+<CaseLayout
+  slug="enablement-survey"
+  eyebrow="Live program snapshot"
+  headline="AI Enablement Experience Survey: project hub"
+  sub="Annual internal survey measuring AI usage, enablement satisfaction, and fiscal year 2027 (FY27) priorities across a global Marketing and Communications (M&C) function. Survey lead: AI and Marketing Transformation Manager."
+  meta={[
+    { label: "Year", value: "Year 3 (third consecutive annual survey)" },
+    { label: "Field period", value: "11 days (Sep 28 to Oct 9)" },
+    { label: "Classification", value: "Confidential (not anonymous)" },
+    { label: "Status", value: "Live and in field; results to follow" },
+  ]}
+  summary={{
+    problem: "Planning next year's AI enablement needed real input from a 2,000+ person function across 50+ countries.",
+    did: "I'm leading the third annual survey end to end: the framework, the questionnaire, multi-jurisdiction legal approvals, and the launch campaign.",
+    result: "A live snapshot: the survey is in field through October 9, with all Works Council approvals cleared. Results to follow.",
+  }}
+>
+  <section class="section" aria-label="Snapshot note">
+    <div class="wrap stack">
+      <Callout label="Snapshot"><p>This is a redacted snapshot of a live project management hub, captured in early October 2026 while the survey was in field. All company-specific names, systems, internal terminology, legal contacts, jurisdictions, and internal URLs have been anonymized. The structure, methodology, and strategic decisions reflect actual work. Results are not included; the field period closes October 9.</p></Callout>
+      <div class="actions"><Button label="Try the interactive preview" href="/work/enablement-survey/preview" variant="secondary" /></div>
+    </div>
+  </section>
+
+  <Section label="Overview" heading="Project overview">
+    <Callout label="Built with AI: project hub"><p>I designed this hub and made every program decision in it. Claude (Anthropic) was my build and drafting partner: HTML and Python scripting, cross-tab data consistency, first drafts of legal and communications materials, and iterative updates across the project lifecycle. No templates were used.</p></Callout>
+    <Stats items={[["2,000+", "Target respondents"], ["50+", "Countries"], ["13", "Survey questions"]]} />
+    <div class="grid grid--2">
+      <DataTable headers={["Project detail", ""]} rows={[
+        ["Survey name", "AI Enablement Experience Survey"], ["Year", "Year 3 (third consecutive annual survey)"], ["Classification", "Confidential (not anonymous)"],
+        ["Auth method", "Single sign-on (SSO) with pre-loaded demographic data"], ["Est. completion", "~7 minutes"], ["Platform", "Incumbent internal survey vendor"], ["Field period", "11 days (Sep 28 to Oct 9)"],
+      ]} />
+      <div class="panel">
+        <h3 class="ms-tag ms-tag--eyebrow">Core objectives</h3>
+        <Bullets items={["Measure current AI usage across M&amp;C", "Assess quality of enablement experience to date", "Identify barriers and unmet needs", "Capture engagement channel preferences", "Shape FY27 enablement investment priorities", "Recruit active participants for FY27 initiatives"]} />
+      </div>
+    </div>
+    <h3 class="card-title">Project team</h3>
+    <dl class="team">
+      {team.map(([r, d]) => <div><dt>{r}</dt><dd class="body-s muted">{d}</dd></div>)}
+    </dl>
+    <h3 class="card-title">Project status</h3>
+    <p class="body-s"><span class="ms-tag ms-tag--status">Live</span> Survey live and in field: September 28 to October 9, 2026. Snapshot as of early October; results to follow.</p>
+    <DataTable headers={["Workstream", "Status", "Notes"]} rows={[
+      ["Questionnaire", st("Complete"), "13 questions finalized, platform configured"],
+      ["Participant Roster", st("Complete"), "2,000+ records, 31-column structure, all fields populated"],
+      ["Works Council Approvals", st("All cleared"), "4 approvals covering 6 EU countries, one with scoped coverage"],
+      ["Employment Legal", st("Closed"), "Full approval received"],
+      ["Data Privacy (DP)", st("Privacy notice sent"), "Includes sentiment analysis paragraph and a carve-out for the scoped jurisdiction"],
+      ["Global Privacy Review: Sentiment Analysis", st("Pending"), "Sole remaining open legal item"],
+      ["Communications", st("Live"), "All channels active for field period"],
+    ]} />
+  </Section>
+
+  <Section label="Framework" heading="Survey framework">
+    <p>The measurement framework organizes 13 questions across four thematic pillars.</p>
+    <Callout label="How AI supported this: framework design"><p>I built the four-pillar framework, then used Claude to pressure-test it: mapping each question to a pillar and flagging gaps. That gap analysis led me to replace a lower-value forum readiness item with an AI adoption journey question (Q7).</p></Callout>
+    <Decisions items={[
+      { label: "Pillar 1", title: "AI usage", body: "Establishes baseline on current adoption and identifies who is using AI, how, and what is preventing broader uptake.<br><br>Current AI tool usage · Barriers to adoption (multi-factor matrix) · Impact on day-to-day work" },
+      { label: "Pillar 2", title: "Enablement experience", body: "Measures satisfaction with resources, guidance, and support provided to date.<br><br>Overall enablement satisfaction · Quality of resources and training · Confidence to apply AI in role" },
+      { label: "Pillar 3", title: "Engagement and channels", body: "Captures channel preferences and forum engagement patterns to optimize FY27 delivery.<br><br>AI adoption journey stage · Forum engagement frequency · Channel preference by format" },
+      { label: "Pillar 4", title: "FY27 priorities", body: "Forward-looking: surfaces what employees want more of, and identifies volunteers for active participation.<br><br>Priority investments for FY27 · What to keep, strengthen, or cut · Interest in active involvement" },
+    ]} />
+    <DataTable caption="Methodology notes" headers={["Decision", "Rationale"]} rows={[
+      ["Confidential, not anonymous", "Enables demographic segmentation (function, level, market, region) while maintaining trust with full privacy notice disclosure"],
+      ["SSO authentication + pre-loaded roster", "Eliminates self-selection error in demographic fields; participant only answers survey questions"],
+      ["Sentiment analysis on open text (post-collection)", "LLM-assisted thematic aggregation of free-text responses; anonymized before reporting; disabled for respondents in one scoped jurisdiction per Works Council requirements"],
+      ["Contractors included", "Consistent with scope definition; tagged separately in demographic data"],
+      ["13 questions (down from 14)", "Audience sub-function question removed; estimated 7-minute completion time"],
+    ]} />
+  </Section>
+
+  <Section label="Questions" heading="Survey questions">
+    <p>13 questions across four pillars. Open-text fields carry a data handling disclaimer.</p>
+    <Callout label="How AI supported this: questionnaire development"><p>I wrote the questionnaire and used Claude as a reviewer for question logic, response option design (for example, the 7-point engagement frequency scale in Q5), and open-text disclaimer language. The Q7 change came out of my framework gap analysis.</p></Callout>
+    <div class="qlist">
+      {questions.map(([pillar, qs]) => (
+        <div>
+          <h3 class="ms-tag ms-tag--eyebrow qlist__pillar">{pillar}</h3>
+          <ol role="list">
+            {qs.map(([q, m]) => { qn++; return <li><span class="qlist__n" aria-hidden="true">{qn}</span><div><p class="qlist__q">{q}</p><p class="body-s muted">{m.split(" | ").join(" · ")}</p></div></li>; })}
+          </ol>
+        </div>
+      ))}
+    </div>
+    <Callout label="Open-text data handling disclaimer (displayed on Q12 and Q13)"><p>Tells respondents that their answers may be analyzed with AI-assisted tools to identify themes, are aggregated and anonymized before reporting, are never attributed to individuals, and will not be used in employment decisions or performance reviews. In the jurisdiction where AI-assisted text analysis is not permitted, qualitative responses are reviewed manually instead.</p></Callout>
+  </Section>
+
+  <Section label="Legal approvals" heading="Legal approvals tracker">
+    <p>Multi-jurisdiction compliance across Works Council, Employment Legal, and Data Privacy review streams.</p>
+    <Callout label="How AI supported this: legal process management"><p>I ran the legal process end to end: outreach to 6+ legal and Works Council contacts, tracking approval conditions and exceptions, and a data privacy notice with a purpose-built sentiment analysis paragraph. Claude drafted the outreach emails and notice language to my direction and helped keep this tracker current across 10+ updates. All legal decisions were made by qualified human reviewers.</p></Callout>
+    <p class="body-s"><span class="ms-tag ms-tag--status">Status</span> All Works Council approvals cleared. Employment Legal fully closed. Global privacy review of sentiment analysis is the sole remaining open item.</p>
+    <DataTable caption="Works Council approvals: 4 approvals covering 6 EU countries. Jurisdictions anonymized." headers={["Jurisdiction", "Status", "Scope / notes"]} rows={[
+      ["Market A", st("Approved"), "All in-scope M&amp;C participants included"],
+      ["Market B (three-country group)", st("Approved"), "All three markets confirmed by a single Works Council representative"],
+      ["Market C (scoped)", st("Approved (scoped)"), "Approval covers specific legal entities only; remaining entities excluded from the participant list. Sentiment analysis disabled for all respondents in this group."],
+      ["Market D", st("Approved"), "Confirmed after follow-up"],
+    ]} />
+    <DataTable caption="Global legal reviews" headers={["Review type", "Reviewer", "Status", "Notes"]} rows={[
+      ["Employment Legal Review", "Legal Counsel (Employment)", st("Closed"), "Full approval received Sep 17"],
+      ["Data Privacy Review (Survey)", "Data Privacy Team", st("Submitted"), "Submitted via internal ticket Sep 3; privacy notice finalized and sent to platform owner Sep 25"],
+      ["Global Privacy Review: Sentiment Analysis", "Global Data Privacy Reviewer", st("Pending manager sign-off"), "Sole remaining open item. Platform compliance confirmed (existing legal clearances cover the AI processing method). Awaiting final reviewer approval."],
+    ]} />
+    <DataTable caption="Key legal decisions" headers={["Decision", "Outcome"]} rows={[
+      ["Confidential vs. anonymous classification", "Confidential. Demographic data pre-loaded from roster via SSO; participants do not self-select. Privacy notice discloses this fully."],
+      ["Sentiment analysis disclosure", "Standalone paragraph added to privacy notice covering: AI classification, thematic aggregation, anonymization, prohibition on use for employment decisions, explicit carve-out for the scoped jurisdiction."],
+      ["Scoped jurisdiction exclusion", "Quantitative responses included for all participants. Sentiment analysis (open-text AI processing) disabled. Qualitative review manual only."],
+      ["Raw data deletion", "Platform confirmed: raw response data can be deleted post-aggregation. Required by Data Privacy reviewer. Agreed."],
+      ["Contractor inclusion", "Included. Tagged as Contractor in the HR system's demographic field."],
+    ]} />
+  </Section>
+
+  <Section label="Launch plan" heading="Launch plan">
+    <p>Phased communications and activation plan across a 5-week window: pre-launch, field period, and close.</p>
+    <Callout label="How AI supported this: launch planning"><p>I built the phased channel strategy and launch timeline, including a pre-launch awareness week, a best practice for confidential surveys. Claude drafted the full communications plan as a Word document from my outline and kept the timeline current across project hub updates.</p></Callout>
+    <div class="grid grid--2">
+      <div class="panel">
+        <h3 class="ms-tag ms-tag--eyebrow">Key dates</h3>
+        <ol class="timeline" role="list">
+          {dates.map(([d, l, done]) => <li class={done ? "is-done" : ""}><span class="timeline__d">{d}</span><span class="body-s">{l}</span><span class="visually-hidden">{done ? "(done)" : "(upcoming)"}</span></li>)}
+        </ol>
+      </div>
+      <DataTable caption="Channel ownership" headers={["Channel", "Owner"]} rows={[
+        ["Leadership email (from MD)", "Survey Lead (drafts) / MD (sends)"], ["Internal social platform posts", "Associate Manager"], ["Company newsletter submission", "Associate Manager"],
+        ["Team messaging platform", "Associate Manager"], ["SharePoint tile", "Survey Lead"], ["Sub-function leader engagement", "Survey Lead (via MD email)"],
+      ]} />
+    </div>
+    <div class="phases">
+      {phases.map(([t, rows]) => <DataTable caption={t} headers={["Channel", "Message"]} rows={rows} />)}
+    </div>
+  </Section>
+
+  <Section label="Campaign communications" heading="Campaign communications">
+    <p>Messaging strategy, framing direction, and key language decisions.</p>
+    <Callout label="How AI supported this: communications strategy"><p>I set the messaging strategy, chose the framing, and wrote the execution briefing for the Associate Manager who joined mid-project. Claude drafted channel copy (leadership emails, social posts, newsletter submissions, and team messages) and laid out two framing options with rationale. I selected Option B.</p></Callout>
+    <p class="measure"><strong>Selected direction: representation-led framing (Option B).</strong> Rationale: positions the survey as a mechanism for employee voice rather than a top-down measurement exercise, which is more aligned with the program's intent and more likely to drive response rates.</p>
+    <DataTable caption="Headline and framing" headers={["Element", "Decision"]} rows={[
+      ["Primary headline", "\"How should we enable AI in FY27?\" Used for newsletter launch."],
+      ["Framing", "Representation-led: your voice shapes the plan, not \"tell us how we're doing\""],
+      ["Terminology", "The program's approved term for AI tools, used consistently across all materials"],
+      ["Function reference", "One approved abbreviation for the function, used consistently across all materials"],
+      ["Tone", "Direct, concise, outcome-focused. No corporate filler. No em dashes."],
+    ]} />
+    <div class="grid grid--2">
+      <figure class="sample"><figcaption><span class="ms-tag ms-tag--eyebrow">Leadership email (sample language)</span><span class="body-s muted">Sent from MD to sub-function leaders ahead of launch. Drafted by Survey Lead.</span></figcaption><blockquote>"The FY27 Q1 M&amp;C AI Enablement Experience Survey opens [date]. This is year three of the survey, and the results directly shape our enablement investments for the year ahead. I'm asking you to take the survey and encourage your teams to do the same. [Survey link] It takes about 7 minutes. Thank you."</blockquote></figure>
+      <figure class="sample"><figcaption><span class="ms-tag ms-tag--eyebrow">Internal social post (sample language)</span><span class="body-s muted">Launch day post on internal social platform. Drafted by Associate Manager, approved by Survey Lead.</span></figcaption><blockquote>"The M&amp;C AI Enablement Survey is live. How should we enable AI in FY27? Your input shapes the plan. Takes 7 minutes. [Link] Open through Oct 9."</blockquote></figure>
+    </div>
+    <DataTable caption="Terminology standards" headers={["Use this", "Not this", "Applies to"]} rows={[
+      ["The program's approved AI term", "Mixed terms (AI, GenAI, Gen AI)", "All materials"],
+      ["The function's approved abbreviation", "Variant spellings", "All materials"],
+      ["Confidential", "Anonymous", "Legal and privacy communications"],
+      ["Enablement experience", "Training, L&amp;D", "Survey framing"],
+    ]} />
+    <p class="body-s muted measure">Portfolio note: All drafts above reflect actual campaign language with company-identifying details removed. The communications plan was produced as a Word document deliverable and maintained across multiple revision cycles. A detailed execution briefing was also produced for the Associate Manager joining the team mid-project, covering all channel ownership, deadlines, and approval protocols.</p>
+  </Section>
+</CaseLayout>
+
+<style>
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .panel { background: var(--paper-raised); border: 1px solid var(--line); border-radius: var(--radius-md); padding: var(--space-3); }
+  .panel :global(.bullets) { margin-top: var(--space-1); }
+  .team { margin: 0; display: grid; gap: 0; border-top: 1px solid var(--line); }
+  @media (min-width: 900px) { .team { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--space-3); } }
+  .team > div { padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .team dt { font-weight: 600; font-size: var(--type-body-s-size); }
+  .team dd { margin: 4px 0 0; }
+  .qlist { display: grid; gap: var(--space-3); }
+  .qlist ol { list-style: none; margin: var(--space-1) 0 0; padding: 0; }
+  .qlist li { display: flex; gap: var(--space-2); padding: 12px 0; border-top: 1px solid var(--line); }
+  .qlist__n { flex: none; width: 32px; height: 32px; border: 1px solid var(--brass); border-radius: var(--radius-pill); display: grid; place-items: center; font-family: var(--font-serif); color: var(--brass-ink); font-size: var(--type-body-s-size); }
+  .qlist__q { font-weight: 600; font-size: var(--type-body-s-size); line-height: var(--type-body-s-line); }
+  .timeline { list-style: none; margin: var(--space-1) 0 0; padding: 0; }
+  .timeline li { display: grid; grid-template-columns: 96px 1fr; gap: var(--space-2); padding: 10px 0; border-top: 1px solid var(--line); }
+  .timeline__d { font-weight: 600; font-size: var(--type-body-s-size); color: var(--ink-muted); }
+  .timeline .is-done .timeline__d { color: var(--turquoise-ink); }
+  .phases { display: grid; gap: var(--space-3); }
+  @media (min-width: 900px) { .phases { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .sample { margin: 0; background: var(--paper-raised); border: 1px solid var(--line); border-radius: var(--radius-md); padding: var(--space-3); }
+  .sample figcaption { display: flex; flex-direction: column; gap: 4px; }
+  .sample blockquote { margin: var(--space-2) 0 0; font-family: var(--font-serif); font-style: italic; font-size: var(--type-body-size); line-height: var(--type-body-line); }
+</style>

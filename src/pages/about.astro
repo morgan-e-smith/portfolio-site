@@ -1,0 +1,118 @@
+---
+import Base from "../layouts/Base.astro";
+import EmailButton from "../components/EmailButton.astro";
+import Button from "../components/Button.astro";
+import Quote from "../components/Quote.astro";
+import { site, resumeHref } from "../data/site";
+import { quotes } from "../data/testimonials";
+
+const arc = [
+  ["2025 to now", "AI and Marketing Transformation Manager.", "I lead the AI roadmap for the marketing function: 100% of the org onboarded to the enterprise AI platform, a champion network I founded, and 14 agents in production with engineering partners."],
+  ["2022 to 2025", "Digital Strategy, Accenture.com.", "I owned the strategy, roadmap, and backlog for a global B2B site spanning 50 countries, and led the content side of a full redesign. Engagement rose 24% and bounce rate fell 25%. I presented the site's role in a marquee brand campaign to our CMO, and wrote the CMO's message to the leadership team on the new site's results."],
+  ["2020 to 2022", "Marketing Specialist to Associate Manager, Accenture.", "Research launches, integrated campaigns, and client case studies. I also ran my first adoption program here, moving a team off scattered spreadsheets and onto Monday.com, three years before AI made that skill a job title."],
+  ["2018 to 2019", "Engine.", "Agency foundations: global rebrands, an RFP library, and a youth insights newsletter with 30,000+ subscribers."],
+];
+const [leadQuote, ...otherLeadQuotes] = quotes.aboutHowILead;
+---
+<Base title="About" description="I'm at my best with a messy cross-functional problem, a skeptical audience, and permission to build something.">
+  <section class="section">
+    <div class="wrap intro">
+      <div class="intro__photo">
+        {site.photo
+          ? <img src={site.photo} alt="Morgan Smith" width="480" height="600" />
+          : <div class="photo-placeholder" aria-hidden="true"><span>MS</span></div>}
+      </div>
+      <div class="intro__text">
+        <p class="ms-tag ms-tag--eyebrow eyebrow">Morgan Smith · AI and Marketing Transformation Manager, Accenture · New York area</p>
+        <h1 class="visually-hidden">About Morgan Smith</h1>
+        <p class="display-l">For eight years I've worked where marketing strategy meets execution: first running Accenture's global website like a product, and now leading AI adoption across its 2,000-person marketing function.</p>
+        <p class="lede" style="margin-top: var(--space-3)">I'm at my best with a messy cross-functional problem, a skeptical audience, and permission to build something.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="arc">
+    <div class="wrap">
+      <h2 class="heading" id="arc">Career arc</h2>
+      <p class="lede measure" style="margin-top: var(--space-2)">The through-line: every role I've had has been about getting a lot of people to work a new way.</p>
+      <ol class="timeline" role="list">
+        {arc.map(([when, role, body]) => (
+          <li class="timeline__item">
+            <span class="ms-tag ms-tag--eyebrow">{when}</span>
+            <div><h3 class="card-title">{role}</h3><p class="muted">{body}</p></div>
+          </li>
+        ))}
+        <li class="timeline__item">
+          <span class="ms-tag ms-tag--eyebrow">Education</span>
+          <div><h3 class="card-title">BA, Economics, Colorado College</h3></div>
+        </li>
+      </ol>
+      <div class="grid grid--3 quotes">
+        {quotes.aboutCareerArc.map((q) => <Quote {...q} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="lead">
+    <div class="wrap">
+      <h2 class="heading" id="lead">How I lead</h2>
+      <p class="measure" style="margin-top: var(--space-2)">Most of my leadership has run through influence: matrixed teams, a champion network, and 30 digital strategists I trained and led as a functional group through a site-wide design system rollout. I've also managed writers directly. My style is to set a clear brief, make decisions quickly, and credit people loudly.</p>
+      <dl class="stats">
+        <div><dt class="stats__num">30</dt><dd class="body-s muted">strategists trained and led</dd></div>
+        <div><dt class="stats__num">50</dt><dd class="body-s muted">countries on one site launch</dd></div>
+      </dl>
+      <div class="grid grid--3 quotes">
+        <Quote {...leadQuote} />
+        {otherLeadQuotes.map((q) => <Quote {...q} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="say">
+    <div class="wrap">
+      <h2 class="heading" id="say">What people say</h2>
+      <div class="grid grid--2 quotes">
+        {quotes.aboutWhatPeopleSay.map((q, i) => <Quote {...q} size={i === 0 ? "l" : "m"} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="outside">
+    <div class="wrap">
+      <h2 class="heading" id="outside">Outside work</h2>
+      <p class="measure" style="margin-top: var(--space-2)">Outside work, I'm usually on a mountain or at my jewelry bench. Skiing taught me to commit to a line. Jewelry taught me that the details are the work.</p>
+    </div>
+  </section>
+
+  <section class="section" id="contact" aria-labelledby="next">
+    <div class="wrap">
+      <h2 class="display-l" id="next">What's next</h2>
+      <p class="lede measure" style="margin-top: var(--space-2)">I'm looking for a Director or Senior Manager role leading AI adoption in marketing, where the job is turning AI strategy into how a whole function works. New York area or remote.</p>
+      <div class="actions">
+        <EmailButton label="Get in touch" />
+        <Button label="Download resume" href={resumeHref()} variant="secondary" download={!!site.resumePdf} />
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .intro { display: grid; gap: var(--space-3); }
+  @media (min-width: 900px) { .intro { grid-template-columns: 280px 1fr; gap: var(--space-4); align-items: start; } }
+  .intro__photo { max-width: 200px; }
+  @media (min-width: 900px) { .intro__photo { max-width: none; } }
+  .intro__photo img { border-radius: var(--radius-md); border: 1px solid var(--line); }
+  .photo-placeholder { aspect-ratio: 4 / 5; background: var(--paper-raised); border: 1px solid var(--line); border-radius: var(--radius-md); display: grid; place-items: center; }
+  .photo-placeholder span { font-family: var(--font-serif); font-size: var(--type-display-l-size); color: var(--brass); }
+  .intro__text .display-l { max-width: 30ch; }
+  .timeline { list-style: none; margin: var(--space-4) 0 0; padding: 0; }
+  .timeline__item { display: grid; gap: var(--space-1); padding: var(--space-3) 0; border-top: 1px solid var(--line); }
+  @media (min-width: 720px) { .timeline__item { grid-template-columns: 160px 1fr; gap: var(--space-3); } .timeline__item .ms-tag { padding-top: 6px; } }
+  .timeline__item .card-title { margin-bottom: var(--space-1); }
+  .timeline__item p { max-width: 68ch; }
+  .quotes { margin-top: var(--space-4); }
+  .stats { display: flex; gap: var(--space-4); margin: var(--space-3) 0 0; }
+  .stats dd { margin: var(--space-1) 0 0; }
+  .stats__num { font-family: var(--font-serif); font-weight: 500; font-size: var(--type-display-l-size); line-height: var(--type-display-l-line); }
+</style>

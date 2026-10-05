@@ -1,0 +1,10 @@
+---
+// Design system Button: primary, secondary, or text. One primary per view.
+interface Props { label: string; href?: string; variant?: "primary" | "secondary" | "text"; disabled?: boolean; download?: boolean; external?: boolean }
+const { label, href, variant = "primary", disabled = false, download = false, external = false } = Astro.props;
+---
+{href && !disabled ? (
+  <a class={`ms-btn ms-btn--${variant}`} href={href} download={download || undefined} target={external ? "_blank" : undefined} rel={external ? "noopener" : undefined}>{label}</a>
+) : (
+  <button class={`ms-btn ms-btn--${variant}`} type="button" disabled={disabled || undefined} aria-disabled={disabled ? "true" : undefined} title={disabled ? "Link not set yet" : undefined}>{label}</button>
+)}

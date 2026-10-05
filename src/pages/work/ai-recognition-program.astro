@@ -1,0 +1,116 @@
+---
+// Content-rule edits: internal program name removed; judging panel wording per brief.
+import CaseLayout from "../../components/case/CaseLayout.astro";
+import Section from "../../components/case/Section.astro";
+import Decisions from "../../components/case/Decisions.astro";
+import DataTable from "../../components/case/DataTable.astro";
+import Callout from "../../components/case/Callout.astro";
+import Diagram from "../../components/case/Diagram.astro";
+import Skills from "../../components/case/Skills.astro";
+import Stats from "../../components/case/Stats.astro";
+import Bullets from "../../components/case/Bullets.astro";
+import SystemMap from "../../components/diagrams/RecognitionSystemMap.astro";
+import { quotes } from "../../data/testimonials";
+
+const meta = [
+  ["Role", "Program Lead: strategy, design, technical build, communications, and operations"],
+  ["Organization", "Marketing and Communications function at a global professional services firm"],
+  ["Timeline", "4-week campaign, August 2026. Built in parallel with full-time program delivery."],
+  ["Team", "Core team of 3: program lead (me), a PM handling submission intake, and a communications partner for post-campaign. 11 human judges coordinated externally."],
+  ["Award structure", "4 categories: Best AI Innovation, Best Agent, Biggest Time Saver, Best Team Submission. Scoring rubric: Impact 50%, Reusability 30%, Creativity 20%."],
+  ["Platform constraints", "Built on a new internal app platform that was still in beta, plus SharePoint, with significant technical limitations on storage, scripting, and layout."],
+];
+const decisions = [
+  { title: "Structured rubric over popular vote", body: "Early designs considered a community voting format. I ruled it out because popularity and quality are different things, especially for technical AI work that a general audience might not be positioned to evaluate. A weighted rubric (Impact 50%, Reusability 30%, Creativity 20%) gave judges a consistent frame and produced scores that could be defended. The rubric also became the foundation for the AI judge's prompt design." },
+  { title: "Claude as a 12th equal judge, not an advisor", body: "Including AI as an advisory input would have been safe but uninteresting. The decision to give Claude an equal vote, scored against the same rubric with the same submission data, was deliberate. The goal was to test whether AI could apply structured evaluative criteria consistently across 85 entries, and to model collaborative human-AI decision-making in a real operational context. It held up: among the judges who submitted scores, Claude's sat closest to the rest of the panel on average, while still disagreeing sharply on individual entries. Those disagreements turned out to be the most useful part of the experiment." },
+  { title: "Building the scoring app instead of using a spreadsheet", body: "A shared Excel sheet would have worked. I chose to build a custom HTML application on the firm's new internal app platform, then still in beta, because it gave judges a single interface with all submission context visible while scoring: no tab-switching, no version confusion, no partial data. The app also allowed Claude's admin view to be gated behind a URL parameter, keeping the human and AI scoring operationally separate." },
+  { title: "File storage over database storage", body: "The beta platform's built-in database API was the obvious choice for persisting judge scores across sessions. After testing, it proved unreliable for shared cross-session state. I diagnosed the issue, identified the platform's file storage API as a working alternative, and re-architected the storage layer mid-build using JSON files keyed per judge. This required a full audit of key sanitization rules (alphanumeric, dots, hyphens only) to prevent silent save failures." },
+  { title: "Keeping winner selection with the judging panel", body: "An earlier version of the process added a leadership shortlist review before winners were finalized. I removed that step. Leadership did not score submissions; the 11-person human panel plus the AI judge already provided a strong, rubric-based signal. A separate senior review layer would have added scheduling risk, diluted judge authority, and blurred what the panel vote meant. Winners came directly from the scores. Clean, fast, defensible." },
+  { title: "Product testing a beta platform alongside its product manager", body: "When the beta platform's storage layer failed mid-build, I treated it as a product test, not just a blocker. I documented what broke, how to reproduce it, what I had already tried, and why each attempt failed, then brought it to the platform's product manager. We worked through it together, and the fix improved the platform for every team using it, not just this program. Diagnose, document, escalate with specifics, fix at the root: that is the difference between a workaround and a contribution." },
+  { title: "Personalized winner communications over a mass announcement", body: "Each winner received an individual email before the organization-wide announcement, with their specific judge rationale, their points, and a heads-up that the public post was coming. This sequencing was intentional: winners should hear it first, directly, in a way that felt personal rather than corporate. The rationale was generated inside the scoring app itself, using the Anthropic API and prompts refined to produce a single quotable sentence in a panel-judge voice." },
+];
+const channels = [
+  { label: "Channel 01", title: "Leadership activation", body: "Looped in senior leadership early and asked them to encourage their teams directly. Leadership-visible programs signal organizational priority: teams pay attention when their managing directors are paying attention. This required getting leadership buy-in before the campaign launched, not after." },
+  { label: "Channel 02", title: "Internal social + email", body: "Ran coordinated posts through Viva Engage (internal social platform) and the firm's internal newsletter. Copy was written to lead with the award structure and recognition points, not just the campaign concept, giving people a concrete reason to act." },
+  { label: "Channel 03", title: "Intranet hub presence", body: "Published the program on the marketing organization's SharePoint homepage, which serves as the team's primary digital hub. This created a persistent, findable landing point throughout the campaign rather than a one-time announcement that dropped out of view." },
+];
+---
+<CaseLayout
+  slug="ai-recognition-program"
+  eyebrow="AI and Marketing Transformation Manager"
+  headline="Building an AI recognition program from scratch"
+  sub="Designed and delivered a full-cycle internal AI recognition program for a global professional services firm's marketing organization, from program architecture through technical build, judge operations, and post-campaign communications."
+  summary={{
+    problem: "A large marketing organization needed a way to surface and reward the AI work its people were already doing.",
+    did: "I designed a four-week recognition program end to end, built the scoring app on a beta platform, and put Claude on the judging panel with an equal vote.",
+    result: "85 submissions in four weeks, judged by a 12-member panel of 11 human judges and Claude, with four category winners backed by full scoring documentation.",
+  }}
+  quotes={quotes.aiRecognition}
+>
+  <section class="section" aria-label="Program at a glance">
+    <div class="wrap">
+      <Stats items={[["85", "Submissions received"], ["12", "Member judging panel: 11 human judges and Claude"], ["4", "Award categories"], ["55+", "App versions shipped"], ["4 wks", "Campaign window"]]} />
+    </div>
+  </section>
+
+  <Section label="Program overview" heading="What it was and why it mattered">
+    <p>The AI recognition program was a four-week internal program designed to surface and celebrate AI innovation happening across a large marketing organization. There was no existing template. I built the program concept, mechanics, and technology from the ground up.</p>
+    <p>The core challenge was designing something that felt substantive, not performative. Anyone can run a "share your AI tip" campaign. The goal here was to create a credible, peer-reviewed evaluation process that produced defensible winners and made the underlying work visible to the whole organization.</p>
+    <dl class="grid grid--2 meta-cards">
+      {meta.map(([l, v]) => <div><dt class="ms-tag ms-tag--eyebrow">{l}</dt><dd class="body-s">{v}</dd></div>)}
+    </dl>
+  </Section>
+
+  <Section label="Program architecture" heading="How all the pieces connected">
+    <p>The program had three distinct operational phases: submission, scoring, and announcement. Each had its own system of tools, stakeholders, and communications. Building the technical infrastructure while also running the program required clear sequencing.</p>
+    <Diagram caption="Three-phase program architecture. Each node represents a distinct deliverable or operational component." minWidth={720}><SystemMap /></Diagram>
+  </Section>
+
+  <Section label="Design rationale" heading="Why the program was built the way it was">
+    <p>Most of the decisions that shaped this program aren't visible in the final product. They were made upstream, under constraint, and they defined everything downstream.</p>
+    <Decisions items={decisions} prefix="Decision " />
+  </Section>
+
+  <Section label="Technical workstream" heading="What was built and the constraints it was built under">
+    <p>All three applications were built without a development environment, external libraries, or dedicated engineering support. The technical work happened alongside program delivery, using HTML, CSS, and JavaScript on corporate platforms with real-world constraints, one of which was still in beta.</p>
+    <Callout label="Background"><p>I'm a marketer who taught myself to code to build this, on a platform that was still in beta. That made me an early tester as much as a builder. When platform limitations blocked progress, I wrote technical documentation covering the issues, how to reproduce them, and the fixes I had attempted, brought it to the platform's product manager, and worked with him to resolve the root causes. Those fixes improved the platform for everyone using it. I speak the language of technical product teams, and I now regularly build custom HTML applications as part of my workflow.</p></Callout>
+    <DataTable headers={["Constraint", "Impact", "How it was resolved"]} rows={[
+      ["Beta platform's database API unreliable for cross-session persistence", "Judge scores were not surviving page refreshes, which was critical for a multi-day scoring window", "Diagnosed the root cause and documented it for the platform's product manager. Re-architected the storage layer to use the platform's file storage API, storing each judge's scores as an individual JSON file. Required a mid-build refactor."],
+      ["Platform file key character restrictions", "Filenames with spaces, ampersands, or parentheses caused silent save failures", "Built a sanitization function converting all disallowed characters to hyphens before use as file keys. Applied consistently across all storage operations."],
+      ["SharePoint disallows position:fixed, external scripts, external image hosting", "The leaderboard app's fixed detail panel and hero module required full re-architecture for iframe embedding", "Replaced fixed positioning with inline rendering that scrolled to top on open. Base64-encoded all images. Removed all CDN dependencies. Tested inside the iframe sandbox before publishing."],
+      ["AI-generated judge rationale needed to run inside the scoring app judges were already using", "Rationale had to be consistent, rubric-aligned, and short enough to quote in winner communications", "Integrated the Anthropic API directly into the scoring app to generate a one-sentence, rubric-aligned rationale for each submission. Prompts were refined for a single quotable sentence in a panel-judge voice."],
+      ["JavaScript special character encoding for 85-entry data payload", "Backtick template literals and unescaped characters in submission data caused silent parse failures", "Used <code>json.dumps</code> with <code>ensure_ascii=True</code>, escaped backslashes then single quotes, and wrapped the payload in <code>JSON.parse()</code>. Avoided backtick template literals entirely."],
+    ]} />
+  </Section>
+
+  <Section label="Change management workstream" heading="How 85 submissions happened">
+    <p>85 submissions across a four-week window represents strong internal participation for a program with no precedent and no mandatory requirement to enter. Getting there required a deliberate multi-channel promotion strategy designed around the organization's actual communication habits.</p>
+    <Decisions items={channels} cols={3} />
+  </Section>
+
+  <Section label="Outcomes" heading="What the program produced">
+    <Stats items={[["85", "Submissions received across 4 weeks"], ["12", "Member judging panel: 11 human judges and Claude"], ["55+", "App versions shipped from zero to production"], ["4", "Category winners with full scoring documentation"]]} />
+    <Bullets items={[
+      "Delivered the full program end-to-end with a core team of 3 and no dedicated engineering team",
+      "Published a live SharePoint leaderboard accessible to the full marketing organization, with search, filter, and submission detail views",
+      "Introduced AI as an operational judge in an internal recognition program, a first for the organization",
+      "Product tested a beta platform in a live program and partnered with its product manager on fixes that improved it for every team",
+      "Executed a clean post-campaign handoff with winner spotlights, editorial content, and a structured comms transition",
+      "Built a reusable internal tooling pattern (custom scoring app with integrated AI rationale, embedded in SharePoint) applicable to future programs",
+    ]} />
+  </Section>
+
+  <Section label="Skills demonstrated" heading="What this work required">
+    <Skills groups={[
+      ["Program-level", ["AI program design", "End-to-end program delivery", "Stakeholder management", "Change management", "Cross-functional coordination", "Internal communications strategy"]],
+      ["Technical", ["HTML / CSS / JavaScript", "Anthropic API integration", "Prompt engineering", "Beta product testing", "Technical product collaboration", "SharePoint iframe embedding", "File API storage design", "Data processing (Excel / pandas)"]],
+      ["Content and communications", ["Copywriting (campaign, email, announcements)", "Brand voice consistency", "Multi-channel content planning", "Editorial design (SharePoint)", "Post-campaign comms handoff"]],
+    ]} />
+  </Section>
+</CaseLayout>
+
+<style>
+  .meta-cards { margin: 0; }
+  .meta-cards > div { background: var(--paper-raised); border: 1px solid var(--line); border-radius: var(--radius-md); padding: var(--space-3); }
+  .meta-cards dd { margin: var(--space-1) 0 0; color: var(--ink); }
+</style>

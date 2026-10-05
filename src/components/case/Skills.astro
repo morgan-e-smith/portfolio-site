@@ -1,0 +1,20 @@
+---
+// Skills as plain grouped lists (pills are reserved for pillar tags and filter chips).
+interface Props { groups: [string, string[]][] }
+const { groups } = Astro.props;
+---
+<div class="skills">
+  {groups.map(([label, items]) => (
+    <div class="skills__group">
+      <h3 class="ms-tag ms-tag--eyebrow">{label}</h3>
+      <p class="body-s">{items.join(" · ")}</p>
+    </div>
+  ))}
+</div>
+
+<style>
+  .skills { display: grid; gap: var(--space-3); }
+  @media (min-width: 900px) { .skills { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); } }
+  .skills__group { padding-top: var(--space-2); border-top: 1px solid var(--line); }
+  .skills__group p { margin-top: var(--space-1); }
+</style>
