@@ -20,7 +20,12 @@ const decode = (s) => s.replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&g
 
 function toText(html) {
   let main = (html.match(/<main[^>]*>([\s\S]*?)<\/main>/) || [, ""])[1];
-  main = main.replace(/<script[\s\S]*?<\/script>/g, "").replace(/<style[\s\S]*?<\/style>/g, "").replace(/<svg[\s\S]*?<\/svg>/g, "");
+  main = main.replace(/<script[\s\S]*?<\/script>/g, "").replace(/<style[\s\S]*?<\/style>/g, "");
+  // Diagrams are drawn text, so keep what their title and desc say: that is where the tool reasoning lives.
+  main = main.replace(/<svg[\s\S]*?<\/svg>/g, (svg) => {
+    const t = (svg.match(/<title[^>]*>([\s\S]*?)<\/title>/) || [, ""])[1].trim(), d = (svg.match(/<desc[^>]*>([\s\S]*?)<\/desc>/) || [, ""])[1].trim();
+    return t || d ? `<p>Diagram: ${t}. ${d}</p>` : "";
+  });
   main = main.replace(/<h([1-3])[^>]*>/g, (_, l) => "\n\n" + "#".repeat(+l) + " ").replace(/<\/h[1-3]>/g, "\n");
   main = main.replace(/<(li|tr)[^>]*>/g, "\n- ").replace(/<\/t[dh]>/g, " | ").replace(/<(p|div|section|figure|blockquote|dt|dd|br)[^>]*>/g, "\n");
   main = decode(main.replace(/<[^>]+>/g, ""));

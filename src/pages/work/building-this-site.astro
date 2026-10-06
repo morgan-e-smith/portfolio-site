@@ -5,6 +5,8 @@ import Decisions from "../../components/case/Decisions.astro";
 import DataTable from "../../components/case/DataTable.astro";
 import Skills from "../../components/case/Skills.astro";
 import Bullets from "../../components/case/Bullets.astro";
+import Diagram from "../../components/case/Diagram.astro";
+import InlineSvg from "../../components/case/InlineSvg.astro";
 ---
 <CaseLayout
   slug="building-this-site"
@@ -34,27 +36,26 @@ import Bullets from "../../components/case/Bullets.astro";
   </Section>
 
   <Section label="Phase 2" heading="Choosing the tools">
-    <p>The architecture set the requirements. The site needed custom design and code, not a template. It had to run an AI assistant without exposing the secret key that powers it. It had to publish changes automatically and cost close to nothing. And I had to be able to build it without an engineering team.</p>
+    <p>The architecture set the requirements. The site needed custom design and code, not a template. It had to run an AI assistant without exposing the secret key that powers it. It had to publish changes automatically and cost close to nothing. And I had to be able to build it myself, with tools I could direct and review.</p>
     <DataTable headers={["Option", "What it offered", "Why I passed or chose it"]} rows={[
       ["Website builders (Squarespace, Wix)", "Fast, polished templates", "Passed. No way to run a custom AI assistant, and a template proves nothing about building"],
       ["GitHub Pages alone", "Free hosting for code", "Passed. It serves static pages only, with no safe place to keep an API key, so no assistant"],
       ["Netlify or Cloudflare", "Similar to Vercel", "Viable alternatives. Vercel had the simplest setup"],
       ["<strong>GitHub + Vercel + Claude Code + Claude API</strong>", "Everything below", "<strong>Chosen</strong>"],
     ]} />
-    <p><strong>What each tool gave me:</strong></p>
-    <Bullets items={[
-      "<strong>Claude Code</strong> writes and changes the site's code from my instructions. It made custom software buildable without an engineering team, with me directing and reviewing every step.",
-      "<strong>GitHub</strong> stores the code with a full history of every change, and a public copy proves the site was really built, not assembled from a template.",
-      "<strong>Vercel</strong> publishes every change automatically, gives me private preview links to test before anything goes live, runs the assistant's server code, and keeps the API key out of the public code.",
-      "<strong>The Claude API</strong> powers the assistant.",
-      "<strong>Claude</strong> was my planning, writing, and review partner throughout.",
-    ]} />
+    <Diagram caption="Two systems, one site: what each tool does and why I chose it." minWidth={0} fullSize="/how-this-site-works.svg"><InlineSvg src="how-this-site-works.svg" prefix="hsw" /></Diagram>
   </Section>
 
   <Section label="Phase 3" heading="The build">
     <p>Before any code, I wrote a build brief: the sitemap, every page's copy, the content rules, and the assistant spec in one document. Claude Code built the site from it. When something changed, the brief changed first, so there was always one source of truth instead of decisions scattered across sessions.</p>
     <p>I also had Claude Code check its own work on every build: a copy check for style and content rules, a scan of every downloadable PDF, and a layout check at phone width on every page.</p>
   </Section>
+
+  <section class="section">
+    <div class="wrap">
+      <Diagram caption="Following the information: what is public, what stays private, and how recruiter questions feed back into new answers." minWidth={0} fullSize="/how-information-flows.svg"><InlineSvg src="how-information-flows.svg" prefix="hif" /></Diagram>
+    </div>
+  </section>
 
   <Section label="Phase 4" heading="Designing the assistant">
     <p>The homepage has an assistant built on the Claude API. A visitor asks a question, a small server function sends it to Claude along with everything published on the site plus an FAQ I wrote, and the answer comes back with links to its source pages.</p>

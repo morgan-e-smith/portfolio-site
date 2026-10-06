@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 650" width="680" height="650" role="img" aria-labelledby="t d">
+  <title id="t">How this site works, and why I chose each tool</title>
+  <desc id="d">Two flows. Building the site: Morgan makes every decision. Claude is the strategy, copy, and review partner, chosen because it drafts, flags overclaims, and pushes back. Claude Code writes and checks the code, chosen because it turns her direction into custom code she reviews. GitHub stores the code and its history, chosen because a public copy proves the site was really built. Vercel publishes the live site, chosen for automatic publishing and private previews. Answering a visitor: a recruiter asks a question. Vercel adds the secret key and site content, chosen because it keeps the key out of public code. The Claude API answers from site content only, with caching to keep cost close to nothing. The answer appears with links to its source pages, so recruiters can check every claim. The Anthropic Console holds the spending limit and keys, chosen for a hard spending cap.</desc>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#B8893B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <style>
+      .lane{font:600 11px Inter,system-ui,sans-serif;letter-spacing:.12em;fill:#8A6424}
+      .h{font:600 15px Inter,system-ui,sans-serif}
+      .s{font:400 12.5px Inter,system-ui,sans-serif}
+      .w{font:400 12px Inter,system-ui,sans-serif}
+      .wb{font-weight:700}
+      .ink{fill:#1E1B18}.paper{fill:#F7F3EC}.muted{fill:#5C554C}.tq{fill:#0A7370}
+      .arrow{stroke:#B8893B;stroke-width:1.6;fill:none}
+      .legend{font:400 12px Inter,system-ui,sans-serif;fill:#5C554C}
+    </style>
+  </defs>
+
+  <text class="lane" x="40" y="32">HOW THE SITE GETS BUILT</text>
+  <text class="lane" x="370" y="32">HOW THE ASSISTANT ANSWERS</text>
+
+  <!-- Build lane -->
+  <rect x="40" y="48" width="270" height="84" rx="8" fill="#1E1B18"/>
+  <text class="h paper" x="58" y="74">Me</text>
+  <text class="s paper" x="58" y="94">Strategy, architecture, every final call</text>
+  <text class="w paper" x="58" y="114">Decides what counts as done</text>
+  <line class="arrow" x1="175" y1="132" x2="175" y2="156" marker-end="url(#a)"/>
+
+  <rect x="40" y="158" width="270" height="84" rx="8" fill="#D3EFEE"/>
+  <text class="h tq" x="58" y="184">Claude</text>
+  <text class="s tq" x="58" y="204">Strategy, copy, and review</text>
+  <text class="w ink" x="58" y="224"><tspan class="wb">Why:</tspan> drafts, flags overclaims, pushes back</text>
+  <line class="arrow" x1="175" y1="242" x2="175" y2="266" marker-end="url(#a)"/>
+
+  <rect x="40" y="268" width="270" height="84" rx="8" fill="#D3EFEE"/>
+  <text class="h tq" x="58" y="294">Claude Code</text>
+  <text class="s tq" x="58" y="314">Writes and checks the code</text>
+  <text class="w ink" x="58" y="334"><tspan class="wb">Why:</tspan> custom code I direct and review</text>
+  <line class="arrow" x1="175" y1="352" x2="175" y2="376" marker-end="url(#a)"/>
+
+  <rect x="40" y="378" width="270" height="84" rx="8" fill="#FFFDF9" stroke="#DDD3C4"/>
+  <text class="h ink" x="58" y="404">GitHub</text>
+  <text class="s muted" x="58" y="424">Stores the code and its history</text>
+  <text class="w ink" x="58" y="444"><tspan class="wb">Why:</tspan> a public copy proves it was built</text>
+  <line class="arrow" x1="175" y1="462" x2="175" y2="486" marker-end="url(#a)"/>
+
+  <rect x="40" y="488" width="270" height="84" rx="8" fill="#FFFDF9" stroke="#DDD3C4"/>
+  <text class="h ink" x="58" y="514">Vercel</text>
+  <text class="s muted" x="58" y="534">Publishes the live site</text>
+  <text class="w ink" x="58" y="554"><tspan class="wb">Why:</tspan> auto-publishing, private previews</text>
+
+  <!-- Answer lane -->
+  <rect x="370" y="48" width="270" height="84" rx="8" fill="#FFFDF9" stroke="#DDD3C4"/>
+  <text class="h ink" x="388" y="74">A recruiter asks</text>
+  <text class="s muted" x="388" y="94">A question on morganesmith.website</text>
+  <text class="w muted" x="388" y="114">Up to 300 characters</text>
+  <line class="arrow" x1="505" y1="132" x2="505" y2="156" marker-end="url(#a)"/>
+
+  <rect x="370" y="158" width="270" height="84" rx="8" fill="#FFFDF9" stroke="#DDD3C4"/>
+  <text class="h ink" x="388" y="184">Vercel</text>
+  <text class="s muted" x="388" y="204">Adds the secret key and site content</text>
+  <text class="w ink" x="388" y="224"><tspan class="wb">Why:</tspan> keeps the key out of public code</text>
+  <line class="arrow" x1="505" y1="242" x2="505" y2="266" marker-end="url(#a)"/>
+
+  <rect x="370" y="268" width="270" height="84" rx="8" fill="#D3EFEE"/>
+  <text class="h tq" x="388" y="294">Claude API</text>
+  <text class="s tq" x="388" y="314">Answers from site content only</text>
+  <text class="w ink" x="388" y="334"><tspan class="wb">Why:</tspan> caching keeps cost close to nothing</text>
+  <line class="arrow" x1="505" y1="352" x2="505" y2="376" marker-end="url(#a)"/>
+
+  <rect x="370" y="378" width="270" height="84" rx="8" fill="#FFFDF9" stroke="#DDD3C4"/>
+  <text class="h ink" x="388" y="404">The answer appears</text>
+  <text class="s muted" x="388" y="424">With links to its source pages</text>
+  <text class="w ink" x="388" y="444"><tspan class="wb">Why:</tspan> recruiters can check every claim</text>
+
+  <rect x="370" y="488" width="270" height="84" rx="8" fill="none" stroke="#B8893B" stroke-dasharray="5 4"/>
+  <text class="h ink" x="388" y="514">Anthropic Console</text>
+  <text class="s muted" x="388" y="534">Spending limit and API keys</text>
+  <text class="w ink" x="388" y="554"><tspan class="wb">Why:</tspan> a hard cap on what it can spend</text>
+  <path d="M640 310 H656 V530 H644" class="arrow" stroke-dasharray="4 4" marker-end="url(#a)"/>
+
+  <!-- Legend -->
+  <line x1="40" y1="598" x2="640" y2="598" stroke="#DDD3C4"/>
+  <rect x="40" y="616" width="14" height="14" rx="3" fill="#1E1B18"/>
+  <text class="legend" x="62" y="627">Human decisions</text>
+  <rect x="190" y="616" width="14" height="14" rx="3" fill="#D3EFEE"/>
+  <text class="legend" x="212" y="627">Claude tools</text>
+  <rect x="320" y="616" width="14" height="14" rx="3" fill="#FFFDF9" stroke="#DDD3C4"/>
+  <text class="legend" x="342" y="627">Infrastructure</text>
+  <rect x="450" y="616" width="14" height="14" rx="3" fill="none" stroke="#B8893B" stroke-dasharray="4 3"/>
+  <text class="legend" x="472" y="627">Controls and limits</text>
+</svg>

@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 690" width="680" height="690" role="img" aria-labelledby="t d">
+  <title id="t">How information flows through this site</title>
+  <desc id="d">Morgan's decisions go to Claude, which turns them into a written brief for Claude Code. Claude Code saves code and content to a private GitHub repository, which also feeds a clean public copy. Each change triggers a Vercel build, which publishes the live site. Only published pages, plus the FAQ, become the assistant's knowledge base. When a recruiter asks a question, the assistant function on Vercel adds the knowledge base and the secret key from the Anthropic Console, sends it to the Claude API, and returns an answer with sources. Each question and answer is logged without personal data, and Morgan reviews the log to write new FAQ answers, closing the loop.</desc>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#B8893B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <style>
+      .h{font:600 14px Inter,system-ui,sans-serif}
+      .s{font:400 12px Inter,system-ui,sans-serif}
+      .lbl{font:600 11px Inter,system-ui,sans-serif;fill:#8A6424}
+      .ink{fill:#1E1B18}.paper{fill:#F7F3EC}.muted{fill:#5C554C}.tq{fill:#0A7370}
+      .arrow{stroke:#B8893B;stroke-width:1.6;fill:none}
+      .legend{font:400 12px Inter,system-ui,sans-serif;fill:#5C554C}
+    </style>
+  </defs>
+
+  <!-- Feedback loop -->
+  <path d="M640 589 H662 V44 H120 V68" class="arrow" stroke-dasharray="5 4" marker-end="url(#a)"/>
+  <text class="lbl" x="390" y="36" text-anchor="middle">FEEDBACK LOOP: WHAT RECRUITERS ASK SHAPES NEW FAQ ANSWERS</text>
+
+  <!-- Row 1 -->
+  <rect x="40" y="70" width="160" height="62" rx="8" fill="#1E1B18"/>
+  <text class="h paper" x="56" y="96">Me</text>
+  <text class="s paper" x="56" y="116">Decisions, final calls</text>
+
+  <rect x="260" y="70" width="160" height="62" rx="8" fill="#FFFDF9" stroke="#DDD3C4"/>
+  <text class="h ink" x="276" y="96">Claude</text>
+  <text class="s muted" x="276" y="116">Plans, copy, review</text>
+
+  <rect x="480" y="70" width="160" height="62" rx="8" fill="#FFFDF9" stroke="#DDD3C4"/>
+  <text class="h ink" x="496" y="96">Claude Code</text>
+  <text class="s muted" x="496" y="116">Temporary workspace</text>
+
+  <line class="arrow" x1="200" y1="101" x2="258" y2="101" marker-end="url(#a)"/>
+  <text class="lbl" x="230" y="93" text-anchor="middle">decisions</text>
+  <line class="arrow" x1="420" y1="101" x2="478" y2="101" marker-end="url(#a)"/>
+  <text class="lbl" x="450" y="93" text-anchor="middle">brief</text>
+
+  <!-- Row 2 -->
+  <rect x="260" y="192" width="160" height="62" rx="8" fill="#D3EFEE"/>
+  <text class="h tq" x="276" y="218">GitHub (public)</text>
+  <text class="s tq" x="276" y="238">Clean copy, no history</text>
+
+  <rect x="480" y="192" width="160" height="62" rx="8" fill="#FFFDF9" stroke="#DDD3C4"/>
+  <text class="h ink" x="496" y="218">GitHub (private)</text>
+  <text class="s muted" x="496" y="238">Code and full history</text>
+
+  <line class="arrow" x1="560" y1="132" x2="560" y2="190" marker-end="url(#a)"/>
+  <text class="lbl" x="568" y="165">code + content</text>
+  <line class="arrow" x1="480" y1="223" x2="422" y2="223" marker-end="url(#a)"/>
+  <text class="lbl" x="451" y="215" text-anchor="middle">clean copy</text>
+
+  <!-- Row 3 -->
+  <rect x="260" y="314" width="160" height="62" rx="8" fill="#D3EFEE"/>
+  <text class="h tq" x="276" y="340">Live site</text>
+  <text class="s tq" x="276" y="360">morganesmith.website</text>
+
+  <rect x="480" y="314" width="160" height="62" rx="8" fill="#FFFDF9" stroke="#DDD3C4"/>
+  <text class="h ink" x="496" y="340">Vercel build</text>
+  <text class="s muted" x="496" y="360">Builds every change</text>
+
+  <line class="arrow" x1="560" y1="254" x2="560" y2="312" marker-end="url(#a)"/>
+  <text class="lbl" x="568" y="287">each change</text>
+  <line class="arrow" x1="480" y1="345" x2="422" y2="345" marker-end="url(#a)"/>
+  <text class="lbl" x="451" y="337" text-anchor="middle">pages</text>
+
+  <path d="M260 345 H120 V434" class="arrow" marker-end="url(#a)"/>
+  <text class="lbl" x="128" y="395">published pages only</text>
+
+  <!-- Row 4 -->
+  <rect x="40" y="436" width="160" height="62" rx="8" fill="#D3EFEE"/>
+  <text class="h tq" x="56" y="462">Knowledge base</text>
+  <text class="s tq" x="56" y="482">Published pages + FAQ</text>
+
+  <rect x="260" y="436" width="160" height="62" rx="8" fill="#FFFDF9" stroke="#DDD3C4"/>
+  <text class="h ink" x="276" y="462">Assistant</text>
+  <text class="s muted" x="276" y="482">Runs on Vercel</text>
+
+  <rect x="480" y="436" width="160" height="62" rx="8" fill="#D3EFEE"/>
+  <text class="h tq" x="496" y="462">Recruiter</text>
+  <text class="s tq" x="496" y="482">Asks a question</text>
+
+  <line class="arrow" x1="200" y1="462" x2="258" y2="462" marker-end="url(#a)"/>
+  <text class="lbl" x="230" y="454" text-anchor="middle">content</text>
+  <line class="arrow" x1="480" y1="456" x2="422" y2="456" marker-end="url(#a)"/>
+  <text class="lbl" x="451" y="448" text-anchor="middle">question</text>
+  <line class="arrow" x1="420" y1="476" x2="478" y2="476" marker-end="url(#a)"/>
+  <text class="lbl" x="451" y="492" text-anchor="middle">answer</text>
+
+  <!-- Row 5 -->
+  <rect x="40" y="558" width="160" height="62" rx="8" fill="none" stroke="#B8893B" stroke-dasharray="5 4"/>
+  <text class="h ink" x="56" y="584">Anthropic Console</text>
+  <text class="s muted" x="56" y="604">Spending limit, keys</text>
+
+  <rect x="260" y="558" width="160" height="62" rx="8" fill="#FFFDF9" stroke="#DDD3C4"/>
+  <text class="h ink" x="276" y="584">Claude API</text>
+  <text class="s muted" x="276" y="604">Remembers nothing</text>
+
+  <rect x="480" y="558" width="160" height="62" rx="8" fill="#FFFDF9" stroke="#DDD3C4"/>
+  <text class="h ink" x="496" y="584">Question log</text>
+  <text class="s muted" x="496" y="604">No personal data</text>
+
+  <line class="arrow" x1="310" y1="498" x2="310" y2="556" marker-end="url(#a)"/>
+  <text class="lbl" x="302" y="531" text-anchor="end">ask</text>
+  <line class="arrow" x1="350" y1="558" x2="350" y2="500" marker-end="url(#a)"/>
+  <text class="lbl" x="358" y="531">answer</text>
+
+  <path d="M200 589 H230 V486 H258" class="arrow" stroke-dasharray="4 4" marker-end="url(#a)"/>
+  <text class="lbl" x="224" y="540" text-anchor="end">secret key</text>
+
+  <path d="M405 498 V528 H560 V556" class="arrow" marker-end="url(#a)"/>
+  <text class="lbl" x="482" y="521" text-anchor="middle">logged</text>
+
+  <!-- Legend -->
+  <line x1="40" y1="644" x2="640" y2="644" stroke="#DDD3C4"/>
+  <rect x="40" y="662" width="14" height="14" rx="3" fill="#1E1B18"/>
+  <text class="legend" x="62" y="673">Human decisions</text>
+  <rect x="190" y="662" width="14" height="14" rx="3" fill="#FFFDF9" stroke="#DDD3C4"/>
+  <text class="legend" x="212" y="673">Private</text>
+  <rect x="290" y="662" width="14" height="14" rx="3" fill="#D3EFEE"/>
+  <text class="legend" x="312" y="673">Public</text>
+  <rect x="385" y="662" width="14" height="14" rx="3" fill="none" stroke="#B8893B" stroke-dasharray="4 3"/>
+  <text class="legend" x="407" y="673">Secret</text>
+</svg>

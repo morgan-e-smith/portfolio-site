@@ -268,6 +268,15 @@
         "/work/building-this-site"
       ],
       "mustNotMatch": "(?i)\\b(she|morgan) (is|was) an? (software )?engineer\\b|\\bwrote (all|every) (of )?(the )?(code|line)"
+    },
+    {
+      "id": "F13",
+      "group": "facts",
+      "q": "Why did she choose Vercel?",
+      "pass": "Matches the Building this site case study and its diagram: Vercel publishes changes automatically, gives private preview links, runs the assistant's server code, and keeps the secret API key out of public code; Netlify or Cloudflare were viable but Vercel had the simplest setup. Cites the case study; no invented reasons",
+      "expectSources": [
+        "/work/building-this-site"
+      ]
     }
   ]
 }

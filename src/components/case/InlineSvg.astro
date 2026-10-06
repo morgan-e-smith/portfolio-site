@@ -1,0 +1,22 @@
+---
+// Inlines an SVG from /public so its <title> and <desc> stay available to screen readers and the knowledge base.
+// The file is used as-is (colors and text untouched). Only its class names and ids get a prefix, so two inline
+// SVGs, or the site's own CSS, can't collide with each other.
+import { readFileSync } from "node:fs";
+interface Props { src: string; prefix: string }
+const { src, prefix } = Astro.props;
+let svg = readFileSync(new URL(`public/${src}`, `file://${process.cwd()}/`), "utf8");
+const ids = [...svg.matchAll(/\bid="([^"]+)"/g)].map((m) => m[1]);
+svg = svg
+  .replace(/<style>([\s\S]*?)<\/style>/g, (_, css) => `<style>${css.replace(/(^|[}\s,{])\.([A-Za-z_][\w-]*)/g, `$1.${prefix}-$2`)}</style>`)
+  .replace(/\bclass="([^"]*)"/g, (_, c) => `class="${c.split(/\s+/).filter(Boolean).map((x: string) => `${prefix}-${x}`).join(" ")}"`)
+  .replace(/\bid="([^"]+)"/g, `id="${prefix}-$1"`)
+  .replace(/url\(#([^)]+)\)/g, `url(#${prefix}-$1)`)
+  .replace(/aria-labelledby="([^"]+)"/, (_, v) => `aria-labelledby="${v.split(/\s+/).map((x: string) => `${prefix}-${x}`).join(" ")}"`);
+---
+<div class="inline-svg" set:html={svg} />
+
+<style>
+  .inline-svg { max-width: 720px; margin-inline: auto; }
+  .inline-svg :global(svg) { display: block; width: 100%; height: auto; }
+</style>
