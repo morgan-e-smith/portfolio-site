@@ -1,91 +1,170 @@
-<!-- Redrawn from the source case study in brand tokens. -->
-<svg role="img" viewBox="0 0 960 440" width="100%">
-        <!-- Phase Labels -->
-        <text class="f-accent" x="130" y="28" font-size="10" font-weight="600" letter-spacing="2.5" text-anchor="middle">PHASE 1: SUBMIT</text>
-        <text class="f-accent" x="480" y="28" font-size="10" font-weight="600" letter-spacing="2.5" text-anchor="middle">PHASE 2: SCORE</text>
-        <text class="f-accent" x="820" y="28" font-size="10" font-weight="600" letter-spacing="2.5" text-anchor="middle">PHASE 3: ANNOUNCE</text>
+---
+// Three-phase program map with a key. Each box is a Deliverable (solid) or Operational (outlined) step,
+// and carries AI tags. Two layouts are drawn from the same data: three columns on wide screens, and the
+// three phases stacked on narrow ones, so nothing needs sideways scrolling.
+type Kind = "D" | "O";
+type Tag = "built" | "drafted" | "loop" | "auto";
+interface Node { phase: 0 | 1 | 2; row: number; part?: "l" | "r"; kind: Kind; title: string; sub: string; tags: Tag[] }
 
-        <!-- Phase dividers -->
-        <line class="s-line" x1="275" y1="10" x2="275" y2="430" stroke-width="1" stroke-dasharray="4,4"/>
-        <line class="s-line" x1="635" y1="10" x2="635" y2="430" stroke-width="1" stroke-dasharray="4,4"/>
+const tagText: Record<Tag, string> = { built: "Built with Claude", drafted: "Drafted with Claude", loop: "AI in the loop", auto: "Automated" };
+const chipW = (t: Tag) => Math.round(tagText[t].length * 6.1 + 16);
 
-        <!-- SUBMIT nodes -->
-        <rect class="f-ink" x="30" y="50" width="200" height="56"/>
-        <text class="f-raised" x="130" y="75" font-size="13" font-weight="600" text-anchor="middle">Submission Form</text>
-        <text class="f-tint" x="130" y="93" font-size="11" text-anchor="middle">85 entries across 4 categories</text>
+const phaseNames = ["PHASE 1: SUBMIT", "PHASE 2: SCORE", "PHASE 3: ANNOUNCE"];
+const nodes: Node[] = [
+  { phase: 0, row: 0, kind: "D", title: "Submission Form", sub: "85 entries across 4 categories", tags: ["drafted"] },
+  { phase: 0, row: 1, kind: "O", title: "PM Intake & Validation", sub: "Category assignment + cleaning", tags: ["auto"] },
+  { phase: 0, row: 2, kind: "D", title: "Promotion Campaign", sub: "Viva Engage, email, SharePoint, leadership", tags: ["drafted"] },
+  { phase: 1, row: 0, kind: "D", title: "Custom Scoring App (beta platform)", sub: "55+ versions shipped. Integrated AI rationale.", tags: ["built", "loop"] },
+  { phase: 1, row: 1, part: "l", kind: "O", title: "11 Human Judges", sub: "Weighted rubric", tags: [] },
+  { phase: 1, row: 1, part: "r", kind: "O", title: "AI Judge (Claude)", sub: "Equal vote. Same rubric.", tags: ["loop"] },
+  { phase: 1, row: 2, kind: "O", title: "Score Aggregation + Winner Determination", sub: "Excel processing. 10 category reassignments.", tags: ["auto"] },
+  { phase: 2, row: 0, kind: "D", title: "Winner Notifications", sub: "Personalized emails on what judges valued most", tags: ["drafted", "loop"] },
+  { phase: 2, row: 1, kind: "D", title: "SharePoint Leaderboard + Hero", sub: "Iframe-embedded, brand-compliant HTML", tags: ["built"] },
+  { phase: 2, row: 2, kind: "D", title: "Winner Spotlight Page", sub: "Tabbed editorial page, all 4 winners", tags: ["built"] },
+  { phase: 2, row: 3, kind: "D", title: "Viva Engage + Comms Handoff", sub: "Social announcement. Handoff to comms lead.", tags: ["drafted"] },
+];
 
-        <rect class="f-raised s-line" x="30" y="140" width="200" height="56" stroke-width="1"/>
-        <text class="f-ink" x="130" y="165" font-size="13" font-weight="600" text-anchor="middle">PM Intake &amp; Validation</text>
-        <text class="f-muted" x="130" y="183" font-size="11" text-anchor="middle">Category assignment + cleaning</text>
+const H = 78, STEP = 108; // box height, row pitch
 
-        <rect class="f-raised s-line" x="30" y="230" width="200" height="56" stroke-width="1"/>
-        <text class="f-ink" x="130" y="255" font-size="13" font-weight="600" text-anchor="middle">Promotion Campaign</text>
-        <text class="f-muted" x="130" y="273" font-size="11" text-anchor="middle">Viva Engage, email, SharePoint, leadership</text>
+// Place every box for one layout. Returns boxes, labels, arrows and the overall size.
+function layout(mode: "wide" | "stack") {
+  const boxes: any[] = [], labels: any[] = [], arrows: any[] = [], dividers: any[] = [];
+  const phaseRows = [0, 1, 2].map((p) => 1 + Math.max(...nodes.filter((n) => n.phase === p).map((n) => n.row)));
+  let width: number, height: number;
+  const colX = [30, 320, 670], colW = [240, 300, 340];
+  const originY: number[] = [];
+  if (mode === "wide") {
+    width = 1040;
+    for (const p of [0, 1, 2]) { originY[p] = 50; labels.push({ x: colX[p] + colW[p] / 2, y: 28, text: phaseNames[p], anchor: "middle" }); }
+    dividers.push({ x: 295 }, { x: 645 });
+    height = 50 + 3 * STEP + H + 24; // tallest column has 4 rows
+  } else {
+    width = 320;
+    let y = 0;
+    for (const p of [0, 1, 2]) {
+      labels.push({ x: 4, y: y + 22, text: phaseNames[p], anchor: "start" });
+      originY[p] = y + 40;
+      y = originY[p] + (phaseRows[p] - 1) * STEP + H + 40;
+    }
+    height = y - 20;
+  }
+  for (const n of nodes) {
+    const p = n.phase;
+    const x0 = mode === "wide" ? colX[p] : 4, w0 = mode === "wide" ? colW[p] : 312;
+    let x = x0, w = w0;
+    if (n.part) { const half = mode === "wide" ? [140, 142] : [151, 151]; const gap = w0 - half[0] - half[1]; if (n.part === "l") w = half[0]; else { x = x0 + half[0] + gap; w = half[1]; } }
+    boxes.push({ ...n, x, w, y: originY[p] + n.row * STEP });
+  }
+  // Arrows down inside each phase: from each box to the box(es) below it.
+  const bx = (p: number, r: number) => boxes.filter((b) => b.phase === p && b.row === r);
+  for (const p of [0, 1, 2]) for (let r = 0; r < phaseRows[p] - 1; r++) {
+    const above = bx(p, r), below = bx(p, r + 1);
+    // One arrow per box on the side with more boxes, centered on that box.
+    const pairs = above.length >= below.length ? above.map((a) => [a, below[0], a.x + a.w / 2]) : below.map((b) => [above[0], b, b.x + b.w / 2]);
+    for (const [src, dst, cx] of pairs) arrows.push({ type: "v", x: cx, y1: src.y + H, y2: dst.y, accent: false });
+  }
+  // Cross-phase arrows.
+  if (mode === "wide") {
+    const intake = boxes.find((b) => b.title.startsWith("PM Intake")), human = boxes.find((b) => b.title === "11 Human Judges");
+    arrows.push({ type: "h", y: intake.y + H / 2, x1: 270, x2: human.x - 2, accent: true });
+    const agg = boxes.find((b) => b.title.startsWith("Score Aggregation"));
+    arrows.push({ type: "h", y: agg.y + H / 2, x1: 620, x2: 668, accent: true });
+  } else {
+    for (const p of [0, 1]) { const last = boxes.filter((b) => b.phase === p).sort((a, b) => b.y - a.y)[0]; const next = boxes.filter((b) => b.phase === p + 1).sort((a, b) => a.y - b.y)[0]; arrows.push({ type: "v", x: 300, y1: last.y + H, y2: next.y, accent: true }); }
+  }
+  return { width, height, boxes, labels, arrows, dividers };
+}
+const layouts = { wide: layout("wide"), stack: layout("stack") };
+const chipsAt = (b: any) => { const ws = b.tags.map(chipW); const total = ws.reduce((a: number, c: number) => a + c, 0) + 6 * (ws.length - 1); let x = b.x + (b.w - total) / 2; return b.tags.map((t: Tag, i: number) => { const c = { t, x, w: ws[i] }; x += ws[i] + 6; return c; }); };
+---
+<div class="rmap">
+  <div class="key" role="group" aria-label="Key">
+    <div class="key__group">
+      <span class="key__head">Box style</span>
+      <span class="key__item"><span class="swatch swatch--d" aria-hidden="true"></span>Deliverable</span>
+      <span class="key__item"><span class="swatch swatch--o" aria-hidden="true"></span>Operational</span>
+    </div>
+    <div class="key__group">
+      <span class="key__head">AI tags</span>
+      {(["built", "drafted", "loop", "auto"] as Tag[]).map((t) => <span class={`chip chip--${t}`}>{tagText[t]}</span>)}
+    </div>
+  </div>
 
-        <!-- Arrows P1 -->
-        <line class="s-line" x1="130" y1="106" x2="130" y2="138" stroke-width="1.5"/>
-        <polygon class="f-line" points="130,140 125,130 135,130"/>
-        <line class="s-line" x1="130" y1="196" x2="130" y2="228" stroke-width="1.5"/>
-        <polygon class="f-line" points="130,230 125,220 135,220"/>
-
-        <!-- SCORE nodes -->
-        <rect class="f-ink" x="310" y="50" width="300" height="56"/>
-        <text class="f-raised" x="460" y="75" font-size="13" font-weight="600" text-anchor="middle">Custom Scoring App (beta platform)</text>
-        <text class="f-tint" x="460" y="93" font-size="11" text-anchor="middle">55+ versions shipped. Integrated AI rationale.</text>
-
-        <rect class="f-raised s-line" x="310" y="140" width="140" height="56" stroke-width="1"/>
-        <text class="f-ink" x="380" y="163" font-size="13" font-weight="600" text-anchor="middle">11 Human Judges</text>
-        <text class="f-muted" x="380" y="181" font-size="11" text-anchor="middle">Weighted rubric</text>
-
-        <rect class="f-accent" x="468" y="140" width="142" height="56"/>
-        <text class="f-raised" x="539" y="163" font-size="13" font-weight="600" text-anchor="middle">AI Judge (Claude)</text>
-        <text class="f-tint" x="539" y="181" font-size="11" text-anchor="middle">Equal vote. Same rubric.</text>
-
-        <rect class="f-raised s-line" x="310" y="230" width="300" height="56" stroke-width="1"/>
-        <text class="f-ink" x="460" y="255" font-size="13" font-weight="600" text-anchor="middle">Score Aggregation + Winner Determination</text>
-        <text class="f-muted" x="460" y="273" font-size="11" text-anchor="middle">Excel processing. 10 category reassignments.</text>
-
-        <!-- Arrows P2 -->
-        <line class="s-line" x1="380" y1="106" x2="380" y2="138" stroke-width="1.5"/>
-        <polygon class="f-line" points="380,140 375,130 385,130"/>
-        <line class="s-line" x1="539" y1="106" x2="539" y2="138" stroke-width="1.5"/>
-        <polygon class="f-line" points="539,140 534,130 544,130"/>
-        <line class="s-line" x1="380" y1="196" x2="380" y2="228" stroke-width="1.5"/>
-        <polygon class="f-line" points="380,230 375,220 385,220"/>
-        <line class="s-line" x1="539" y1="196" x2="539" y2="228" stroke-width="1.5"/>
-        <polygon class="f-line" points="539,230 534,220 544,220"/>
-
-        <!-- Cross-phase arrow -->
-        <line class="s-accent" x1="230" y1="168" x2="308" y2="168" stroke-width="1.5"/>
-        <polygon class="f-accent" points="310,168 300,163 300,173"/>
-
-        <!-- ANNOUNCE nodes -->
-        <rect class="f-ink" x="670" y="50" width="260" height="56"/>
-        <text class="f-raised" x="800" y="75" font-size="13" font-weight="600" text-anchor="middle">Winner Notifications</text>
-        <text class="f-tint" x="800" y="93" font-size="11" text-anchor="middle">Personalized emails + AI-generated rationale</text>
-
-        <rect class="f-raised s-line" x="670" y="140" width="260" height="56" stroke-width="1"/>
-        <text class="f-ink" x="800" y="163" font-size="13" font-weight="600" text-anchor="middle">SharePoint Leaderboard + Hero</text>
-        <text class="f-muted" x="800" y="181" font-size="11" text-anchor="middle">Iframe-embedded, brand-compliant HTML</text>
-
-        <rect class="f-raised s-line" x="670" y="230" width="260" height="56" stroke-width="1"/>
-        <text class="f-ink" x="800" y="255" font-size="13" font-weight="600" text-anchor="middle">Winner Spotlight Page</text>
-        <text class="f-muted" x="800" y="273" font-size="11" text-anchor="middle">Tabbed editorial page, all 4 winners</text>
-
-        <rect class="f-raised s-line" x="670" y="320" width="260" height="56" stroke-width="1"/>
-        <text class="f-ink" x="800" y="345" font-size="13" font-weight="600" text-anchor="middle">Viva Engage + Comms Handoff</text>
-        <text class="f-muted" x="800" y="363" font-size="11" text-anchor="middle">Social announcement. Handoff to comms lead.</text>
-
-        <!-- Arrows P3 -->
-        <line class="s-line" x1="800" y1="106" x2="800" y2="138" stroke-width="1.5"/>
-        <polygon class="f-line" points="800,140 795,130 805,130"/>
-        <line class="s-line" x1="800" y1="196" x2="800" y2="228" stroke-width="1.5"/>
-        <polygon class="f-line" points="800,230 795,220 805,220"/>
-        <line class="s-line" x1="800" y1="286" x2="800" y2="318" stroke-width="1.5"/>
-        <polygon class="f-line" points="800,320 795,310 805,310"/>
-
-        <!-- Cross-phase arrow -->
-        <line class="s-accent" x1="610" y1="258" x2="668" y2="258" stroke-width="1.5"/>
-        <polygon class="f-accent" points="670,258 660,253 660,263"/>
-
+  {(["wide", "stack"] as const).map((mode) => {
+    const L = layouts[mode];
+    return (
+      <svg class={`map map--${mode}`} role="img" aria-label="Three-phase program architecture: Submit, Score, Announce" viewBox={`0 0 ${L.width} ${L.height}`}>
+        {L.labels.map((l) => <text class="phase" x={l.x} y={l.y} font-size="10" font-weight="600" letter-spacing="2.5" text-anchor={l.anchor}>{l.text}</text>)}
+        {L.dividers.map((d) => <line class="divider" x1={d.x} y1="10" x2={d.x} y2={L.height - 10} stroke-width="1" stroke-dasharray="4,4" />)}
+        {L.arrows.map((a) => a.type === "v" ? (
+          <g class={a.accent ? "arrow arrow--accent" : "arrow"}>
+            <line x1={a.x} y1={a.y1} x2={a.x} y2={a.y2 - 2} stroke-width="1.5" />
+            <polygon points={`${a.x},${a.y2} ${a.x - 5},${a.y2 - 10} ${a.x + 5},${a.y2 - 10}`} />
+          </g>
+        ) : (
+          <g class="arrow arrow--accent">
+            <line x1={a.x1} y1={a.y} x2={a.x2 - 2} y2={a.y} stroke-width="1.5" />
+            <polygon points={`${a.x2},${a.y} ${a.x2 - 10},${a.y - 5} ${a.x2 - 10},${a.y + 5}`} />
+          </g>
+        ))}
+        {L.boxes.map((b) => {
+          const cx = b.x + b.w / 2;
+          return (
+            <g class={b.kind === "D" ? "node node--d" : "node node--o"}>
+              <rect class="box" x={b.x} y={b.y} width={b.w} height={H} />
+              <text class="title" x={cx} y={b.y + 24} font-size="13" font-weight="600" text-anchor="middle">{b.title}</text>
+              <text class="sub" x={cx} y={b.y + 42} font-size="11" text-anchor="middle">{b.sub}</text>
+              {chipsAt(b).map((c: any) => (
+                <g class={`chip-svg chip-svg--${c.t}`}>
+                  <rect x={c.x} y={b.y + 52} width={c.w} height="17" rx="3" />
+                  <text x={c.x + c.w / 2} y={b.y + 63.5} font-size="10" font-weight="600" text-anchor="middle">{tagText[c.t as Tag]}</text>
+                </g>
+              ))}
+            </g>
+          );
+        })}
       </svg>
+    );
+  })}
+</div>
+
+<style>
+  .rmap svg.map--stack { max-width: 520px; }
+  .rmap svg.map--wide { display: none; }
+  @media (min-width: 1000px) { .rmap svg.map--wide { display: block; } .rmap svg.map--stack { display: none; } }
+
+  /* Key */
+  .key { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); align-items: center; margin-bottom: var(--space-3); padding-bottom: var(--space-2); border-bottom: 1px solid var(--line); }
+  .key__group { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-2); align-items: center; }
+  .key__head { font-size: 12px; line-height: 16px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--brass-ink); }
+  .key__item { display: inline-flex; align-items: center; gap: 8px; font-size: var(--type-body-s-size); line-height: 20px; color: var(--ink); }
+  .swatch { width: 28px; height: 16px; border-radius: 2px; box-sizing: border-box; }
+  .swatch--d { background: var(--ink); }
+  .swatch--o { background: var(--paper-raised); border: 1.5px solid var(--ink-muted); }
+  .chip { display: inline-block; font-size: 12px; line-height: 16px; font-weight: 600; padding: 3px 8px; border-radius: 3px; box-sizing: border-box; }
+  .chip--built { background: var(--turquoise-ink); color: var(--paper-raised); }
+  .chip--drafted { background: var(--paper-raised); color: var(--turquoise-ink); border: 1px solid var(--turquoise-ink); padding: 2px 7px; }
+  .chip--loop { background: var(--brass-ink); color: var(--paper-raised); }
+  .chip--auto { background: var(--ink-muted); color: var(--paper-raised); }
+
+  /* Boxes: Deliverable = solid, Operational = outlined */
+  .phase { fill: var(--turquoise-ink); }
+  .divider { stroke: var(--line); }
+  .arrow line { stroke: var(--line); }
+  .arrow polygon { fill: var(--line); }
+  .arrow--accent line { stroke: var(--turquoise-ink); }
+  .arrow--accent polygon { fill: var(--turquoise-ink); }
+  .node--d .box { fill: var(--ink); }
+  .node--d .title { fill: var(--paper-raised); }
+  .node--d .sub { fill: var(--turquoise-tint); }
+  .node--o .box { fill: var(--paper-raised); stroke: var(--ink-muted); stroke-width: 1.5; }
+  .node--o .title { fill: var(--ink); }
+  .node--o .sub { fill: var(--ink-muted); }
+
+  /* AI tags */
+  .chip-svg--built rect { fill: var(--turquoise-ink); } .chip-svg--built text { fill: var(--paper-raised); }
+  .chip-svg--drafted rect { fill: var(--paper-raised); stroke: var(--turquoise-ink); stroke-width: 1; } .chip-svg--drafted text { fill: var(--turquoise-ink); }
+  .chip-svg--loop rect { fill: var(--brass-ink); } .chip-svg--loop text { fill: var(--paper-raised); }
+  .chip-svg--auto rect { fill: var(--ink-muted); } .chip-svg--auto text { fill: var(--paper-raised); }
+  .node--d .chip-svg rect { stroke: var(--paper-raised); stroke-width: 1; }
+</style>
