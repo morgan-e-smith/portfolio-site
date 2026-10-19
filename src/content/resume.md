@@ -3,64 +3,75 @@
 
 # Resume (web PDF): Morgan Elizabeth Smith
 
-AI and Marketing Transformation Manager. New York, NY.
+AI Transformation and Marketing Strategy Leadership. New York City.
 
 ## Professional summary
 
-Marketing strategist who gets AI from pilot to practice. Owns the AI roadmap, agent portfolio and adoption program for Accenture's 2,000 person marketing and communications function, building or co-building the tools and then running the change management that gets people using them. Partners across marketing, operations, engineering, product, design and legal. Hands-on with LLMs, prompt engineering in production and direct API integration.
+I lead AI transformation for Accenture’s 2,000 person marketing and communications function: setting the strategy, deciding which workflows get rebuilt around AI, and driving adoption. There was no existing playbook. The goal is for the function to be the firm’s strongest proof of AI transformation, and I build and adapt the strategy as tools, technologies and business requirements change. That includes an AI champion network I founded, a function-wide AI use case competition, and the launch of a new AI platform for marketing that all marketing functions will be required to use. I adapt quickly and go deep: I train myself on new AI tools, test them ahead of the rest of the function, and build with them. Before this, I oversaw strategy, launch and enablement for the new Accenture.com across 50 countries, leading 30 digital strategists through a new design system rollout, process changes, new tool enablement and back-end operations updates to make website maintenance more efficient. I shape the messaging, build the plan, and bring product, engineering and comms partners along without formal authority, across eight years in B2B marketing and digital.
+
+## Selected builds
+
+morganesmith.website. Portfolio and AI case study platform, 2026. LIVE.
+
+- Designed and built it myself: brand, site structure, case studies and front-end code, using Claude Code, GitHub and Vercel.
+- Built and deployed "Ask my portfolio", an AI assistant that answers questions using the content on the site.
 
 ## Key skills
 
-- AI Systems: AI agent design and deployment, prompt engineering in production, LLM and API integration, workflow automation, AI tool evaluation.
-- Marketing Operations: workflow optimization, intake and prioritization, operating model redesign, marketing technology stack, experimentation programs.
-- Change and Adoption: change management at scale, training design and delivery, champion networks, adoption measurement, executive reporting.
-- Build: applied JavaScript, HTML and CSS, API integration, SharePoint administration, debugging in constrained enterprise environments.
+- AI Transformation: Agent workflow design and deployment · Tool evaluation · Prompt engineering in production · Adoption measurement
+- Marketing Strategy and Operations: Demand gen · Campaigns · Content production · Events · Brand · Analytics · Intake and prioritization · Decision rights · Roadmap and backlog ownership · Experimentation and testing · Executive reporting on adoption and value
+- Change and Adoption: Change management in a matrixed organization · Champion networks · Training design · Cross-functional delivery across product, engineering and data
 
 ## Tools and platforms
 
-- Generative AI: Claude (Anthropic), ChatGPT, Accenture AI Refinery, internal LLMs, Microsoft Copilot and Copilot Studio.
-- AI Build: Anthropic API integration, prompt engineering, agent design, applied JavaScript, HTML, CSS.
-- Analytics and Testing: Adobe Analytics, Contentsquare, Google Analytics (GA4), Adobe Target.
-- Platform: Adobe Experience Manager, SharePoint, Figma.
+- Generative AI: Claude (Anthropic), Anthropic API, ChatGPT, Accenture internal AI platforms, Microsoft Copilot and Copilot Studio
+- Build: Applied JavaScript, HTML and CSS, API integration, prompt engineering, agent design, SharePoint administration
+- Product and Delivery: Adobe Experience Manager, Jira, WorkFront, Monday.com, Figma, agile delivery, backlog refinement
+- Analytics and Testing: Adobe Analytics, Adobe Target, Contentsquare, Google Analytics (GA4)
 
 ## Education
 
-Bachelor of Arts, Economics, Colorado College, 2018.
+Bachelor of Arts, Economics · Colorado College · 2018
 
 ## Professional experience
 
-### AI and Marketing Transformation Manager, Accenture (June 2025 to present)
+### AI and Marketing Transformation Manager · Accenture (Jun 2025 – Present)
 
-Official title: Growth and Reinvention Manager.
+- Run AI transformation for a 2,000 person function with no existing playbook. The vision is for our marketing function to be the firm’s strongest proof of AI transformation, and I build and adapt the strategy as the landscape, new tools and technologies, and business requirements change.
+- Decide which workflows get rebuilt around AI, in what order, and what gets retired. Marketing leadership sets direction and I make the delivery calls.
+- Drive launch readiness for a new AI platform for marketing, integrated across all marketing functions, that the whole function will be required to use.
+- Run detailed user acceptance testing with select marketers to find bugs and refine the product backlog before launch.
+- Shape the messaging and the framing of the platform so the function understands it and wants to use it, and work with change management to prepare the launch: what it does, why the function needs to use it, the benefits and the roadmap.
+- Work with product and engineering partners to design and deploy AI agents for high-friction processes. One tags digital assets to campaign IDs and covers 65% of the asset library, which ties campaign performance to specific assets.
+- Train myself on the AI tools available to the marketing function, test new tools and platforms ahead of the rest of the function, and experiment with HTML coding to build my own tools.
+- Founded the function’s AI champion network, with members in every sub-function. Designed and delivered Claude training for the function using real work examples from peers.
+- Ran a four-week, function-wide AI use case competition that drew 85 submissions of real AI use cases, agents and workflows. Coded the scoring app myself over 55 versions, with the Anthropic API handling rubric-based scoring as a documented input alongside eleven human judges.
+- Built and own the function’s AI enablement hub, a six-page internal site where 2,000 colleagues find AI tools, use cases and training. I coded every module myself.
+- Built an agent in Microsoft Copilot that analyzes a person’s work week and sorts their hours into functions such as admin, learning, planning, activation, transformation and reporting.
+- Lead the AI-first channel strategy for Accenture.com, including the knowledge base that determines whether the firm is retrieved and cited when a buyer asks an LLM instead of a search engine. A generative engine optimization (GEO) pilot is in procurement.
+- Rebuilt the blog content workflow around AI. The team publishes more often without added headcount.
+- Report adoption and value to senior leadership, and hold generative AI adoption across the function at the level reached in FY25.
 
-- Own how AI gets built into marketing workflows across a 2,000 person function. Adoption follows proof, so the work starts by finding where manual effort costs real time and money and designing the tools and automation to remove it.
-- Onboarded the entire marketing organization onto a new AI platform. Onboarding was the easy half. The harder work was keeping adoption from sliding back after launch, which is where most AI rollouts stall.
-- Work with product and engineering to design and deploy 14 purpose-built agents. One tags digital assets to campaign IDs and now covers 65% of the library, making campaign performance traceable back to the asset that drove it.
-- Decide what the marketing organization adopts. Assessed Copilot, Copilot Studio, Adobe Firefly, AI Refinery and other AI tools against how people actually work, which keeps the function from paying for tools nobody opens.
-- Built and own the function's AI enablement hub, a six-page internal site serving 2,000 colleagues as the single source for AI tools, use cases, training and community. Hand-coded every module. Enablement does not stick without somewhere to send people for help.
-- Designed and delivered Claude training across the function using real peer examples instead of theory. People left more confident applying it to their own work, which is the only measure that matters for training.
-- Hand-coded and shipped an evaluation application, with the Anthropic API integrated for rubric-aligned scoring. Building it myself meant the program launched on schedule instead of waiting in an engineering queue.
-- Founded the function's AI champion network, with members in every marketing sub-function. Champions are how a 2,000 person organization gets support without a 2,000 person support team.
+### Digital Strategy Associate Manager, Website Product Lead · Accenture (Sep 2022 – May 2025)
 
-### Digital Strategy Associate Manager, Accenture (September 2022 to May 2025)
+- Owned strategy, roadmap, backlog, front-end experience and back-end operations for Accenture.com on Adobe Experience Manager across 50 countries.
+- Built the intake and prioritization framework that put strategic initiatives, business as usual, enhancements and innovation into one queue, with defined decision rights and a clear path from request to build.
+- Ran progress updates on an "early, ugly, and often" approach so leadership always saw where the work stood and where it was going, and raised risks with them directly.
+- Ran delivery across designers, engineers, product managers, data scientists, content owners and web operations on a multi-year platform transformation.
+- Built and ran the A/B and multivariate testing program on Adobe Target with data scientists. Roadmap decisions were based on test results. Engagement rose 24% and bounce rate fell 25%.
+- Rebuilt the conversion paths between the site and sales, including the Contact Us flow and demo request routing.
+- Led 30 digital strategists through a new design system rollout, process changes, new tool enablement and back-end operations updates to make website maintenance more efficient.
+- Presented to the CMO on how a marquee brand campaign would be activated on the platform, and wrote the communication the CMO sent to the full leadership team on the relaunch.
 
-- Owned the strategy, roadmap and backlog for Accenture.com, a global B2B enterprise site on Adobe Experience Manager. The site is where the firm's demand starts, so roadmap calls were business calls.
-- Led 30 digital strategists through the rollout of a new web design system and set the standard for content design, governance and approvals. A design system only holds if the people using it understand why it exists.
-- Built the intake and prioritization framework that put strategic initiatives, business as usual, enhancements and innovation into one queue with clear decision rights. Before it, the loudest stakeholder won.
-- Ran delivery across designers, engineers, product managers, data scientists, content owners and web operations, which is what kept a multi-year transformation shipping across 50 countries.
-- Engagement rose 24% and bounce rate fell 25% across that period, delivered by that cross-functional team.
-- Built and ran the A/B and multivariate testing program on Adobe Target with our data scientists, so page decisions came from evidence instead of opinion.
-- Rebuilt the Contact Us flow and the demo request paths. Visitors could reach sales directly, which turned the site into a pipeline surface instead of a brochure.
+### Marketing Associate Manager, promoted from Specialist · Accenture (Jan 2020 – Sep 2022)
 
-### Marketing Associate Manager, promoted from Marketing Specialist, Accenture (January 2020 to September 2022)
+- Project managed the global Fjord Trends campaign across content, creative agency partners, asset production and launch, through a compressed timeline and mid-campaign team changes.
+- Proposed and rolled out a shared workflow platform to replace spreadsheets and email threads. It was the first tool rollout I owned end to end.
+- Worked on the inaugural year of Reinventive, a thought leadership property aimed at client CEOs.
+- Built client case studies and campaign content with sales teams to support demand generation in live deals, and maintained the practice website.
+- Supported event planning and wrote the content, social posts and internal communications that went with it.
 
-- Ran production and launch for integrated campaigns and research reports, including the global Fjord Trends program, holding content, design, agency partners and channel teams to launch dates that did not move.
-- Brought in a shared workflow platform to replace the spreadsheets and email threads the team coordinated on, so campaign status lived somewhere everyone could see it. First tool rollout owned end to end.
-- Maintained the practice website and published campaign pages and client stories, so a launch went live the day the campaign did instead of a week later.
-- Ran social content and channel management alongside internal communications, which kept a distributed team and an external audience working off the same launch calendar.
-- Supported event planning and delivery, coordinating the logistics and content that events run on. Built client case studies with sales teams, giving them proof points to use in live deals.
+### Project Manager, promoted from Marketing Coordinator · Engine (Jul 2018 – Dec 2019)
 
-### Project Manager, promoted from Marketing Coordinator, Engine (July 2018 to December 2019)
-
-- Coordinated stakeholders and timelines for a global rebrand, keeping a distributed team aligned to one launch date, and supported the website modernization that came with it.
+- Coordinated stakeholders and timelines for a global rebrand and supported the website modernization that came with it.
 - Wrote a youth insights newsletter for 30,000+ subscribers and built the RFP and pitch library the business development team worked from.
